@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>State places</title>
+
+  <style>
+
+    /* CSS styles */
+
+    body {
+
+      font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+
+      margin: 0;
+
+      padding: 0;
+      font-size:25px;
+      background-color: #d9b2b2;
+
+    }
+
+    header, footer {
+
+      background-color: #333;
+
+      color: #fff;
+
+      text-align: center;
+
+      padding: 1rem 0;
+
+    }
+
+    main {
+
+      padding: 2rem;
+
+    }
+
+    .cafes-item {
+
+      display: flex;
+
+      align-items: center;
+
+      margin-bottom: 1rem;
+
+      background-color: #fff;
+
+      padding: 1rem;
+
+      border-radius: 8px;
+
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+    }
+
+    .cafes-item img {
+
+      max-width: 500px;
+
+      height: 400px;
+
+      margin-right: 1rem;
+
+      border-radius: 4px;
+
+    }
+
+    .description {
+
+      margin-top: 0.5rem;
+
+      font-style: italic;
+
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+  <header>
+
+    <h1 id="state-name"></h1>
+
+    <h2>Top  Cafes</h2>
+
+  </header>
+
+  <main>
+
+    <div id="cafes-container">
+
+      <!-- Cafes will be dynamically inserted here -->
+
+    </div>
+
+  </main>
+
+ 
+
+  <script>
+
+    // Data for malls grouped by state
+
+    const cafes = {
+
+      "andhra-pradesh": [
+
+        { name: "Café Coffee Day", image: "https://img.theweek.in/content/dam/week/leisure/society/images/2019/7/31/cafe-coffee-day-ap.jpg", address: "HP PETROL PUMP - M.ESWARA RAO RAJAPULOVA, opposite Petrol Pump, NH16, Maharajupeta, Andhra Pradesh 531162"},
+
+      { name: "Cafe Terrase", image: "https://media-cdn.tripadvisor.com/media/photo-s/25/9f/7a/02/cafe-terrase.jpg", address: "Road No. 1, Kanaka Durga Gazetted Officers Colony, Guru Nanak Colony, Vijayawada, Andhra Pradesh 520008" },
+
+      ],
+
+      "tamil-nadu": [
+
+         { name: "Chamiers Cafe", image: "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/06/eb/9e/45/chamiers-restaurant.jpg?w=1200&h=-1&s=1", address: "New # 106, Old # 79, Pasumpon Muthuramalinga Thevar Rd, RA Puram, Nandanam, Chennai, Tamil Nadu 600028" },
+
+      { name: "Ciclo Café", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRTK9qTinE4flVjU_7ENan6QsazZcJNZjToUg&s", address: "32, 47, Gandhi Mandapam Rd, Chitra Nagar, Kotturpuram, Chennai, Tamil Nadu 600085" },
+
+      ],
+
+      "kerala": [
+
+           { name: "Kashi Art Café", image: "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/07/35/3c/b6/kashi-art-gallery.jpg?w=1200&h=-1&s=1", address: "Burger St, near Police Station, Fort Nagar, Fort Kochi, Kochi, Kerala 682001"},
+
+      { name: "Loafers Corner Cafe", image: "https://c8.alamy.com/comp/R6KRJ2/kerala-india-2019-loafers-corner-cafe-at-fort-kochi-R6KRJ2.jpg", address: "1/351, Princess St, Opp. Park Avenue Hotel, Fort Nagar, Fort Kochi, Kochi, Kerala 682001"},
+
+       ],
+
+       "karnataka":[
+
+          { name: "Cafe Noir", image: "https://akm-img-a-in.tosshub.com/sites/indiacontent/0/images/product/public/01112019/00/01/57/25/20/75/23/70/1572520752370/659-cafe-noir-in-bangalore-karnataka-image-Cafe_Noir_IMG_8347.jpg", address: "Unit No 206, The Collection, UB City, 24, Vittal Mallya Rd, KG Halli, D' Souza Layout, Ashok Nagar, Bengaluru, Karnataka 560001" },
+
+      { name: "Cafe Down The Alley", image: "https://b.zmtcdn.com/data/reviews_photos/b6d/12c42510af6d109fabc2948ac1060b6d_1489764521.jpg", address: "12,29, 1st F Main Rd, D'souza Nagar, Banashankari 3rd Stage, Hosakerehalli, Bengaluru, Karnataka 560085"},
+
+       ],
+
+      "goa":[
+
+           { name: "Mustard Cafe Goa", image: "https://content.jdmagicbox.com/comp/goa/g1/0832px832.x832.210811014356.h3g1/catalogue/mustard-cafe-assagaon-goa-coffee-shops-e7wmex1yd6.jpg", address: "Astoria Hotel, Anjuna Mapusa Rd, Bardez, Mapusa, Asgaon, Goa 403507" },
+
+      { name: "Royal Enfield Garage Cafe", image: "https://media-cdn.tripadvisor.com/media/photo-s/29/f1/87/8e/royal-enfield-garage.jpg", address: "House No 560, Villa Rodrigues Arpora Baga Creek Road, near Karma Resorts, Arpora, Goa 403516" },
+
+      ],
+
+    "maharashtra":[
+
+      { name: "Mauji - The Time Cafe", image: "https://coworker.imgix.net/photos/india/pune/mauji-time-cafe-coworking-mauji-spaces/main.jpeg?w=800&h=0&q=90&auto=format,compress&fit=crop&mark=/template/img/wm_icon.png&markscale=5&markalign=center,middle", address: "Mauji Time Cafe & Spaces, 11, Sahajeevan Society ICS Colony, Bhoslenagar, Ashok Nagar, Pune, Maharashtra 411007"},
+
+      { name: "Le Cafe", image: "https://b.zmtcdn.com/data/pictures/2/18365232/73e247033082e1377599e71823a1c09f.png", address: " Jewel of chembur, Rd No. 1, opp. Bmc OFFice, near Natraj Cinema, Chembur Gaothan, Chembur, Mumbai, Maharashtra 400071"},
+
+    ],
+
+    "odisha":[
+
+       { name: "BOCCA CAFE", image: "https://b.zmtcdn.com/data/pictures/6/19020936/4d4e6bac24e79065fe112023d79ce267.jpg", address: "First Floor, 108/B, Janpath Rd, beside Lalchand Jewellers, Master Canteen Area, Kharvela Nagar, Bhubaneswar, Odisha 751001" },
+
+      { name: "Blueberrys cafe", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVvG7JGD1tzYBTTEJwaGb7A6OOsFj3a6t_Tg&s", address: "No.22, Infocity Ave, KIIT University Cite No.1, P.S.- New Capital, Patia, Bhubaneswar, Odisha 751024" },
+
+    ],
+
+     "chhattisgarh":[
+
+      { name: "Cafelite 2.0", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbss5a2G_yjRRCLuTErAWCrbmB956sZcXH-A&s", address: "Station Rd, Station Road, Moudhapara, Raipur, Chhattisgarh 492009" },
+
+      { name: "Kikki's Cafe", image: "https://b.zmtcdn.com/data/reviews_photos/c9b/b6f69c4ab19d72ea83e8f6929dec0c9b_1537100989.jpg", address: "6JRC+F22, Great Eastern Rd, near Vivekananda Ashram, Geeta Nagar, Aminpara, Raipur, Chhattisgarh 492001"},
+
+    ],
+
+    "west-bengal":[
+
+      { name: "Cafe Calcutta Classic", image: "https://img.restaurantguru.com/r947-design-Cafe-Calcutta-Classic.jpg", address: "Bally Jhilpar Home Green Apartment-4 P.S: Nischinda, P.O: Nischinda, West Bengal 711205", state: "West Bengal" },
+
+      { name: "25 Main Street Cafe", image: "https://b.zmtcdn.com/data/reviews_photos/ce2/b96dc4c31a250350fd81a0a81311cce2_1710085811.jpg", address: "Towards Canal from PNB Island, AA 28, 1st Cross Rd, near PNB, AA Block, Sector 1, Bidhannagar, Kolkata, West Bengal 700064" },
+
+    ],
+
+    "jharkhand":[
+
+      { name: "The Crepe Cafe", image: "https://media-cdn.tripadvisor.com/media/photo-s/1b/af/5c/36/the-crepe-cafe.jpg", address: " 3rd floor, Nucleus Mall, Circular Rd, Nagra Toli, Ranchi, Jharkhand 834001" },
+
+      { name: "The workshop cafe", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRVItDpJVQg8NWw5xMUrcvkxdpJeI0GV1JG-Q&s", address: "987P+QVH, Pathalkudwa, Nayatoli, Ranchi, Jharkhand 834001"},
+
+    ],
+
+    "bihar":[
+
+       { name: "Cafe 13", image: "https://content.jdmagicbox.com/comp/patna/t5/0612px612.x612.180725131341.b5t5/catalogue/cafe-13-boring-road-patna-restaurants-0f7bbq7hhc.jpg", address: " 1st floor, Surya Crystal, Boring Rd, opp. Karlo automobiles, Patna, Bihar 800001"},
+
+      { name: "Cafe Hideout", image: "https://b.zmtcdn.com/data/pictures/8/19622368/d91b1e1c93eb987e203303b304436ee3.jpg", address: "1st & 2nd floor, Boring Rd, opp. PC Jeweller, Patna, Bihar 800001" },
+
+    ],
+
+    "uttar-pradesh":[
+
+       { name: "The Greenhouse Cafe", image: "https://i0.wp.com/kernigkrafts.com/wp-content/uploads/2024/02/WhatsApp-Image-2024-02-16-at-3.57.39-PM-1.jpeg?resize=765%2C1020&ssl=1", address: "1/435,Near State Bank of India Jankipuram Extension,Near, Mulayam Tiraha, Uttar Pradesh 226021" },
+
+      { name: "Cafe Repertwahr", image: "https://media-cdn.tripadvisor.com/media/photo-s/17/19/09/38/rooftop.jpg", address: "3rd floor, Kala Niketan, A2, Faizabad Rd, above Khosla Electronics, Maruti Puram, Rabindra Palli Colony, Lucknow, Uttar Pradesh 226016"},
+
+    ],
+
+     "arunachal-pradesh":[
+
+      { name: "Rainbow cafe and bakery", image: "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0a/8a/1d/bb/photo2jpg.jpg?w=1200&h=-1&s=1", address: "Near tuesday market , gohpur teenali, Itanagar, Arunachal Pradesh 791113" },
+
+      { name: "Coffee Tribe", image: "https://content.jdmagicbox.com/comp/itanagar/r9/9999px360.x360.180907081359.v2r9/catalogue/coffee-tribe-naharlagun-itanagar-knctsoyt5g.jpg", address: "Tukka Complex, A - Sector, Naharlagun, Arunachal Pradesh 791110" },
+
+    ],
+
+      "assam":[
+
+        { name: "The Corner Café", image: "https://media-cdn.tripadvisor.com/media/photo-s/0b/aa/a2/e1/the-corner-cafe.jpg", address: "10, Lamb Rd Ambari, Uzan Bazar, Guwahati, Assam 781001" },
+
+      { name: "11th Avenue Cafe Bistro", image: "https://www.mappls.com/place/W5BQC5_1641471646133_0.jpeg", address: "53, Tayabulla Rd, Digholi Pukhuri East, Dighalipukhuri, Guwahati, Assam 781001" },
+
+    ],
+
+       "sikkim":[
+
+      { name: "Cafe Live & Loud", image: "https://media-cdn.tripadvisor.com/media/photo-s/0d/27/e7/5d/cafe-live-loud.jpg", address: "Tibet Road, Gangtok, Sikkim 737101" },
+
+      { name: "Jungle Cafe", image: "https://img.traveltriangle.com/blog/wp-content/uploads/2019/04/cafe-gangtok-cover.jpg", address: "Mayfair Spa Resort & Casino, Lower Samdur Block, Ranipool, Gangtok, Sikkim 737135"},
+
+        ],
+
+        "mizoram":[
+
+           { name: "Café Little Aizawl", image: "https://img.restaurantguru.com/c749-Restaurant-Cafe-Little-Aizawl-photo.jpg", address: "Bawngkawn, Aizawl, Mizoram 796012" },
+
+      { name: "West Cafe", image: "https://content.jdmagicbox.com/comp/aizawl/v9/9999px389.x389.170921113232.j1v9/catalogue/asteria-cafe-chaltlang-aizawl-j3pdc45soy.jpg", address: " PPM8+J2C, Dinthar Veng, Aizawl, Mizoram 796001" },
+
+    ],
+
+        "tripura":[
+
+        { name: "S22 Cafe", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJTRm6iWIAng2ZKXEQ5D-IrP366GB0AR31BA&s", address: "BT Rd, near Young's corner club, North, Banamalipur, Indranagar, Agartala, Tripura 799001" },
+
+      { name: "Cafe Decor", image: "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0b/e1/4f/12/cafe-frespresso.jpg?w=600&h=400&s=1", address: "OPPO. Roodraksh Apartment Netaji Chowmuhani RamKrishna Mission, Gangail Rd, Dhaleswar, Agartala, Tripura 799001"},
+
+    ],
+
+        "manipur":[
+
+      { name: "Future Table Cafe", image: "https://content.jdmagicbox.com//comp/imphal/p7/9999p3852.3852.220316205646.h2p7/menu/future-table-cafe-imphal-bazar-imphal-coffee-shops-ufcdnbn.jpg", address: "Takheleikai, Tiddim Rd, Imphal, Manipur 795001" },
+
+      { name: "TIMBER CAFE IMPHAL", image: "https://content.jdmagicbox.com/comp/imphal/q2/9999p3852.3852.180225132221.f5q2/catalogue/timber-imphal-coffee-shops-qz5dy.jpg", address: "MBC CHURCH, Chingmeirong, Imphal, Manipur 795001" },
+
+    ],
+
+       "meghalaya":[
+
+         { name: "ML 05 Cafe", image: "https://i.ytimg.com/vi/4Dfnjmzw7iE/maxresdefault.jpg", address: "AH 1, Mawsynram-Shillong Rd, near Eastern Air Command, Shillong, Meghalaya 793005" },
+
+      { name: "Dylan's Café", image: "https://media-cdn.tripadvisor.com/media/photo-s/11/04/c7/3f/dylan-s-cafe.jpg", address: "Tripura Castle Rd, Dhankheti, Malki, Shillong, Meghalaya 793014" },
+
+    ],
+
+       "nagaland":[
+
+         { name: "Cafe Jeju island", image: "https://i.ytimg.com/vi/_UdVn48rFmA/sddefault.jpg", address: "VQ59+27V Unity Village, Elim 1f 5th Mile, Dimapur, Nagaland 797115" },
+
+      { name: "Cafe 09", image: "https://content3.jdmagicbox.com/comp/mumbai/s1/9999p3862.3862.180411220554.j9s1/catalogue/cafe-09-dimapur-dimapur-restaurants-87cl7tnoq6.jpg", address: "WP6C+V93, N.S.T. Colony, Dimapur, Nagaland 797112" },
+
+    ],
+
+      "uttarakhand":[
+
+       { name: "Café De Piccolo", image: "https://b.zmtcdn.com/data/reviews_photos/435/1c9fa66543edc9c77d6c2ab3c901e435_1654350856.jpg?fit=around|750:500&crop=750:500;,", address: "180, Rajpur Rd, Near Sai Mandir, Kishanpur, Dehradun, Uttarakhand 248009"},
+
+      { name: "Beatles Cafe", image: "https://media-cdn.tripadvisor.com/media/photo-s/02/c6/4d/c1/60-s-cafe-delmar.jpg", address: "Paidal Marg, Tapovan Sarai, Badrinath Road, Laxman Jhula, near Hanuman Mandir, near Divine Resort, Tapovan, Rishikesh, Uttarakhand 249192"},
+
+    ],
+
+        "himachal-pradesh":[
+
+      { name: "Wake and Bake Cafe", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS8PibL-ly8mhgVbmLQ96_dq3Ro644yYArPlg&s", address: "The mall, 34/1, Mall Rd, Middle Bazar, The Mall, Shimla, Himachal Pradesh 171001"},
+
+      { name: "cafe simla times cafe biergarten & bar", image: "https://media-cdn.tripadvisor.com/media/photo-m/1280/13/9a/4f/6a/it-s-a-lobby-of-a-cafe.jpg", address: " the Cafe, Within Hotel Willow Banks Premises Mall Road Shimla 100m from Tourism lift Exit Tourism Lift, Turn Right and Walk 100m to Reach, Shimla, Himachal Pradesh 171001" },
+
+    ],
+
+        "punjab":[
+
+          { name: "Elgin Cafe", image: "https://assets.architecturaldigest.in/photos/6114e358cd329430d9952536/16:9/w_2560%2Cc_limit/This%2520Amritsar%2520cafe%2520resembles%2520an%2520emerald%2520dipped%2520in%2520gold%25202.jpg", address: "on left from Ivy hospital, Ajnala Rd, inside 2nd lane, D R Enclave, Bal Schander, Amritsar, Kanboh, Punjab 143001" },
+
+      { name: "Cafe Brew Bunny", image: "https://content.jdmagicbox.com/comp/jalandhar/j6/0181px181.x181.220720144639.c8j6/catalogue/-tod3dsdnzg.jpg", address: "Plot No. 5 MotiBagh GNDU Campus Road, near Ladhewali Road, opposite Green County At Nekdil Tower, Jalandhar, Punjab 144001" },
+
+    ],
+
+      "haryana":[
+
+        { name: "Hamoni: Cafe by the Greens", image: "https://hamonigolf.com/wp-content/uploads/2020/06/Decor-47.jpg", address: "CK Farm, near NCU College, Carterpuri Village, Sector 23A, Gurugram, Haryana 122017"},
+
+      { name: "Another Fine Day Cafe & Reading Room", image: "https://imgstaticcontent.lbb.in/lbbnew/wp-content/uploads/2017/08/22163638/anotherfineday_feat.jpg?w=1200&h=628&fill=blur&fit=fill", address: "Ground Floor, MPD Tower, Golf Course Rd, DLF Phase 5, Sector 43, Gurugram, Haryana 122002" },
+
+    ],
+
+      "rajasthan":[
+
+       { name: "Stepout Cafe", image: "https://media-cdn.tripadvisor.com/media/photo-m/1280/18/fa/da/c0/step-out-cafe-and-housetel.jpg", address: "P, 14, Sahdev Marg, near secretariat, C Scheme, Ashok Nagar, Jaipur, Rajasthan 302007",},
+
+      { name: "Wind View Cafe", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTXHU14uLHIIBgmCJ0MSC56bjeR5lcXgkuYOw&s", address: "Rang Bihari Jee Ka Mandir, 3rd Floor, Badi Chopad, Hawa Mahal Rd, Opposite Hawa Mahal, Pink City, Jaipur, Rajasthan 302003" },
+
+    ],
+
+        "gujarat":[
+
+       { name: "The Shaka Cafe", image: "https://b.zmtcdn.com/data/pictures/2/19123522/7b767af93b2057bc87904b1fd22ce4a1.jpg?fit=around|750:500&crop=750:500;,", address: "The Shakahari by Awadhpuri, Pushpak Complex, 101, Garden, opp. Prahlad Nagar, Prahlad Nagar, Ahmedabad, Gujarat 380015" },
+
+      { name: "Turquoise Villa World Café", image: "https://static.toiimg.com/photo/msid-48882612,width-96,height-65.cms", address: "Ground Floor, Shanay l, IIM Atira Road, near AMA, Ambawadi, Ahmedabad, Gujarat 380015" },
+
+    ],
+
+       "madhya-pradesh":[
+
+             { name: "Handcrafted Cafe and Roastery", image: "https://static.wixstatic.com/media/f620c7_3552ec31157946c7b8db70bab616bba9~mv2.jpg/v1/fill/w_640,h_562,al_c,q_80,usm_0.66_1.00_0.01,enc_auto/f620c7_3552ec31157946c7b8db70bab616bba9~mv2.jpg", address: "E-3/75, Arera Colony, Besides IDFC First Bank, near Narmada hospital, Bhopal, Madhya Pradesh 462016"},
+
+      { name: "Mr.India cafe", image: "https://b.zmtcdn.com/data/pictures/9/20807489/8d875023f6469f3c7da560efd6e0d290.jpg", address: "Golden Tower, Near Sargam Cinema, Zone-II, Maharana Pratap Nagar, Bhopal, Madhya Pradesh 462023" },
+
+    ],
+
+ 
+
+ 
+
+    };
+
+ 
+
+    // Function to get the state name from the URL
+
+    function getStateName() {
+
+      const urlParams = new URLSearchParams(window.location.search);
+
+      return urlParams.get('state');
+
+    }
+
+ 
+
+    // Function to render malls for a given state
+
+    function renderCafes(state) {
+
+      const stateCafes = cafes[state];
+
+      if (!stateCafes) {
+
+        cafeContainer.innerHTML = '<p>No malls found for this state.</p>';
+
+        return;
+
+      }
+
+ 
+
+      stateNameElement.textContent = state.toUpperCase(); // Display state name
+
+      cafesContainer.innerHTML = ''; // Clear previous malls
+
+ 
+
+      stateCafes.slice(0, 5).forEach(cafes => {
+
+        const cafesItem = document.createElement('div');
+
+        cafesItem.classList.add('cafes-item');
+
+ 
+
+        const image = document.createElement('img');
+
+        image.src = cafes.image;
+
+        image.alt = cafes.name;
+
+        cafesItem.appendChild(image);
+
+ 
+
+        const details = document.createElement('div');
+
+        const name = document.createElement('h3');
+
+        name.textContent = cafes.name;
+
+        details.appendChild(name);
+
+ 
+
+        const address = document.createElement('p');
+
+        address.textContent = cafes.address;
+
+        details.appendChild(address);
+
+ 
+
+        cafesItem.appendChild(details);
+
+        cafesContainer.appendChild(cafesItem);
+
+      });
+
+    }
+
+ 
+
+    // Main script execution
+
+    const state = getStateName();
+
+    const stateNameElement = document.getElementById('state-name');
+
+    const cafesContainer = document.getElementById('cafes-container');
+
+ 
+
+    if (state) {
+
+      renderCafes(state.toLowerCase());
+
+    } else {
+
+      cafesContainer.innerHTML = '<p>No state parameter found in the URL.</p>';
+
+    }
+
+  </script>
+
+</body>
+
+</html>

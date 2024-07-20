@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tourism Buttons</title>
+
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+            margin: 0;
+            background-image: url('https://static.vecteezy.com/system/resources/thumbnails/002/217/905/small_2x/travel-destination-top-view-design-template-vector.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .tourism-button {
+            display: inline-block;
+            padding: 30px 60px;
+            margin: 20px;
+            font-size: 35px;
+            color: #fff;
+            background-color: #ad6ca1;
+            border: none;
+            border-radius: 40px;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: initial;
+        }
+
+        .tourism-button:hover {
+            background-color: #af7bd3;
+        }
+
+        h1 {
+            margin-bottom: 70px;
+            font-size: 55px;
+            color: #010006;
+            text-shadow: 2px 1px 2px #020202;
+        }
+
+        #content {
+            padding: 22px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            width: 80%;
+            font-size:28px;
+            margin-top: 22px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>WELCOME TO DESTINATION DELIGHTS</h1>
+    <a href="welcomeT.html" class="tourism-button" onclick="loadContent('telangana-tourism.html')">Telangana Tourism</a>
+    <a href="welcomeS.html" class="tourism-button" onclick="loadContent('other-state-tourism.html')">Other States Tourism</a>
+      
+
+    <div id="content"></div>
+
+    <script>
+        function loadContent(page) {
+            fetch(page)
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('content').innerHTML = data;
+                    document.getElementById('content').style.display = 'block';
+                })
+                .catch(error => console.error('Error loading content:', error));
+                window.location.href = 'login.html';
+        }
+    </script>
+</body>
+</html>

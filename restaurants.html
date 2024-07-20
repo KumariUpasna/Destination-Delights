@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>District Restaurants</title>
+  <style>
+    /* CSS styles */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      font-size:25px;
+      background-color: #d9b2b2;
+    }
+    header, footer {
+      background-color: #333;
+      color: #fff;
+      text-align: center;
+      padding: 1rem 0;
+    }
+    main {
+      padding: 2rem;
+    }
+    .restaurant-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1rem;
+      background-color: #fff;
+      padding: 1rem;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .restaurant-item img {
+      width: 500px;
+      height: 400px;
+      object-fit: cover;
+      margin-right: 1rem;
+      border-radius: 4px;
+    }
+    .description {
+      margin-top: 0.5rem;
+      font-style: italic;
+      font-size:24px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1 id="district-name"></h1>
+    <h2>Top Restaurants</h2>
+  </header>
+  <main>
+    <div id="restaurant-container">
+      <!-- Restaurant will be dynamically inserted here -->
+    </div>
+  </main>
+  <script>
+    // Data for restaurants grouped by district
+    const restaurants = {
+      "Adilabad": [
+        {
+          "name": "Tanishq Family Restaurant",
+          "address": "MGFJ+7VG, Bhuktapur, Adilabad, Telangana 504001",
+          "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQo79806FFcPrR6M5fsGHEeH_39bu16Bi7gug&s"
+        },
+        {
+          "name": "Gurnule Food Court",
+          "address": "Adilabad Main Rd, Sapthagiri Colony, Khoja Colony, Adilabad, Telangana 504001",
+          "image": "https://img.restaurantguru.com/c40a-Restaurant-Indian-Food-Court-interior.jpg"
+        },
+        {
+          "name": "Hot n Chill",
+          "address": "Bhuktapur, Telangana 504001",
+          "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_kUeeoO-Dno76aP7dGzWroPFSnPb11PTttg&s"
+        }
+      ],
+     "Bhadradri Kothagudem": [
+    { "name": "Star Bawarchi The Family Restaurant", "address": "9-65,Dara's complex Laxmidevipally, Kothagudem, Telangana 507101", "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSfcvaWudKwpYsUZGiIFD-coTHy-fOhiNUNmA&s" },
+    { "name": "Maryada Ramanna Restaurant", "address": "Lepakshi Rd, opposite Rizwan ice factory, Coolie Lane, Kolie line, Kothagudem, Telangana 507101", "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTWPh27jKQpKxvCpgBl2rkEp6lv8Adf70nMXw&s" },
+    { "name": "Kritunga Restaurant", "address": "Sastry Road.. Near Ramalaya Bhajanamandir, 19-1-21, Bhadradri, Kothagudem, Telangana 507115", "image": "https://b.zmtcdn.com/data/pictures/3/20406473/6018c8d10afb10a32759411efea4b6ae.jpg" }
+    ],
+      "Hyderabad": [
+    { "name": "Jewel of Nizam", "address": "D No. 10/1/124, The Golkonda Hotel, Saifabad Rd, Masab Tank, Hyderabad, Telangana 500028", "image": "https://b.zmtcdn.com/data/pictures/3/96763/078ed7efb4af1b33330668a01ba103b8.jpg" },
+    { "name": "Seasonal Taste", "address": "The Westin, Raheja IT Park, HUDA Techno Enclave, HITEC City, Hyderabad, Telangana 500081", "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrdoCfBFTZor_DWUpwbaCr0XzpXJqG6O3QCQ&s" },
+    { "name": "Haiku, The Asian Kitchen", "address": "Above GoodEarth, 686/D, Road No. 12, Banjara Hills, Hyderabad, Telangana 500034", "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTjrseA3HOS9ud-kxVdZLthP8lpNROVzM1jpQ&s" }
+     ],
+      "Jagtial": [
+    { "name": "A1 Hotel", "address": "near New Bus Stand, Ram Bazar, Jagtial, Telangana 505327", "image": "https://content.jdmagicbox.com/comp/karimnagar/y5/9999px878.x878.140704213947.n9y5/catalogue/food-choice-jagtial-karimnagar-pizza-outlets-yml5x3.jpg" },
+    { "name": "Food Choice", "address": "Krishnanagar, Jagtial, Telangana 505327", "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQXUvr6lNWyvyfJ0E1Xm4vah8UbJugKgvSvsw&s" },
+    { "name": "Mana Adda", "address": "3-6-37, Mahalakshmi Residencey, Vani Nagar, Jagtial, Telangana 505327", "image": "https://content3.jdmagicbox.com/comp/jagtial/p8/9999p8724.8724.190718233144.e9p8/catalogue/mana-adda-jagtial-0glhujygqb.jpg" }
+    ],
+     "Jangaon": [
+    { "name": "Nine Dine Restaurant", "address": "Shop No 2, P585+MJX, Kurumawada, Balaji Nagar, Jangaon, Telangana 506167", "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrXsOm1GRatLFAempoWelEYmCiQm9LkhnvMg&s" },
+    { "name": "Green Bucket Biryani", "address": "P597+G4Q, Jangaon - Suryapet Rd, Kurumawada, Balaji Nagar, Jangaon, Telangana 506167", "image": "https://imagecdn.99acres.com/media1/24577/0/491540202M-1715494507637.jpg" },
+    { "name": "Barkas Arabian Mandi", "address": "34-02-064 jothi nagar,hyderabad, road, near bharat gas company, Jangaon, Telangana 506167", "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtcX3ON0-KmbsOEoI9O-xBWfA0G2yRTJWtFg&s" }
+     ],
+      "Jayashankar Bhupalpally": [
+        { name: "Sitara Grand Multi Cuisine Family Restaurant",address:"CVJ5+WC7, Bhupalpally Main Rd, Javahar Nagar, Jangedu, Bhupalpally, Telangana 506169", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQDOLoX60nrT3MGz1Pc9OthewkATyAia0qflw&s" },
+        { name: "Swagath The Family Restaurant",address:"near New Collector Office, Bhupalpally, Kompalle, Telangana 506169", image: "https://content.jdmagicbox.com/comp/warangal/h5/9999px870.x870.230505180610.x2h5/catalogue/gfuorbeyesu4rkl-oynj2lwyuz.jpg" },
+        { name: "Chilly s Restaurant",address:"CV42+7Q8, Bhupalpally Main Rd, Manjoor Nagar, Bhupalpally, Telangana 506169", image: "https://media-cdn.tripadvisor.com/media/photo-s/1d/d8/ba/88/entrance.jpg" }
+      ],
+      "Jogulamba Gadwal": [
+        { name: "Hotel Mana Ruchulu",address:"3 Road Circle, Moragudi 516434 India", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwQI75CFaxPRIH7FwVYj_ySTaDufkKnb4pcA&s" },
+        { name: "Food World Family Restaurant",address:"Plot No: 75, Besides Water tank, Kurnool road, opposite collector office, Gadwal, Telangana 509125", image: "https://lh5.googleusercontent.com/p/AF1QipMFtcH2ZmvdfPDOM62lSf4c-VXR6jc0VMiuIwc6=w260-h175-n-k-no" },
+        { name: "Red Chillies Restaurant",address:"Housing Board Colony, Gadwal, Telangana 509125", image: "https://b.zmtcdn.com/data/pictures/7/20488787/643ce51826f330930c3cb4267feb7b87.jpg" }
+      ],
+      "Kamareddy": [
+        { name: "Radhika Family Mess",address:"5, Priya Deluxe Rd, Ashok Nagar, Kamareddy, Telangana 503111", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRXM3y6s5fIYTSKktj_zwHhn3uGSLqFKLABBg&s" },
+        { name: "Green Bawarchi Restaurant",address:"C72F+9W, Sadashiva Nagar, Kamareddy, Telangana 503111", image: "https://content3.jdmagicbox.com/comp/kamareddy/j4/9999p8468.8468.170602211224.l6j4/catalogue/new-bawarchi-vivekananda-colony-kamareddy-restaurants-r3eoxw1xdc.jpg" },
+        { name: "Swagath Restaurant",address:"H No 5-4-216 Old Bustend, Kamareddy, Telangana 503111", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5dYDynm6sYbTgBrqkVqXKTEYckhDWmYPR4Dd8YOo45HHVMphsdvC_ciJ3ZCvttEZb8pI&usqp=CAU" }
+      ],
+  "Karimnagar": [
+    { "name": "Vennela Family Restaurant",
+      "address": "Shankarapatnam, Tadikal, Karimnagar - 505474 (Near Basstand)\nVennela hotel",
+      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmz3yCCKTj-BNZjJQtiCb6wZkFbD3IXMbnVg&s"
+    },
+    {
+      "name": "Sri Krishna Vilas",
+      "address": "Court Cir, beside SUNSHINE HOSPITAL, Vavilalapally, Karimnagar, Telangana 505001\nSri Krishna bhavan hotel",
+      "image": "https://content.jdmagicbox.com/comp/karimnagar/n3/9999px878.x878.150620155816.w3n3/catalogue/sai-krishna-udipi-tiffin-centre-jagithyala-road-karimnagar-tiffin-services-98vzuvl.jpg"
+    },
+    {
+      "name": "Bawarchi Mughal Restaurant",
+      "address": "Bypass Road, near N.T.R Statue, Kothirampur, Karimnagar, Telangana 505001\nRoyal Bawarchi Mughal restaurant",
+      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKSAM6sjP93ayRId-mcbMkzOE7hwKm29yDkw&s"
+    }
+  ],
+     "Khammam": [
+        { name: "Sitara family restaurant",address:"11-2-39,wyra road,Manasa complex, Khammam, Telangana 507001", image: "https://lh3.googleusercontent.com/p/AF1QipNLV4wqdCDiyQlNK3cPjU27EtOsbg_GxXYJCbWw=s1360-w1360-h1020" },
+        { name: "Balaji Family Restaurant",address:"1k0ib4, Kaman Bazaar Road, Braman Bazar, Nijampet, Khammam, Telangana, 507001", image: "https://content.jdmagicbox.com/v2/comp/bangalore/w7/080pxx80.xx80.160607115936.h8w7/catalogue/balaji-bar-and-restaurant-electronic-city-phase-2-bangalore-restaurants-bars-1ytwv8x-250.jpg" },
+        { name: "Mana Palle Ruchulu Family Restaurant",address:"Bypass Road, Khammam Ho, Khammam - 507001 (Near Rto Office)", image: "https://content.jdmagicbox.com/comp/khammam/c4/9999p8742.8742.170118095350.r3c4/catalogue/mana-palle-ruchulu-family-restaurant-khammam-ho-khammam-home-delivery-restaurants-7gbc4.jpg" }
+      ],   
+      "Kumuram Bheem Asifabad": [
+        { name: "Royal Arabian Mandi Family Restaurant Asifabad",address:"Main Road OPP:- Forest Check Post,6-57/1/C/2/B, First Floor Rajampet, Asifabad, Telangana 504293", image: "https://lh3.googleusercontent.com/p/AF1QipMjDzJF_bHGoq0UPjOQUKOjC3aF-5s-t1pNVBiO=s1360-w1360-h1020" },
+        { name: "Akshara Family Restaurant A/C",address:" 976X+FFM, Godavarikhani road, Asifabad, Telangana 504293", image: "https://lh3.googleusercontent.com/p/AF1QipM8P7KlW5NaPy09LmoUaWWtwIDDeVBW9gXnTaTY=s1360-w1360-h1020" },
+        { name: "Rb bawarchi biryani",address:" Asifabad, Telangana 504293", image: "https://lh3.googleusercontent.com/p/AF1QipOiXpA5qA8bNnOYYxxoixI9vra8iAXH4nCZ0Jx2=s1360-w1360-h1020" }
+      ],
+      "Mahabubabad": [
+        { name: "Hotel Swagath Residency",address:"Swagata Restaurant, Mahabubabad, Telangana 506101", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSD8H91CRUnZsAopqi-lJRl2lQg1-91AZ2vHg&s" },
+        { name: "Hotel Bhavani",address:"MVQR+8Q3, Mahabubabad - Kesamudram Rd, Kesamudram, Telangana 506112", image: "https://gos3.ibcdn.com/a9c31360b43911e9b8500a4cef95d023.jpg" },
+        { name: "Ambika Restaurant",address:"Kesamudram Mandal, Mahabubabad", image: "https://content.jdmagicbox.com/comp/mau/q6/9999px547.x547.190211142545.x7q6/catalogue/ambika-restaurant-mau-1gix9fy4w2.jpg" }
+      ],
+      "Mahbubnagar": [
+        { name: "Zeeshan Restaurant - Apna Hyderabadi Food",address:"Market Rd, opp. Clock Tower Road, Monappagutta, Mahbubnagar, Telangana 509001", image: "https://lh3.googleusercontent.com/p/AF1QipOQFWihx7LZCVeH5np1_j2yV_WHLYReJOX1pO1O=s1360-w1360-h1020" },
+        { name: "KRITUNGA THE PALEGAR'S CUISINE",address:"P2X2+WP2, New Town, Mahbubnagar, Telangana 509001", image: "https://lh3.googleusercontent.com/p/AF1QipMr3ZHFAMGys1xO45sHfDMq0Y9o6P06asFWngeG=s1360-w1360-h1020" },
+        { name: "Arabian Knights A Multicuisine Family Restaurant",address:"Same building Classic Car Decors, Besides White Moustache Opposite SBI Bank, First Floor, Ravindranagar, Padmavathi Colony, Mahbubnagar, Telangana 509001", image: "https://lh3.googleusercontent.com/p/AF1QipOJWO8a4wOl1zGxuO57f1voo4jx56w8B33rP38=s1360-w1360-h1020" }
+      ],
+      "Mancherial": [
+        { name: "Santosh Family Dhaba",address:"J Bhaskar Building, Janmabhoomi Nagar, Janmabhoomi Nagar-Mancherial HO, Mancherial - 504208 (Beside Dr Raghava Rao Hospital Lane)", image: "https://content.jdmagicbox.com/comp/mancherial/x7/9999p8736.8736.190415162226.w8x7/catalogue/sri-santhosh-family-dhaba-mancherial-0nnmk83exu.jpg" },
+        { name: "Surabhi Grand Multi Cuisine Restaurant",address:"D. No 12-654, Srinivas Complex, chowrasta, Bellampalle, Mancherial, Telangana 504208", image: "https://lh3.googleusercontent.com/p/AF1QipOLtluTdMEmwM56Ph5v1bj8qh4FQYlioqepxosH=s1360-w1360-h1020" },
+        { name: "Nawabs Mandi House",address:"VCMR+QJ7, Gautami Nagar, Mancherial, Telangana 504208", image: "https://lh3.googleusercontent.com/p/AF1QipOtMScllemJkLFNsKzadji_KIa08RhW4eIGpL5w=s1360-w1360-h1020" }
+      ],
+      "Medak": [
+        { name: "Viqar Bawarchi Hotel",address:"Medak Church Road, opposite Church Gate, Ram Nagar, Medak, Telangana 502110", image: "https://lh3.googleusercontent.com/p/AF1QipP_q-ChKX8_qRn56N-stusKF2rthPPh9JhOFkx-=s1360-w1360-h1020" },
+        { name: "SUFI PARADISE RESTAURANT MEDAK",address:"Police Station, beside SBI Bank, Jambikunta, Ram Nagar, Medak, Telangana 502110", image: "https://lh3.googleusercontent.com/p/AF1QipNaV21qH5Ml7QQTcZYOWpeYp6H55z1MHK1P2pTJ=s1360-w1360-h1020" },
+        { name: "ROYAL ARABIAN MANDI FAMILY RESTAURANT",address:"S V COMPLEX, beside mehtab medical, opp. Childrens' Park, Fathe Nagar, Medak, Telangana 502110", image: "https://lh3.googleusercontent.com/p/AF1QipOJsQXAzSNmXOCCd1H52vMNJvrEIht6WnEZYI8y=s1360-w1360-h1020" }
+      ],
+      "Medchal-Malkajgiri": [
+        { name: "Sri maryada Ramanna Restaurant",address:"PLOT NO 305, KLR NAGAR, Medchal, Telangana 501401", image: "https://lh3.googleusercontent.com/p/AF1QipOiUq8mT61EOoqN1dXarY0m5aApPUdjTP1vAqCN=s1360-w1360-h1020" },
+        { name: "Sri Balaji Family Dhaba",address:"24-81/16, Medchal, opp. ADR Hospital, Surya nagar, Anandbagh, Malkajgiri,Telangana 501401", image: "https://lh3.googleusercontent.com/p/AF1QipNsNXXXVORxNG0SMIPTdSh90rNcko4CyzIvA_Bs=s1360-w1360-h1020" },
+        { name: "Priya Darshini Veg Restaurant",address:"Sethariguda, Rangareddy NH-44, Nizamabad - Hyderabad Rd, Medchal, Telangana 501401", image: "https://lh3.googleusercontent.com/p/AF1QipPRVVwUKmx6mSQ4EoGBICQ7exdEV47hKyZzQhiR=s1360-w1360-h1020" }
+      ],
+     "Mulugu": [
+        { name: "Telangana ruchulu",address:"5WVX+596, Ambedkar Colony, Mulugu, Telangana 506343", image: "https://img.restaurantguru.com/c3d2-Restaurant-Telangana-ruchulu-mulugu-district-photo.jpg" },
+        { name: "Red Bucket Biryani",address:"Main Road, beside HDFC Bank OPP:Union Bank, Mulugu, Telangana 506343", image: "https://lh3.googleusercontent.com/p/AF1QipMbhjR5k4ZLQ7YRinO5W5i2H-Cy3uyqfs4M9S0=s1360-w1360-h1020" },
+        { name: "Venkateshwara Hotel",address:"8qkp2p, Bhadrachalam Chandrupatla Road, Venkatapuram, Mulugu District, Telangana, 507136", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRaaF6E7f94lCO42amBtkt0P79CvosHkC-xKQ&s" }
+      ],
+       "Hanamkonda": [
+        { name: "Food on Fire Barbeque & Grill",address: "5-10-162, OPP: PUSHPANJALI MARRIAGE HALL, 5-10-161/1 AND, Kishanpura, Hanamkonda, Telangana 506001", image: "https://content.jdmagicbox.com/comp/warangal/i5/9999px870.x870.221221185557.c3i5/catalogue/food-on-fire-buffet-restaurant-hanamkonda-warangal-banquet-halls-ffhu8pfyxm.jpg" },
+        { name: "Biryanis And More",address: "2H74+X68, 5-11, Jagruti Colony, Naim Nagar, Hanamkonda, Telangana 506009", image: "https://content.jdmagicbox.com/comp/warangal/q2/9999px870.x870.230223193620.f2q2/catalogue/biryanis-and-more-hanamkonda-warangal-restaurants-e0pn88m64s.jpg" },
+        { name: "Prakruthi Restaurant",address: "First Floor, Above M.S. Cafe, Opposite to police HeadQuarters, Kishanpura, Hanamkonda, Telangana 506001", image: "https://img.restaurantguru.com/r196-Prakruthi-Restaurant-interior-2022-09-1.jpg" }
+      ],
+       "Warangal": [
+        { name: "Paradise Biryani",address: "Ground Floor, Sri Sai inn buidling, 3-16-184, Mulugu Cross Road, Rangampet, Warangal, Telangana 506007", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTepiFMNwnyI6ZBlyoaXtTj29HwMZKvffi2nA&s" },
+        { name: "Zamindar Restaurant",address: "123/3, Shyampet Jagir, Hunter Rd, Hanamkonda, Telangana 506001", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSe5rDKSU7pGJCaswkP5v85U8ip6Vi7xzo6VQ&s" },
+        { name: "Heart Spot",address: "11-3-5, Abbanikunta, Labour Colony, Warangal, Telangana 506013", image: "https://b.zmtcdn.com/data/pictures/6/20228716/d25f785710148439f9e8d41648e2e830.jpeg" }
+      ],
+      "Siddipet": [
+        { name: "Atithi Delight Multi Cuisine",address: "Above Reliance Trends, Hyderabad Rd, near New bus stand, Siddipet, Telangana 502103", image: "https://content.jdmagicbox.com/comp/siddipet/q4/9999p8457.8457.180630141011.l7q4/catalogue/atithi-delight-multi-cuisine-restaurant-siddipet-restaurants-2RXvk7idoj.jpg" },
+        { name: "The Spoon Restaurant",address: "Kushal Nagar, Siddipet, Telangana 502103", image: "https://content.jdmagicbox.com/comp/siddipet/f5/9999p8457.8457.180731024525.q9f5/catalogue/the-spoon-restaurant-siddipet-restaurants-ieb0ng534b.jpg" },
+        { name: "Stone Ice",address: "besides konda mallaya bhudevi gardens, near new Bus stop, Siddipet, Telangana 502103", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLjo_Xl54gVuP7B9chUmwzSXgomxhqMmQJUA&s" }
+      ],
+     "Suryapet": [
+        { name: "Murali Krishna family dhaba and restaurant",address: "B B Gudem, Telangana 508213", image: "https://content.jdmagicbox.com/comp/suryapet/p5/9999p8684.8684.220316232644.d2p5/catalogue/murali-krishna-family-dhaba-and-restaurant-kodad-suryapet-dhaba-restaurants-qs7zq3mtd4-250.jpg" },
+        { name: "Mamatha AC Lodge & Restaurant",address: "K.K Road, Vidyanagar, Suryapet, Telangana 508213", image: "https://content.jdmagicbox.com/comp/suryapet/l1/9999p8684.8684.190204193145.u4l1/catalogue/mamatha-ac-lodge-and-restaurant-suryapet-ho-suryapet-hotels-vj5r4zuij5.jpg" },
+        { name: "Feast House",address: "NH - 65, Rayangudem, Suryapet, Telangana 508213", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTOj9iVXWG8CatQ3mXofMCFMDEO31BKp1KYeQ&s" }
+      ],
+      "Vikarabad": [
+        { name: "V Food Junction",address: "Kamala Nagar, Vikarabad, Telangana 501101", image: "https://content3.jdmagicbox.com/comp/vikarabad/y5/040pxx40.xx40.230427163839.d9y5/catalogue/v-food-junction-vikarabad-restaurants-79f7za2hi7.jpg" },
+        { name: "Aroma Dish",address: "Aroma X road, Vikarabad, Telangana 501101", image: "https://content3.jdmagicbox.com/comp/hyderabad/b8/040pxx40.xx40.221203212822.y9b8/catalogue/aroma-dish-vikarabad-hyderabad-restaurants-tm30r2a9ua.jpg" },
+        { name: "Hotel My Friends",address: "Shop 20, Green, Market Yard, New Gunj, Vikarabad, Telangana 501101", image: "https://content.jdmagicbox.com/comp/rangareddy/j9/040pxx40.xx40.171223210021.d8j9/catalogue/hotel-my-friends-vikarabad-rangareddy-restaurants-a8ljz-250.jpg" }
+      ],
+      "Nagarkurnool": [
+        { name: "Hotel Sitara",address: "40-439, Ravi Prakash Buildings, R S Road, Kurnool - 518001", image: "https://cf.bstatic.com/xdata/images/hotel/max1024x768/339562203.jpg?k=7b253efea3028b174e8b916e74dda1971bce2d40ccd2202416973da7932f9c2b&o=&hp=1" },
+        { name: "Hotel Mana Ruchulu",address: "6HHR+V4Q, Nehru Outer Ring Rd, Bongloor, Telangana 501510", image: "https://content.jdmagicbox.com/comp/hyderabad/t5/040pxx40.xx40.190305130833.a4t5/catalogue/mana-ruchulu-hyderabad-north-indian-delivery-restaurants-3gtkpehp74.jpg" },
+        { name: "Hotel Sri Balaji",address: "F8P4+C9R, Teachers colony, Srinagar, Nagarkurnool, Telangana 509209", image: "https://content.jdmagicbox.com/comp/kurnool/g2/9999p8518.8518.151105094407.e6g2/catalogue/sri-balaji-hotel-kurnool-medical-college-kurnool-tiffin-services-efk6m69.jpg" }
+      ],
+     "Nalgonda": [
+    {"name": "Green Park Restaurant",
+      "address": "Sh2, Guntur Hyderabad Road, Nalgonda - 508001",
+      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSFnz057PvLUU-bsrB3Sx0n4zMO8uPmpjNO_A&s"
+    },
+    {"name": "Abhiruchi Restaurant",
+      "address": "K.Ambadas 5, 48, Sai Nagar, Bhoodan Pochampally, Pochampally, Nalgonda - 508284",
+      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ2P3OV7-ROEHpzEGNWgHy7T-78yOGfXIg2iw&s"
+    },
+    { "name": "Sri Krishna Family Dhaba",
+      "address": "National Highway 65, Kethepally, Nalgonda - 508211",
+      "image": "https://content3.jdmagicbox.com/comp/nalgonda/n5/9999p8682.8682.190326195212.k7n5/catalogue/sri-sai-krishna-family-dhaba-nalgonda-restaurants-feniseob53.jpg"
+    }
+  ],
+      "Narayanpet": [
+        { name: "Zeeshan Restaurant,Apna Hyderabadi food",address:"PFVP+5P, Narayanpet, Telangana 509210", image: "https://lh3.googleusercontent.com/p/AF1QipMyCwWu7bvyTzmtKF0tCothg193I3MZHVbXHwjQ=s1360-w1360-h1020" },
+        { name: "Hotel Pujitha",address: "Beside Hanuman Temple Abhangapur, Narayanpet, Telangana 509210", image: "https://content.jdmagicbox.com/comp/chittoor/v6/9999p8572.8572.150924151538.u4v6/catalogue/pujitha-residency-kanipakam-chittoor-lodging-services-mic2kul.jpg" },
+        { name: "King's Food Court Narayanpet",address:" PGQ4+787, SH 22, Narayanpet, Telangana 509210", image: "https://lh3.googleusercontent.com/p/AF1QipPVLQDixaviWKPPdCXvcoLm4VqdNSVuDJXOfwgN=s1360-w1360-h1020" }
+      ],
+      "Nirmal": [
+        { name: "Chilly's Multi Cuisine Family Restaurant", address: "Shivaji Chowk,Bhainsa Road, Nirmal - Mancherial Rd, Eidgoam, Nirmal, Telangana 504106",image: "https://lh3.googleusercontent.com/p/AF1QipMFNlRXZTRtQ1oBzX27FJsTYGihv36Xg9Yunz25=s1360-w1360-h1020", },
+        { name: "Hotel Mayura",address:"38XV+47V, Old Bus Stand Road, Zohra Nagar Colony, Bagulwada, Nirmal, Telangana 504106", image: "https://content.jdmagicbox.com/comp/nirmal/k7/9999p8734.8734.110922151033.m3k7/catalogue/hotel-mayuri-nirmal-0j4bmwaaty.jpg" },
+        { name: "POLIMERAS RESTAURANT",address: "Bhainsa Rd, beside Vijaya High School, Adharsha Nagar, Nirmal, Telangana 504106", image: "https://lh3.googleusercontent.com/p/AF1QipNYtesPqTs0JbJDgYmz9l2he36f3wsukx4v5DXq=s1360-w1360-h1020" }
+      ],
+      "Nizamabad": [
+        { name: "Surabhi Restaurant",address: "Old Nh Road, Ghanpur, Nizamabad - 503112 (Opposite New Busstand)", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSb05b5AP2zS_GaYdRWHhesIo0RNulLVYsgCA&s" },
+        { name: "Hotel Shathavahana",address: "100 Feet Road, First Mayor Street Road beside Baswa Garden, Nizamabad 503001 India", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSDadgCZ7-lMnK1Xn8GJYE_lHujcU18E3BdBQ&s" },
+        { name: "Kubeer Dhaba",address: "Kuber Building Shop No.1, Sambra Airport Main Road, Nilaji, Belgaum - 591217 (Near Moti Chand Lingade Bhartesh Polytechnic College)", image: "https://content.jdmagicbox.com/comp/belgaum/p3/9999px831.x831.140415203532.w5p3/catalogue/kuber-family-dhaba-nilaji-belgaum-home-delivery-restaurants-10yrv76.jpg" }
+      ],
+      "Peddapalli": [
+        { name: "AFC FAMILY RESTAURANT",address:"2-1-107/3 Rajeev Highway, Shanthi Nagar, Peddapalli, Telangana 505172", image: "https://lh3.googleusercontent.com/p/AF1QipOaGd8HcibHE5cFAvNBTomvOylhgBDhKIltlJqp=s1360-w1360-h1020" },
+        { name: "Maharaja Family Dhaba &Restaurant",address:"Peddapalli, Telangana 505172", image: "https://lh3.googleusercontent.com/p/AF1QipOo3ucvjLR4SrZ4BTbkPzlCDagbeUzDnddO0WD2=s1360-w1360-h1020" },
+        { name: "Mythri Kitchens",address:" 2-5/2/2 Rangampalli, Peddapalli, Telangana 505172", image: "https://lh3.googleusercontent.com/p/AF1QipPiU8E_7HpTFv9fqfPnyZJe1ULvp_zOVe8ZyejZ=s1360-w1360-h1020" }
+      ],
+      "Rajanna Sircilla": [
+        { name: "KHAIDI ARABIAN MANDI",address: "9RP3+WW5, opp. LIC Office, Gopal Nagar, Sircilla, Telangana 505301", image: "https://lh3.googleusercontent.com/p/AF1QipOfr_aOGu7beyAoqK8XoMfYM8wQyhvod_JQq2Jr=s1360-w1360-h1020" },
+        { name: "7 Arts Biryani Family Restaurant",address:"Rajarajeshwara complex, Subhash Nagar, Rajanna Sircilla, Sircilla, Telangana 505301", image: "https://lh3.googleusercontent.com/p/AF1QipOY-3PXKDZqlIJFPX83CLt1d_JaHtFZ0PvEow-M=s1360-w1360-h1020" },
+        { name: "TAJ Family Restaurant",address:"Ambedkar Nagar, Shanti Nagar, Sircilla, Telangana 505301",  image: "https://lh3.googleusercontent.com/p/AF1QipPV-zGvUfHfXtC4j6fArC_QzUOH9auCdLfT6ael=s1360-w1360-h1020" }
+      ],
+      "Rangareddy": [
+        { name: "Dhaba Estd 1986",address: "Ground Floor, Western Pearl, Kondapur, Hyderabad, Telangana 500084", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSOm72ENJkaHBLocjuDgTeaqflbg3tLcR0AQw&s" },
+        { name: "AB's - Absolute Barbecues ",address:"Above Vishal Mega Mart, 4th Floor Hive Five Plaza No. 1, 1/A1 Sahebnagar Khurd Village, Hayathnagar Rangareddy District,  Telangana 500070",image: "https://lh3.googleusercontent.com/p/AF1QipPhMPWLfu_RtTfzvK2Hz-nxSck0fbnWLyJHA7Fl=s1360-w1360-h1020" },
+        { name: "Second Home Restaurant",address: " 6HM7+M4G, Ranga Reddy, Bongloor, Telangana", image: "https://lh3.googleusercontent.com/p/AF1QipN5_3sB5TzaxkKRkpL1wBMCqiJxMrYe0r8PxVCr=s1360-w1360-h1020" }
+      ],
+      "Sangareddy": [
+        { name: "Sai Family Dhaba",address: " H3W5+795, Malkapur, Telangana 502295", image: "https://lh3.googleusercontent.com/p/AF1QipOkBUGd-ZiXqYsiTZ4e1zwKjXAbAa6nKsg3OJiN=s1360-w1360-h1020"},
+        { name: "Aroma Restaurant",address:"Sangareddy Bypass Rd, opp. MM Baker, Revenue Colony, Sangareddy, Telangana 502001", image: "https://lh3.googleusercontent.com/p/AF1QipOitZD1XkVJmnH99PCgSVFyHMxSQgFRTlrk4sra=s1360-w1360-h1020" },
+        { name: "Mandi365",address:"Sangareddy Bypass Rd, opposite velugu office, Revenue Colony, Sangareddy, Telangana 502001", image: "https://lh3.googleusercontent.com/p/AF1QipMYbZOA5erbhSWHRgsXx80r9vreWlFjmEjX-WV7=s1360-w1360-h1020" }
+      ],
+      
+     "Wanaparthy": [
+        { name: "Sri Sai Family Restaurant",address: "Wanaparthy, Mahabubnagar - 509103 (Near Pallam Village)",image: "https://content.jdmagicbox.com/comp/mahabubnagar/s5/9999p8542.8542.231101102804.z7s5/catalogue/sree-sai-restaurant-palem-kothakota-mahabubnagar-restaurants-28o836ir96.jpg" },
+        { name: "Hotel Sitara",address: "Nagavaram, Wanaparthy, Telangana 509103", image: "https://content3.jdmagicbox.com/comp/mahabubnagar/x4/9999p8542.8542.190403023926.u9x4/catalogue/sitara-grand-wanaparthy-kothakota-mahabubnagar-hotels-32v3hhqd3n.jpg" },
+        { name: "Vivaha Bhojanambu Restaurant",address: "Opposite New Bustand, near sudha Nursing Home Hospital, Wanaparthy, Telangana 509103", image: "https://lh3.googleusercontent.com/p/AF1QipNTFzfPTY0WWQYYaEH2ReD8nuPIUinwofvNC8sV=s1360-w1360-h1020" }
+      ],
+     
+      "Yadadri-Bhuvanagiri": [
+        { name: "Sri Sai Family Dhaba",address:"nto1y4, Yadagirigutta Road, Yadagirigutta, Yadadri Bhuvanagiri District, Telangana, 508115", image: "https://content3.jdmagicbox.com/comp/nalgonda/n5/9999p8682.8682.190326195212.k7n5/catalogue/sri-sai-krishna-family-dhaba-nalgonda-restaurants-feniseob53.jpg" },
+        { name: "Sri Raghavendra Udupi Hotel Pure Veg",address:"beside Vadaigudem Road, Yadagirigutta, Gundlapally, Telangana 508115", image: "https://lh3.googleusercontent.com/p/AF1QipP-zsrRMVgYxGNyGVEqJ8UwusEblkNXuqONwDBc=s1360-w1360-h1020" },
+        { name: "Udipi's Upahar Yadagiri Gutta (Yadadri)",address:"HWCV+7MC, Yadagirigutta Rd, Gundlapally, Yadagirigutta, Telangana 508115", image: "https://lh3.googleusercontent.com/p/AF1QipM8wDaMPgGDvRMCFpC0kzoHFkza5K9NUclrdDwl=s1360-w1360-h1020" }
+      ]
+    };
+
+    // Function to get the district name from the URL
+    function getDistrictName() {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get('district');
+    }
+
+    // Function to render restaurants for a given district
+    function renderRestaurants(district) {
+      const districtRestaurants = restaurants[district];
+      if (!districtRestaurants) {
+        restaurantContainer.innerHTML = '<p>No restaurants found for this district.</p>';
+        return;
+      }
+
+      districtNameElement.textContent = district.toUpperCase(); // Display district name
+      restaurantContainer.innerHTML = ''; // Clear previous restaurants
+
+      districtRestaurants.forEach(restaurant => {
+        const restaurantItem = document.createElement('div');
+        restaurantItem.classList.add('restaurant-item');
+
+        const image = document.createElement('img');
+        image.src = restaurant.image;
+        image.alt = restaurant.name;
+        restaurantItem.appendChild(image);
+
+        const details = document.createElement('div');
+
+        const name = document.createElement('h3');
+        name.textContent = restaurant.name;
+        details.appendChild(name);
+
+        const address = document.createElement('p');
+        address.textContent = restaurant.address;
+        details.appendChild(address);
+
+        restaurantItem.appendChild(details);
+        restaurantContainer.appendChild(restaurantItem);
+      });
+    }
+
+    // Main script execution
+    const district = getDistrictName();
+    const districtNameElement = document.getElementById('district-name');
+    const restaurantContainer = document.getElementById('restaurant-container');
+
+    if (district) {
+      renderRestaurants(district);
+    } else {
+      restaurantContainer.innerHTML = '<p>No district parameter found in the URL.</p>';
+    }
+  </script>
+</body>
+</html>

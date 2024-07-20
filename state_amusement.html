@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>State places</title>
+
+  <style>
+
+    /* CSS styles */
+
+    body {
+
+      font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+
+      margin: 0;
+
+      padding: 0;
+      font-size:25px;
+      background-color: #d9b2b2;
+
+    }
+
+    header, footer {
+
+      background-color: #333;
+
+      color: #fff;
+
+      text-align: center;
+
+      padding: 1rem 0;
+
+    }
+
+    main {
+
+      padding: 2rem;
+
+    }
+
+    .amusementParks-item {
+
+      display: flex;
+
+      align-items: center;
+
+      margin-bottom: 1rem;
+
+      background-color: #fff;
+
+      padding: 1rem;
+
+      border-radius: 8px;
+
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+    }
+
+    .amusementParks-item img {
+
+      max-width: 400px;
+
+      height: 400px;
+
+      margin-right: 1rem;
+
+      border-radius: 4px;
+
+    }
+
+    .description {
+
+      margin-top: 0.5rem;
+
+      font-style: italic;
+
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+  <header>
+
+    <h1 id="state-name"></h1>
+
+    <h2>AmusementParks</h2>
+
+  </header>
+
+  <main>
+
+    <div id="amusementParks-container">
+
+      <!-- Malls will be dynamically inserted here -->
+
+    </div>
+
+  </main>
+
+
+  <script>
+
+    // Data for amusementParks grouped by state
+
+    const amusementParks = {
+
+      "andhra-pradesh": [
+        { name: "Bluland Water Park", image: "https://www.bluland.in/wp-content/uploads/2024/01/SURI3485.jpeg", address: "Mallayapalli road lane, beside Cafe Coffee Day, Chandragiri, Tirupati, Andhra Pradesh 517101" },
+        { name: "Vizag Water World", image: "https://blogs.revv.co.in/blogs/wp-content/uploads/2020/07/MGM-Selvee-Water-World-Vizag.jpg", address: "193/1, Janagalapalem, Saripalli, Village, Pendurthi, Visakhapatnam, Andhra Pradesh 531173" }
+      ],
+       "arunachal-pradesh": [
+        { name: "Ane-Abu amusement park", image: "https://scontent.fwgc1-1.fna.fbcdn.net/v/t39.30808-6/449444705_122155223522179011_840120906029535008_n.jpg?stp=cp6_dst-jpg_p720x720&_nc_cat=100&ccb=1-7&_nc_sid=cc71e4&_nc_ohc=IGwwtIXz6WkQ7kNvgENl10U&_nc_ht=scontent.fwgc1-1.fna&gid=A8pAAtVYQOuLeasLkuPDGqM&oh=00_AYCuutEK5YyE7VgOBroMIEBdaaMjhTQLTCuqw7zpT5Px_w&oe=668DB199", address: "Chimpu, Itanagar, Arunachal Pradesh 791111" }
+      ],
+
+      "assam": [
+        { name: "Aqua Amusement Park Cum Dhaba", image: "https://lh5.googleusercontent.com/p/AF1QipOoMM8xghZzq1D4WAqmayijyZklhSTJdopcrCTM=s296-w296-h168-n-k-no-v1", address: "Near Kalyani Hospital, Bangala Ghat Grant, Assam 788026" },
+        { name: "Accoland", image: "https://accoland.in/mobile/img/04.png", address: "Guwahati-Accoland-Rani Rd, near BSF Headquarters, Pat Gaon, Garbhanga F.V., Assam 781015" }
+      ],
+
+      "bihar": [
+        { name: "Hungama World", image: "https://media1.thrillophilia.com/filestore/67uwlphxdakpa72mjgy6wqjft1wd_1628335143_hungama.jpg", address: "Danapur Bihta Road, National Highway, Patna, Bihar 800111" },
+        { name: "Funtasia Water Park", image: "https://content3.jdmagicbox.com/comp/patna/t2/0612px612.x612.120905152604.m6t2/catalogue/funtasia-island-water-park-parsa-patna-water-parks-smqrm13m74.jpg", address: "Parsa Bazar - Sampatchak Main Rd, Sampatchak, Chainpura, Bihar 804453" }
+      ],
+
+      "chhattisgarh": [
+        { name: "MM Fun City", image: "https://static.wanderon.in/wp-content/uploads/2024/04/mm-fun-city.jpg", address: "Baktara Village Godhi Road Nava Gaon, Arang, Chhattisgarh 492101" },
+        { name: "Wonderland Water Park", image: "https://www.hlimg.com/images/things2do/738X538/ttd_20181127151509154331190976362t.jpg?w=400&dpr=2.6", address: "wonderland waterpark, Indraprastha Colony, Raipur, Chhattisgarh 492013" }
+      ],
+
+      "goa": [
+        { name: "Nagesh Water World", image: "https://media2.thrillophilia.com/images/photos/000/207/960/original/1585653821_getlstd-property-photo.jpg?", address: "Near Pascol farm, (Opposite Nestle factory), Tisk road, Ponda, Khandepar, Goa 403406" },
+        { name: "Splashdown Waterpark", image: "https://static.wixstatic.com/media/a6645c_4637b19c9aa746c6a1d93837cbf5cb83~mv2.jpg/v1/fill/w_560,h_420,al_c,q_80,usm_0.66_1.00_0.01,enc_auto/a6645c_4637b19c9aa746c6a1d93837cbf5cb83~mv2.jpg", address: "Calangute-Anjuna Main Road, Padre Agnel Vaddo, Gauvaddi, Anjuna, Near Double Tree Hilton Hotel, Bardez, Goa 403509" }
+      ],
+
+      "gujarat": [
+        { name: "Swapna Srushti Water Park", image: "https://www.swapnasrushtiwaterpark.in/wp-content/uploads/2021/09/01.jpg", address: "Gandhinagar-Mahudi Highway, Near Amarnath Dham, Gram Bharati, Cross Road, Amarapur, Gujarat 382721" },
+        { name: "Diamond City Waterpark", image: "https://diamondcitywaterpark.com/wp-content/uploads/2023/02/IMG-20230412-WA0008.jpg", address: "Diamond city Water park, Gujarat 394320" }
+      ],
+
+      "haryana": [
+        { name: "Dreamland Water Park Pvt. Ltd", image: "https://dreamlandwaterpark.in/wp-content/uploads/2017/02/photography-waterpark-waterslides-Favim.com-214428.jpg", address: "NH-1, Oasis Complex, Karan Lake, Haryana 13200" },
+        { name: "H2O Fun Water Park", image: "https://lh5.googleusercontent.com/p/AF1QipOvAHhS5ljoN_hwQtfJez-vH8WjUq0yuXVUid5x=w252-h234-k-no", address: "Village - Manki, Thana, Chhapra, Lawana, Haryana 133202" }
+      ],
+
+      "himachal-pradesh": [
+        { name: "Nagsons Amusement Park Hip Hip Hurray", image: "https://shimlatourism.co.in/images/places-to-visit/headers/hip-hip-hurray-amusement-park-shimla-tourism-entry-fee-timings-holidays-reviews-header.jpg", address: "Fagu Road 200mts From Kufri Main Bazar, Kufri, Himachal Pradesh 171012" },
+        { name: "Kufri Fun World", image: "https://a.travel-assets.com/findyours-php/viewfinder/images/res70/72000/72397-Shimla-And-Vicinity.jpg", address: "37VG+GXC, NH 22, Kufri, Himachal Pradesh 171209" }
+      ],
+
+      "jharkhand": [
+        { name: "Wild Waadi Water Park", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRSosbKbEVuf4rIHRCK57TDQ_30Wm18TJW7qA&s", address: "Plot 311, Dasmile Chowk, Road, near Taurian World School Devi Mandap, Ranchi, Hajam, Jharkhand 835221" },
+        { name: "Chotanagpur Fun Castle - Amusement Park", image: "https://www.hlimg.com/images/things2do/738X538/ttd_201811251308071543131487752747t.jpg", address: "Kathitand Rd, opp. Ratu Palace, Ratu, Ranchi, Jharkhand 835222" }
+      ],
+
+      "karnataka": [
+        { name: "Wonderla Amusement Park", image: "https://i.ytimg.com/vi/yp3B7hdot_U/maxresdefault.jpg", address: "28th km, Mysore Rd, Bengaluru, Karnataka 562109" },
+        { name: "GRS Fantasy Park", image: "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/06/26/c2/c8/grs-fantasy-park.jpg?w=1200&h=1200&s=1", address: "Off, KRS Rd, Metagalli, Mysuru, Karnataka 570016" }
+      ],
+
+      "kerala": [
+        { name: "Magic Planet", image: "https://i.ytimg.com/vi/XWjgNApPoj8/maxresdefault.jpg", address: "Magic Planet Kinfra Film and Video Park Sainik School P.O, Kazhakkoottam, Kerala 695585" },
+        { name: "Wonderla Water Falls", image: "https://i.ytimg.com/vi/k78wQyxco8U/maxresdefault.jpg", address: "29GR+RH4, Wonderla Amusement park, Pallikkara,Kumarapuram P.O, 683565" }
+      ],
+
+      "madhya-pradesh": [
+        { name: "Crescent Water Park", image: "https://res.cloudinary.com/simplotel/image/upload/w_5000,h_3111/x_0,y_306,w_5000,h_2500,r_0,c_crop,q_80,fl_progressive/w_900,f_auto,c_fit/crescent-water-park-indore/DSC08993_vq1lji", address: "Gram Jamniya, Near Narmada Kshipra Devguradia Khurd, Kampel Rd, Indore, Madhya Pradesh 452016" },
+        { name: "Kanha Fun City", image: "https://lh5.googleusercontent.com/p/AF1QipP5nkepQQwlm8aCYpEuWu5h7VxasqnPskn_9pg3=s296-w296-h168-n-k-no-v1", address: "4FPR+JRG, Narmadapuram Rd, near Ratanpur Sadak, behind Carmel Convent School, Indus Towne, Ratanpur Sadak, Bhopal, Madhya Pradesh 462047" }
+      ],
+
+      "maharashtra": [
+        { name: "EsselWorld", image: "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0d/2f/66/92/img-20160925-144354-largejpg.jpg?w=1200&h=1200&s=1", address: "Global Pagoda Road, Gorai Island, Borivali West, Mumbai, Maharashtra 400092" },
+        { name: "Della Adventure Park", image: "https://www.dellaadventure.com/images/discover-pic-1.jpg", address: "Plot No. 130-1, Lonavala, Kunegaon, Maharashtra 410401" }
+      ],
+
+      "manipur": [
+        { name: "Ramrei Waterpark", image: "https://content.jdmagicbox.com/comp/def_content/water_parks/default-water-parks-1.jpg", address: "V4GR+PG7, Unnamed Road, Kamjong, Manipur 795145" },
+        { name: "Thoi Thoi Adventure Park", image: "https://i0.wp.com/www.waterparktickets.co.in/wp-content/uploads/2024/02/Screenshot-2024-02-01-191326.png?fit=760%2C466&ssl=1", address: "Takhellambam Konjil, Narankonjin Makha, Manipur 795009" }
+      ],
+
+      "meghalaya": [
+        { name: "Thrills Fun Park", image: "https://content3.jdmagicbox.com/comp/shillong/e2/9999px364.x364.150217182229.a5e2/catalogue/thrills-fun-park-umroi-shillong-tourist-attraction-jjpz0bkjmf.jpg", address: "Ladsharai, Mawlein Mawkhan, Meghalaya 793104" },
+        { name: "Mattilang Amusement Park", image: "https://static.toiimg.com/thumb/72474049/Vietnam.jpg?width=1200&height=900", address: "GRQC+CPC, Upper Shillong, Laitmynsaw, Shillong, Meghalaya 793005" }
+      ],
+
+      "mizoram": [
+        { name: "Infinite Ainawn Park", image: "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0d/b5/c7/cc/waterpool-with-spiral.jpg?w=1200&h=-1&s=1", address: "Ailawng, Mizoram 796501" },
+        { name: "H&B Water Park", image: "https://i.ytimg.com/vi/x-rxfk5JJus/maxresdefault.jpg", address: "Liando Resort Road, near Powergrid Corporation of India Limited, Aizawl, Mizoram 796009" }
+      ],
+
+      "odisha": [
+        { name: "Ocean World Water Park", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRHYCN58Vxouf_1ML0Jroa0vI-H0l8yKtjAtw&s", address: "7WVV+QC3, Kurangagsasan, Phulnakhara, Gangeswar, Odisha 754002" },
+        { name: "Blue Splash Water Park", image: "https://www.bluesplash.co.in/assets/img/about/3.jpg", address: "Puri-Konark Marine Drive, Nakhisahi, Beldal, Odisha 752002" }
+      ],
+
+      "punjab": [
+        { name: "Chill-O-Thrill Water Park Bhucho", image: "https://chillothrill.in/wp-content/uploads/2022/04/cropped-final-1-1669x1105.jpg", address: "Bathinda Rd, near Adesh University, Bhucho Mandi, Punjab 151101" },
+        { name: "Harleen Water Fun Park", image: "https://d26dp53kz39178.cloudfront.net/media/uploads/products/Water_Park_7-1677984241266.webp", address: "canal road, Kapoor Pind Rd, near Jandu Singha, Kapur Pind, Punjab 144025" }
+      ],
+
+      "rajasthan": [
+        { name: "Birla City Water Park", image: "https://www.rajasthandirect.com/wp-content/uploads/2017/05/Birla-City-Water-Park-Ajmer.jpg", address: "Ajmer Bypass, near Circle, Makhupura, Makhupura Industrial Area, Ajmer, Rajasthan" },
+        { name: "Marvel Water Park", image: "https://www.rajasthandirect.com/wp-content/uploads/2017/06/Marvel-Water-Park-in-Udaipur.jpg", address: "NH 8 Saras Parlor, Goverdhan Villas, Sector 14, Udaipur, Rajasthan" }
+      ],
+
+      "tamil-nadu": [
+        { name: "Black Thunder", image: "https://res.cloudinary.com/simplotel/image/upload/w_5000,h_3750/x_0,y_0,w_5000,h_2810,c_crop,q_80,fl_progressive/w_900,h_506,f_auto,c_fit/black-thunder---water-theme-park/Lucky_Ariel_vttsit", address: "Nagapattinam - Coimbatore - Gundlupet Hwy, Mettupalayam, Tamil Nadu 641305" },
+        { name: "Bee Town Water Park", image: "https://beetownwaterpark.com/wp-content/uploads/2023/07/1-6.jpg", address: "133 - 9, Ramachandra Puram, near, tollgate, near Airport, Kumaragiri, Vagaikulam, Tamil Nadu 628103" }
+      ],
+
+      "tripura": [
+        { name: "Feedback Rose Valley Amusement Park", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqBKD49JTT6lU7ZuVX3fQgJOVcT7NKm3SAEQ&s", address: "Q77J+49Q, Madhuban, Tripura" }
+      ],
+
+      "uttar-pradesh": [
+        { name: "Anandi Water Park", image: "https://lucknowtourism.co.in/images/places-to-visit/header/anandi-water-park-lucknow-tourism-entry-fee-timings-holidays-reviews-header.jpg", address: "Canal Road, Faizabad Rd, beside Indra Canal, Lucknow, Uttar Pradesh 226028" },
+        { name: "Blue World Theme Park", image: "https://travelsetu.com/apps/uploads/new_destinations_photos/destination/2024/01/05/69cbca6d9a0dd7b5ed38fcf37bd4a624_1000x1000.jpg", address: "Mandhana-Bithoor Road, Kanpur, Uttar Pradesh 209217" }
+      ],
+
+      "uttarakhand": [
+        { name: "The Fun Valley", image: "https://dehraduntourism.co.in/images/places-to-visit/header/fun-valley-dehradun-tourism-entry-fee-timings-holidays-reviews-header.jpg", address: "28th Km Stone, Haridwar Road, Lal Tappar, Dehradun, Uttarakhand 248001" },
+        { name: "Hunny Wonderland Water Park", image: "https://content3.jdmagicbox.com/comp/haldwani/p3/9999p5946.5946.171127231825.t2p3/catalogue/hunny-wonderland-water-park-haldwani-water-parks-ed50po4g6u.jpg", address: "Bajwalpur, Uttarakhand 263139" }
+      ],
+
+      "west-bengal": [
+        { name: "Wet O Wild", image: "https://media-cdn.tripadvisor.com/media/photo-s/09/13/f7/65/wet-o-wild-beach-tropicana.jpg", address: "Street Number 27, Salt Lake Bypass, Sector IV, Kolkata, West Bengal 700106" },
+        { name: "Aquatic Bengal", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTwcZ1ANISZooJgaQ2nMzPPqWNJMjB9nIgHUA&s", address: "N. H.- 34, Shimuldhab, PO.- Dhumadighi GP, PS, Bhabuk, West Bengal 732128" }
+      ]
+    };
+
+ 
+
+    // Function to get the state name from the URL
+
+    function getStateName() {
+
+      const urlParams = new URLSearchParams(window.location.search);
+
+      return urlParams.get('state');
+
+    }
+
+ 
+
+    // Function to render malls for a given state
+
+    function renderAmusementParks(state) {
+
+      const stateamusementParks = amusementParks[state];
+
+      if (!stateamusementParks) {
+
+        amusementParksContainer.innerHTML = '<p>No amusementParks found for this state.</p>';
+
+        return;
+
+      }
+
+ 
+
+      stateNameElement.textContent = state.toUpperCase(); // Display state name
+
+      amusementParksContainer.innerHTML = ''; // Clear previous malls
+
+ 
+
+      stateamusementParks.slice(0, 5).forEach(amusementParks => {
+
+        const amusementParksItem = document.createElement('div');
+
+        amusementParksItem.classList.add('amusementParks-item');
+
+ 
+
+        const image = document.createElement('img');
+
+        image.src = amusementParks.image;
+
+        image.alt = amusementParks.name;
+
+        amusementParksItem.appendChild(image);
+
+ 
+
+        const details = document.createElement('div');
+
+        const name = document.createElement('h3');
+
+        name.textContent = amusementParks.name;
+
+        details.appendChild(name);
+
+ 
+
+        const address = document.createElement('p');
+
+        address.textContent = amusementParks.address;
+
+        details.appendChild(address);
+
+ 
+
+        amusementParksItem.appendChild(details);
+
+        amusementParksContainer.appendChild(amusementParksItem);
+
+      });
+
+    }
+
+ 
+
+    // Main script execution
+
+    const state = getStateName();
+
+    const stateNameElement = document.getElementById('state-name');
+
+    const amusementParksContainer = document.getElementById('amusementParks-container');
+
+ 
+
+    if (state) {
+
+      renderAmusementParks(state.toLowerCase());
+
+    } else {
+
+      amusementParksContainer.innerHTML = '<p>No state parameter found in the URL.</p>';
+
+    }
+
+  </script>
+
+</body>
+
+</html>

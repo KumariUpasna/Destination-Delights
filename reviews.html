@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Static Reviews Storage</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    /* CSS styles */
+    body {
+      font-family: 'Roboto', sans-serif;
+      padding: 20px;
+      background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+      color: #333;
+      font-size:25px;
+    }
+
+    #reviews-container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: #fff;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    .review-container {
+      margin-top: 30px;
+    }
+
+    .review {
+      border: 1px solid #ddd;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 10px;
+      background: #f9f9f9;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .review:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .review h3 {
+      margin-top: 0;
+      color: #f76c6c;
+      font-weight: 500;
+    }
+
+    .review p {
+      margin-bottom: 5px;
+      line-height: 1.6;
+    }
+
+    form {
+      margin-top: 40px;
+    }
+
+    form textarea,
+    form input[type="text"] {
+      width: 100%;
+      padding: 15px;
+      font-size: 26px;
+      margin-bottom: 15px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      transition: border-color 0.3s ease;
+    }
+
+    form textarea:focus,
+    form input[type="text"]:focus {
+      border-color: #f76c6c;
+      outline: none;
+    }
+
+    form button {
+      padding: 12px 25px;
+      font-size: 26px;
+      cursor: pointer;
+      background: #f76c6c;
+      border: none;
+      border-radius: 5px;
+      color: white;
+      transition: background 0.3s ease, transform 0.3s ease;
+    }
+
+    form button:hover {
+      background: #ff5a5f;
+      transform: translateY(-2px);
+    }
+
+    h1 {
+      text-align: center;
+      color: #f76c6c;
+      font-weight: 700;
+      font-size: 2.5em;
+      margin-bottom: 20px;
+    }
+
+    h2 {
+      color: #f76c6c;
+      font-weight: 700;
+      font-size: 2.5em;
+      margin-bottom: 10px;
+    }
+
+    label {
+      font-weight: bold;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="reviews-container">
+    <h1>Delights Reviews</h1>
+
+    <form onsubmit="submitReview(event)">
+      <h2>Add a Review</h2>
+      <label for="reviewer-name">Your Name:</label><br>
+      <input type="text" id="reviewer-name" required><br>
+      <label for="review-content">Your Review:</label><br>
+      <textarea id="review-content" required></textarea><br>
+      <button type="submit">Submit Review</button>
+    </form>
+
+    <div id="reviews-list" class="review-container"></div>
+  </div>
+
+  <script>
+    // JavaScript code
+    // Array to store reviews
+    let reviews = [];
+
+    // Load reviews from localStorage on page load
+    document.addEventListener('DOMContentLoaded', function() {
+      const storedReviews = localStorage.getItem('reviews');
+      if (storedReviews) {
+        reviews = JSON.parse(storedReviews);
+      }
+      updateReviewsList();
+    });
+
+    // Function to submit a review
+    function submitReview(event) {
+      event.preventDefault(); // Prevent form submission
+
+      // Get input values
+      let reviewerName = document.getElementById('reviewer-name').value;
+      let reviewContent = document.getElementById('review-content').value;
+
+      // Create a new review object
+      let newReview = {
+        name: reviewerName,
+        content: reviewContent,
+        date: new Date().toLocaleDateString() // Include current date
+      };
+
+      // Add the new review to the beginning of the array (display downside)
+      reviews.unshift(newReview);
+
+      // Save reviews to localStorage
+      localStorage.setItem('reviews', JSON.stringify(reviews));
+
+      // Clear form fields
+      document.getElementById('reviewer-name').value = '';
+      document.getElementById('review-content').value = '';
+
+      // Update reviews list
+      updateReviewsList();
+    }
+
+    // Function to update the reviews list displayed on the page
+    function updateReviewsList() {
+      let reviewsList = document.getElementById('reviews-list');
+      reviewsList.innerHTML = ''; // Clear previous content
+
+      // Loop through the reviews array and create HTML for each review
+      reviews.forEach(function(review) {
+        let reviewHTML = `
+          <div class="review">
+            <h3>${review.name} - ${review.date}</h3>
+            <p>${review.content}</p>
+          </div>
+        `;
+        reviewsList.innerHTML += reviewHTML; // Append review HTML to reviews list
+      });
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DESTINATION DELIGHTS - Login Page</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: sans-serif;
+            background-image: url('https://c8.alamy.com/comp/GRAFHB/beautiful-vacation-collage-made-from-mahy-photos-GRAFHB.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+
+        h1 {
+            margin-bottom: 0; /* Reduced margin-bottom */
+            margin-top: 0; /* Reduced margin-top */
+            color: rgb(0, 0, 0);
+            font-weight: 800;
+            font-size: 85px; /* Increased font size */
+            font-family: Georgia, 'Times New Roman', Times, serif;
+        }
+
+        .container {
+            background: linear-gradient(rgba(254, 189, 189, 0.914), rgba(233, 150, 150, 0.8));
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(26, 25, 25, 0.1);
+            width: 600px;
+            text-align: center;
+            color: #333;
+            margin-top: 30px;
+        }
+
+        .container h2 {
+            margin-bottom: 21px;
+            color: #333;
+            font-weight: 600;
+            font-size: 30px; /* Increased font size */
+        }
+
+        .input-group {
+            margin-bottom: 30px;
+            text-align: left;
+            position: relative;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #160d0d;
+            font-weight: 500;
+            font-size: 24px; /* Increased font size */
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #121010;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+            font-size: 24px; /* Increased font size */
+        }
+
+        .input-group .show-password {
+            position: absolute;
+            top: 45px;
+            right: 10px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 20px;
+            background-color: #6062ec;
+            color: rgb(25, 18, 18);
+            font-size: 30px; /* Increased font size */
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-family: 'Roboto', sans-serif;
+            font-weight: 500;
+        }
+
+        button:hover {
+            background-color: #83e3c3;
+        }
+
+        .link {
+            margin-top: 10px;
+            display: block;
+            color: #0f0f12;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 24px; /* Increased font size */
+        }
+
+        .link:hover {
+            text-decoration: underline;
+        }
+
+        .options {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 50px;
+        }
+
+        .option-button {
+            padding: 20px 40px;
+            border: none;
+            border-radius: 4px;
+            background-color: #770606;
+            color: white;
+            font-size: 30px; /* Increased font size */
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-family: 'Roboto', sans-serif;
+            font-weight: 500;
+        }
+
+        .option-button:hover {
+            background-color: #9b881a;
+        }
+    </style>
+</head>
+<body>
+    <h1>DESTINATION DELIGHTS</h1>
+
+    <div class="options">
+        <button class="option-button" onclick="showLogin()">Login</button>
+        <button class="option-button" onclick="showSignup()">Sign Up</button>
+    </div>
+
+    <div class="container" id="login-container" style="display: none;">
+        <h2>Login</h2>
+        <form id="loginForm" onsubmit="return handleLogin()">
+            <div class="input-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div class="input-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+                <span class="show-password" onclick="togglePassword('password', this)">
+                    <img src="https://img.icons8.com/ios-filled/50/000000/visible.png" alt="Show Password" width="20">
+                </span>
+            </div>
+            <button type="submit">Login</button>
+        </form>
+        <a href="#" class="link" onclick="hideForms()">Back</a>
+    </div>
+
+    <div class="container" id="signup-container" style="display: none;">
+        <h2>Sign Up</h2>
+        <form id="signupForm" onsubmit="return handleSignup()">
+            <div class="input-group">
+                <label for="reg-username">Username</label>
+                <input type="text" id="reg-username" name="reg-username" required>
+            </div>
+            <div class="input-group">
+                <label for="reg-password">Password</label>
+                <input type="password" id="reg-password" name="reg-password" required>
+                <span class="show-password" onclick="togglePassword('reg-password', this)">
+                    <img src="https://img.icons8.com/ios-filled/50/000000/visible.png" alt
+="Show Password" width="20">
+</span>
+</div>
+<div class="input-group">
+<label for="email">Email</label>
+<input type="email" id="email" name="email" required>
+</div>
+<button type="submit">Sign Up</button>
+</form>
+<a href="#" class="link" onclick="hideForms()">Back</a>
+</div>
+<script>
+    function handleLogin() {
+        var username = document.getElementById('username').value;
+        var password = document.getElementById('password').value;
+
+        // Retrieve registered details from localStorage
+        var registeredUsers = JSON.parse(localStorage.getItem('users')) || [];
+
+        // Check if user exists and password matches
+        var user = registeredUsers.find(user => user.username === username && user.password === password);
+
+        if (user) {
+            // Redirect to state.html upon successful login
+            window.location.href = 'page2.html';
+            return false; // Prevent form submission
+        } else {
+            alert('Invalid username or password');
+            return false; // Prevent form submission
+        }
+    }
+
+    function handleSignup() {
+        var username = document.getElementById('reg-username').value;
+        var password = document.getElementById('reg-password').value;
+        var email = document.getElementById('email').value;
+
+        // Retrieve existing registered details from localStorage
+        var registeredUsers = JSON.parse(localStorage.getItem('users')) || [];
+
+        // Check if username or email already exists
+        var existingUser = registeredUsers.find(user => user.username === username || user.email === email);
+
+        if (existingUser) {
+            alert('Username or email already exists. Please choose a different one.');
+            return false; // Prevent form submission
+        }
+
+        // Store registered details in localStorage
+        registeredUsers.push({ username, password, email });
+        localStorage.setItem('users', JSON.stringify(registeredUsers));
+
+        alert('Registration successful!');
+
+        // Show login form
+        showLogin();
+
+        return false; // Prevent form submission
+    }
+
+    function showSignup() {
+        document.querySelector('.options').style.display = 'none';
+        document.getElementById('login-container').style.display = 'none';
+        document.getElementById('signup-container').style.display = 'block';
+    }
+
+    function showLogin() {
+        document.querySelector('.options').style.display = 'none';
+        document.getElementById('login-container').style.display = 'block';
+        document.getElementById('signup-container').style.display = 'none';
+    }
+
+    function hideForms() {
+        document.querySelector('.options').style.display = 'flex';
+        document.getElementById('login-container').style.display = 'none';
+        document.getElementById('signup-container').style.display = 'none';
+
+        // Clear form fields
+        document.getElementById('loginForm').reset();
+        document.getElementById('signupForm').reset();
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelector('.options').style.display = 'flex';
+        // Clear input fields on page load
+        document.getElementById('loginForm').reset();
+        document.getElementById('signupForm').reset();
+    });
+
+    function togglePassword(inputId, element) {
+        var input = document.getElementById(inputId);
+        if (input.type === 'password') {
+            input.type = 'text';
+            element.querySelector('img').src = 'https://img.icons8.com/ios-filled/50/000000/invisible.png'; // Change to hide password icon
+        } else {
+            input.type = 'password';
+            element.querySelector('img').src = 'https://img.icons8.com/ios-filled/50/000000/visible.png'; // Change to show password icon
+        }
+    }
+</script>
+</body>
+</html>

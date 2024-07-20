@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Destination Delights - Shopping</title>
+
+  <style>
+
+    /* CSS styles */
+
+    body {
+
+      font-family: Georgia, 'Times New Roman', Times, serif;
+
+      margin: 0;
+
+      padding: 0;
+
+      font-size: 22px;
+
+      background-color: #e2afee;
+
+    }
+
+    header, footer {
+
+      background-color: rgb(225, 161, 244);
+
+      color: #000000;
+
+      text-align: center;
+
+      padding: 1rem 0;
+
+    }
+
+    main {
+
+      padding: 2rem;
+
+    }
+
+    #district-buttons {
+
+      display: flex;
+
+      flex-wrap: wrap;
+
+      gap: 1rem;
+
+      justify-content: center;
+
+    }
+
+    .district-button {
+
+      flex: 1 1 calc(25% - 2rem);
+
+      padding: 2rem;
+
+      font-size: 35px;
+
+      margin: 1rem;
+
+      color: #000000;
+
+      background-color: #dcdcdc;
+
+      border: none;
+
+      cursor: pointer;
+
+      border-radius: 35px;
+
+      font-family: Arial, sans-serif;
+
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+
+      box-shadow: 0 4px 6px rgba(204, 41, 98, 0.933), 0 2px 4px rgba(0, 0, 0, 0.06);
+
+      transition: transform 0.2s, box-shadow 0.2s;
+
+    }
+
+    .district-button:hover {
+
+      opacity: 0.8;
+
+      transform: translateY(-2px);
+
+      box-shadow: 0 8px 12px rgb(70,192,164), 0 4px 8px rgba(0, 0, 0, 0.1);
+
+    }
+
+    @media (max-width: 768px) {
+
+      .district-button {
+
+        flex: 1 1 calc(50% - 2rem);
+
+      }
+
+    }
+
+    @media (max-width: 480px) {
+
+      .district-button {
+
+        flex: 1 1 calc(100% - 2rem);
+
+      }
+
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+  <header>
+
+    <h1>SHOPPING</h1>
+
+  </header>
+
+  <main>
+
+    <section id="shopping">
+
+      <h2>StyleSplash</h2>
+
+      <div id="district-buttons">
+
+        <!-- District buttons -->
+
+        <button class="district-button" data-district="Adilabad">Adilabad</button>
+
+        <button class="district-button" data-district="Bhadradri Kothagudem">Bhadradri Kothagudem</button>
+
+        <button class="district-button" data-district="Hyderabad">Hyderabad</button>
+
+        <button class="district-button" data-district="Jagtial">Jagtial</button>
+
+        <button class="district-button" data-district="Jangaon">Jangaon</button>
+
+        <button class="district-button" data-district="Jayashankar Bhupalpally">Jayashankar Bhupalpally</button>
+
+        <button class="district-button" data-district="Jogulamba Gadwal">Jogulamba Gadwal</button>
+
+        <button class="district-button" data-district="Kamareddy">Kamareddy</button>
+
+        <button class="district-button" data-district="Karimnagar">Karimnagar</button>
+
+        <button class="district-button" data-district="Khammam">Khammam</button>
+
+        <button class="district-button" data-district="Kumuram Bheem Asifabad">Kumuram Bheem Asifabad</button>
+
+        <button class="district-button" data-district="Mahabubabad">Mahabubabad</button>
+
+        <button class="district-button" data-district="Mahbubnagar">Mahbubnagar</button>
+
+        <button class="district-button" data-district="Mancherial">Mancherial</button>
+
+        <button class="district-button" data-district="Medak">Medak</button>
+
+        <button class="district-button" data-district="Medchal-Malkajgiri">Medchal-Malkajgiri</button>
+
+        <button class="district-button" data-district="Mulugu">Mulugu</button>
+
+        <button class="district-button" data-district="Hanamkonda">Hanamkonda</button>
+
+        <button class="district-button" data-district="Warangal">Warangal</button>
+
+        <button class="district-button" data-district="Siddipet">Siddipet</button>
+
+        <button class="district-button" data-district="Suryapet">Suryapet</button>
+
+        <button class="district-button" data-district="Vikarabad">Vikarabad</button>
+
+        <button class="district-button" data-district="Nagarkurnool">Nagarkurnool</button>
+
+        <button class="district-button" data-district="Nalgonda">Nalgonda</button>
+
+        <button class="district-button" data-district="Narayanpet">Narayanpet</button>
+
+        <button class="district-button" data-district="Nirmal">Nirmal</button>
+
+        <button class="district-button" data-district="Nizamabad">Nizamabad</button>
+
+        <button class="district-button" data-district="Peddapalli">Peddapalli</button>
+
+        <button class="district-button" data-district="Rajanna Sircilla">Rajanna Sircilla</button>
+
+        <button class="district-button" data-district="Rangareddy">Rangareddy</button>
+
+        <button class="district-button" data-district="Sangareddy">Sangareddy</button>
+
+        <button class="district-button" data-district="Wanaparthy">Wanaparthy</button>
+
+        <button class="district-button" data-district="Yadadri-Bhuvanagiri">Yadadri-Bhuvanagiri</button>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <script>
+
+    document.querySelectorAll('.district-button').forEach(button => {
+
+      button.addEventListener('click', () => {
+
+        const district = button.getAttribute('data-district');
+
+        window.location.href = `shoppings.html?district=${district}`;
+
+      });
+
+    });
+
+  </script>
+
+</body>
+
+</html>
+

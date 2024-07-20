@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>State places</title>
+
+  <style>
+
+    /* CSS styles */
+
+    body {
+
+      font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+      font-size:25px;
+      margin: 0;
+
+      padding: 0;
+
+      background-color: #d9b2b2;
+
+    }
+
+    header, footer {
+
+      background-color: #333;
+
+      color: #fff;
+
+      text-align: center;
+
+      padding: 1rem 0;
+
+    }
+
+    main {
+
+      padding: 2rem;
+
+    }
+
+    .mall-item {
+
+      display: flex;
+
+      align-items: center;
+
+      margin-bottom: 1rem;
+
+      background-color: #fff;
+
+      padding: 1rem;
+
+      border-radius: 8px;
+
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+    }
+
+    .mall-item img {
+
+      max-width: 500px;
+
+      height: 400px;
+
+      margin-right: 1rem;
+
+      border-radius: 4px;
+
+    }
+
+    .description {
+
+      margin-top: 0.5rem;
+
+      font-style: italic;
+
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+  <header>
+
+    <h1 id="state-name"></h1>
+
+    <h2>Malls</h2>
+
+  </header>
+
+  <main>
+
+    <div id="mall-container">
+
+      <!-- Malls will be dynamically inserted here -->
+
+    </div>
+
+  </main>
+
+ 
+
+  <script>
+
+    // Data for malls grouped by state
+
+    const malls = {
+       
+        "andhra-pradesh": [
+        { name: "South India Shopping Mall-Vijayawada", address: "D.No 27-16-210 , Eluru Road, Besant Cross Road, Vijayawada, Andhra Pradesh 520010", image: "https://lh3.googleusercontent.com/p/AF1QipMF-1GN1LpJGzP6ARvUrBAous90IxnC2vjv8nYv=s1360-w1360-h1020"},
+        { name: "Vinis Shopping Mall", address: "Sampath Vinayaka Temple Rd, Opp Sampath Vinayak temple, CBM Compound, Asilmetta, Visakhapatnam, Andhra Pradesh 530003", image: "https://lh3.googleusercontent.com/p/AF1QipOZBZV-QcjDNgYe5bvMIubHRoiDTWR6dz1yXNIM=s1360-w1360-h1020" },
+         { name: "Phoenix Mall", address: "Door No #26, 21~42/C, Grand Trunk Rd, Nagarampalem, Guntur, Andhra Pradesh 522004", image: "https://lh3.googleusercontent.com/p/AF1QipOzOm1LZYKzJibdkqphvLEJT0F9HHIG0htUKPGH=s1360-w1360-h1020" },
+          { name: "MGB Felicity Mall", address: "Door no 15, 23, Grand Trunk Road, Dargamitta, Nellore, Andhra Pradesh 524003", image: "https://lh3.googleusercontent.com/p/AF1QipOiqbLuidQcFWobI6E49ODMm4zDBYvIozbb836a=s1360-w1360-h1020" },
+           { name: "CMR Central", address: "36, 1, Resapuvanipalem Rd, Resapuvanipalem, Maddilapalem, Visakhapatnam, Andhra Pradesh 530013", image: "https://lh3.googleusercontent.com/p/AF1QipNi3NuVlJx8bP9Uk1gXtbZCcq67KW6s1lbnBdXj=s1360-w1360-h1020" }
+      ],
+     
+      "arunachal-pradesh": [
+        { name: "Akash Deep shopping complex", address: "3JXG+VRP, C- Sector, Itanagar, Arunachal Pradesh 791113", image: "https://pr0.nicelocal.in/rl4wj8kaz1pxDBIsO6CHeQ/1536x1152,q90/4px-BW84_n0QJGVPszge3NRBsKw-2VcOifrJIjPYFYkOtaCZxxXQ2ZYoaUZ9rIfLZP2fLpv558m7PtXpahZXOD3arYYRiVmPMOAFWEUMPGqsf7JwyWfzXg"},
+        { name: "V-Mart - Itanagar", address: "Bagang Shopping Complex R&G, Main Bazar Road, near Akash Deep, near Sbi, Itanagar, Arunachal Pradesh 79111", image: "https://content.jdmagicbox.com/comp/jalpaiguri/x1/9999p3561.3561.180814211440.r9x1/catalogue/v-mart-jalpaiguri-readymade-garment-retailers-c6u4zmmltn.jpg" },
+         { name: "TRENDS", address: "Daariya Plaza, Zero Point, Opp Kfc, Itanagar, Arunachal Pradesh 791111", image: "https://content.jdmagicbox.com/comp/itanagar/n3/9999px360.x360.180813181517.e3n3/catalogue/trends-itanagar-readymade-garment-retailers-oagpxee9et.jpg" },
+          { name: "Max", address: "Sunshine Plaza, Zero Point, Arunachal Pradesh 791111", image: "https://indian-retailer.s3.ap-south-1.amazonaws.com/s3fs-public/styles/details_page_image/public/2023-09/fashion-women-s-clothes-shopping-mall-windows%20%281%29.jpg.webp?itok=_gXnDcsM" },
+           { name: "Xtep Welly Shopping Centre", address: "A Sector, Papum Pare, NH52A, Itanagar Road, Naharlagun, Naharlagun, Arunachal Pradesh 791110", image: "https://lh3.googleusercontent.com/p/AF1QipNN7fPUyZdbE988Gk_-4Te5taEsIg9oGziTCLHQ=s1360-w1360-h1020" }
+      ],
+
+       "bihar": [
+        { name: "P&M Mall", address: "Bickey Icecream Sop, Patliputra Industrial Area, Patliputra Colony, Patna, Bihar 800011", image: "https://lh3.googleusercontent.com/p/AF1QipNGioovagwESx3re0ZIexVtQmHQd3f9MdKLh06f=s1360-w1360-h1020"},
+        { name: "Patna one mall", address: "Maurya Lok Complex, New Dak Bunglow Rd, Bander Bagicha, Fraser Road Area, Patna, Bihar 800001", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRpDdPw0_74iHz9ATXH8HorvY4SUIuFIr6Auw&s" },
+         { name: "V-Mart - Patna-Gravity Mall", address: "Plot No 294, Gravity Mall Old Bypass Road, Bechar) Main Road, Kankarbagh, Tiwari, Patna, Bihar 800020", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRinBMzSdzsVB9mFZd0P6_n3cW7X62x1Fjw-A&s" },
+          { name: "Vasundhra metro mall", address: "Buddha Colony, Patna, Bihar 800001", image: "https://content3.jdmagicbox.com/comp/patna/e5/0612px612.x612.170315171239.d6e5/catalogue/vasundhara-metro-mall-boring-road-patna-malls-l79tf1u1zm.jpg" },
+           { name: "J D mall", address: "SP Verma Rd, Old Jakkanpur, Lodipur, Patna, Bihar 800001", image: "https://images.jdmagicbox.com/comp/patna/z5/0612px612.x612.180825035456.c9z5/catalogue/j-d-mall-lodipur-patna-malls-dz4lil9fvw-250.jpg" }
+      ],
+   
+      "chhattisgarh": [
+        { name: "Magneto The Mall", address: "Industrial Area Phase I, Chandigarh, 160002", image: "https://lh3.googleusercontent.com/p/AF1QipNUZXBiPvSou9_DXDgEIJJ2fxHF0gdmvHGNAjds=s1360-w1360-h1020"},
+        { name: "Ambuja City Centre", address: "Main, Vidhan Sabha Rd, Mowa, Raipur, Chhattisgarh 492007", image: "https://lh3.googleusercontent.com/p/AF1QipPkU7ofUFJbLH-WhGpgkCkSADNc76qqk3T26Mj-=s1360-w1360-h1020" },
+         { name: "Raipur City Centre Mall", address: "7J3W+WFW, IGVP, Pandri, Raipur, Chhattisgarh 492001", image: "https://lh3.googleusercontent.com/p/AF1QipP4HaHJckOZzMNRImu6_Xbgs29Gamgs7LsDYhGr=s1360-w1360-h1020" },
+          { name: "City Mall 36", address: "NH-7, Chowk, beside Hotel Marriot, Mangla, Bilaspur, Chhattisgarh 495001", image: "https://shablalocal.in/wp-content/uploads/2024/04/Untitled-11.png" },
+           { name: "Colors Mall", address: "NH-43, Amrapali Society, Pachpedi Naka, Raipur, Tikrapara, Chhattisgarh 492001", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpKlR-H25AnXpnZ8eEGjnOeDCDwj6NgNzJ1Q&s" }
+      ],
+
+       "goa": [
+        { name: "Caculo Mall", address: "16, St Inez Rd, Caculo Enclave, Santa Inez, Panaji, Goa 403001", image: "https://content.jdmagicbox.com/comp/goa/s9/0832px832.x832.110328145337.f8s9/catalogue/caculo-mall-panjim-goa-malls-9kmyckn9hn.jpg"},
+        { name: "Big G", address: "Isidorio Baptista Rd, Pajifond, Madgaon, Goa 403601", image: "https://content.jdmagicbox.com/comp/goa/g8/0832px832.x832.110130161150.h8g8/catalogue/big-g-shopping-mall-panjim-goa-malls-2ziob2z.jpg" },
+         { name: "The Atrium Mall", address: "Market Rd, Near BSNL Office, Khadpabandh, Ponda, Goa 403401", image: "https://content.jdmagicbox.com/comp/goa/k3/0832px832.x832.180127072742.n3k3/catalogue/the-atrium-mall-ponda-goa-malls-9404s748uz.jpg" },
+          { name: "Dourado Bliss Shopping Complex", address: "9VFM+V94, Zuarinagar, Birla, Sankval, Goa 403726", image: "https://content.jdmagicbox.com/comp/goa/m2/0832px832.x832.180205194438.d5m2/catalogue/dourado-bliss-shopping-complex-zuarinagar-goa-shopping-centres-pfigzv9llh.jpg" },
+           { name: "Mall De Goa", address: "NH 66, Alto Porvorim, Penha de Franc, Goa 403521", image: "https://content.jdmagicbox.com/comp/goa/w8/0832px832.x832.130424103733.i2w8/catalogue/mall-de-goa-alto-porvorim-goa-malls-1cqk9t3.jpg" }
+      ],
+
+      "assam": [
+        { name: "City Center", address: "GS Rd, Rajdhani Nursery, Christian Basti, Guwahati, Assam 781006", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTb8MwwimhGvYkAOHhjeplcoODq0Vy2-o50Vg&s"},
+        { name: "ROODRAKSH MALL", address: "5Q89+C4Q, Bhangagarh, Guwahati, Assam 781003", image: "https://i.ytimg.com/vi/x21q0nqSAWM/sddefault.jpg"},
+         { name: "TIMES SQUARE MALL", address: "Sundarpur Road R. G. Baruah Road, Zoo Rd, Guwahati, Assam 781005", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQiwfE3Q3nTtOEudoBUaG4-6XuOqwGXh0d2Ow&s"},
+         { name: "Aurus Mall", address: "Bus stop, Swahid Dilip Huzuri Path, near Super Market, Dispur, Sarumotoria, Guwahati, Assam 781036", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0KLUbv6nNILm3XjEJsx3GzWOatSuKTKwCUQ&s"},
+         { name: "Amaze Shopping Mall", address: "A T, New Panbazar Flyover, Guwahati, Assam 781001", image: "https://lh5.googleusercontent.com/p/AF1QipN9_59H3CePT8Z-zg8Dc3RlZrzC9-G4EOKJNdsY=w480-h300-k-n-rw"},
+      ],
+      
+      "gujarat": [
+        { name: "4D Square Mall, Motera", address: "ONGC Cir, near tune hotel, Chandkheda, Ahmedabad, Gujarat 380005", image: "https://content.jdmagicbox.com/comp/ahmedabad/c9/079pxx79.xx79.140708104252.f5c9/catalogue/4d-square-mall-chandkheda-ahmedabad-malls-ofztvq3dw4.jpg"},
+        { name: "Pavilion Mall", address: "New India Colony Rd, New India Colony, Nikol, Ahmedabad, Gujarat 382350", image: "https://content.jdmagicbox.com/comp/ahmedabad/r4/079pxx79.xx79.180831160622.b3r4/catalogue/pavilion-mall-nikol-ahmedabad-malls-8g183mzdfe.jpg"},
+         { name: "Iscon Mega Mall", address: "2GJ4+4X8, Sarkhej - Gandhinagar Hwy, Bodakdev, Ahmedabad, Gujarat 380054", image: "https://files.propertywala.com/photos/40/J545211903.side-view.55104l.jpg"},
+         { name: "Eva The Mall", address: "Saraswati Complex, Vrajdham Mandir Rd, Vaishnavdevi society, Manjalpur, Vadodara, Gujarat 390011", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTyZlYzuCCrJ1nQ41XOTNHE90jzh0BbBVYVOQ&s"},
+         { name: "Gulmohar Park Mall", address: "Gate 1, Bombay Hotel, Gulmohar Park, Ramdev Nagar, Ahmedabad, Gujarat 380028", image: "https://gujarat.mallsmarket.com/sites/default/files/photos/malls/GulmoharParkMall-Ahmedabad-2.jpg"},
+      ],
+ 
+      "haryana": [
+        { name: "AMBIENCE MALL, GURUGRAM", address: "NH- 8, Ambience Island, DLF Phase 3, Sector 24, Gurugram, Haryana 122002", image: "https://content.jdmagicbox.com/comp/gurgaon/81/011p107881/catalogue/ambience-mall-gurgaon-sector-24-gurgaon-malls-137p9cmgwk.jpg"},
+        { name: "Sahara Mall", address: "Mehrauli-Gurgaon Rd, Saraswati Vihar, Chakkarpur, Gurugram, Sarhol, Haryana 122002", image: "https://files.propertywala.com/photos/1a/J811903284.front-view.54810l.jpg"},
+         { name: "Crown Interiorz Mall", address: "12, 7, NH-19, near sarai khawaza, Ashoka Enclave 3, Subash Nagar, Sector 35, Faridabad, Haryana 121003", image: "https://content.jdmagicbox.com/comp/delhi/21/011p522721/catalogue/crown-interiorz-mall-faridabad-sector-35-faridabad-malls-twi7h2j9yd.jpg"},
+         { name: "Ardee Mall", address: "Ardee City Rd, Block B, Ardee City, Sector 52, Gurugram, Haryana 122022", image: "https://content.jdmagicbox.com/comp/delhi/y6/011pxx11.xx11.190721025943.m9y6/catalogue/ardee-mall-ardee-city-gurgaon-malls-jrsxb6wq1s.jpg"},
+         { name: "Airia Mall", address: "Sector 68, Gurugram, Haryana 122101", image: "https://content.jdmagicbox.com/comp/gurgaon/v8/011pxx11.xx11.220527114659.m5v8/catalogue/airia-mall-gurgaon-sector-68-gurgaon-malls-1rlthmcqhr.jpg"},
+      ],
+
+      "himachal-pradesh": [
+        { name: "City Centre Mall Shimla Modern", address: "35X2+998, ISBT Tutikandi, Tutikandi, Shimla, Himachal Pradesh 171004", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRR0GIsZgx-z2Hl2ei3wL6sSbCvWS-xHGfoxw&s"},
+        { name: "Maximus Mall, Dharamshala", address: "6878+MRX, MDR44, Chilgari, Dharamshala, Himachal Pradesh 176215", image: "https://content.jdmagicbox.com/comp/dharamshala/g3/9999p1892.1892.180205222110.j8g3/catalogue/maximus-shopping-mall-dharamshala-dharamsala-dharamshala-malls-r9qf79ivc9.jpg"},
+         { name: "C M shopping mall", address: "National Highway 22, Bhanat, Solan, Himachal Pradesh 173212", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSuWf_vvYglPBYJBssd4tuM088WmSpEbCqcow&s"},
+         { name: "Vivanta Mall", address: "W35W+9F8, Mall Road, Lawi Khurd, Solan, Himachal Pradesh 173212", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTF06nFpZrDx9_MPcYKXS4bZSKltvNasd7sUw&s"},
+         { name: "MRC MAGNUM - Shopping Mall", address: "Interstate Bus Stand, Una, Himachal Pradesh 174303", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTx0SdK5JkeGStqKPVfCSpVGB6VRgqcxy1rOQ&s"},
+      ],
+ 
+      "jharkhand": [
+        { name: "Bokaro Mall", address: " Indira Gandhi Marg, Sector 3/C, Sector 3, Bokaro Steel City, Jharkhand 827003", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTbvbGbXMNqfPczQsaCpc0P5cdkvIwNhTZwAA&s"},
+        { name: "The Ozone Galleria Mall", address: "NH-32, Sugiadih, Sahayogi Nagar Sector II, Dhanbad, Saraidhella, Jharkhand 828127", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTiWIzRPMjX9QzLMG9irmSc_2eAdb9D-6wWzQ&s"},
+         { name: "JD HI Street Mall", address: "Mahatma Gandhi Main Rd, opposite GEL Church Complex, Hindpiri, Ranchi, Jharkhand 834001", image: "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/04/19/10/10/jd-hi-street-mall.jpg?w=1000&h=-1&s=1"},
+         { name: "P&M Hi-Tech City Centre Mall", address: "Bistupur Main Rd, South Park, Bistupur, Jamshedpur, Jharkhand 831001", image: "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/12/0a/c0/85/p-m-hi-tech-city-centre.jpg?w=600&h=-1&s=1"},
+         { name: "Shri Ram Plaza", address: "UG47.SRI RAM PLAZA, Bank More, Dhanbad, Jharkhand 826001", image: "https://www.seawatersports.com/img/newimage/places/shri-ram-plaza.png"},
+      ],
+   
+       "karnataka": [
+        { name: "Nucleus Mall", address: "98GJ+VHW, Circular Rd, Lalpur, Ranchi, Jharkhand834001",image:"https://lh3.googleusercontent.com/p/AF1QipOBSFOUPIiwHINuK3gutXMH3t9DSsiHXPoTA63I=s1360-w1360-h1020"},
+        { name: "PM Mall", address: "Morabadi Rd, near Prahlad Enclave, Chiraundi, Morabadi, Ranchi, Jharkhand 834006", image: "https://lh3.googleusercontent.com/p/AF1QipMyxFm0k221qKfSlP5oYVVUrxlJZvrbiyr-qoIX=s1360-w1360-h1020"},
+         { name: "H Square Mall", address: "98CQ+5PP, Lalpur, Ranchi, Jharkhand 834001", image: "https://lh3.googleusercontent.com/p/AF1QipMeVHwfSUDJc4-m81sASdv_jCQ299GSrND9M8Bt=s1360-w1360-h1020"},
+         { name: "City Centre Mall", address: "City centre Mall, club road, New Garden, Kanka, Ranchi, Jharkhand 834001", image: "https://lh3.googleusercontent.com/p/AF1QipPwdp5lpzG7a7nVHBZmWhNrbb_h0UB5N5UkG6c=s1360-w1360-h1020"},
+         { name: "Galaxia Mall", address: " 98J2+C4R, dangra toli chowk, Lalpur chowk Jharkhand, Jharkhand 834001", image: "https://lh3.googleusercontent.com/p/AF1QipOO26wJtu0DkpsR3X7sJo-p63_ENB3ZnSR7Klce=s1360-w1360-h1020"},
+      ],
+
+       "kerala": [
+        { name: "LuLu International Shopping Mall", address: "34/1000, Old NH 47, Edappally Junction, Nethaji Nagar, Edappally, Kochi, Ernakulam, Kerala 682024", image: "https://lh3.googleusercontent.com/p/AF1QipPApD6-QOgTksw4PBbe5jG5WOre5Cj0r4w-2KiW=s1360-w1360-h1020"},
+        { name: "Oberon Mall", address: "34, 195 Road, NH Bye Pass, Padivattom, Edappally, Ernakulam, Kerala 682024", image: "https://lh3.googleusercontent.com/p/AF1QipNyA1dUmP5PepxXFFZcrSkbT32PtC_2qIYMG21X=s1360-w1360-h1020"},
+         { name: "Centre Square Mall", address: "Mahatma Gandhi Rd, Rajaji Junction, Kochi, Ernakulam, Kerala 682035", image: "https://lh3.googleusercontent.com/p/AF1QipPQ_xNcxgICtCMWJKqUAYCg_BGLPEoOLPXm22KT=s1360-w1360-h1020"},
+         { name: "Sobha City Mall", address: "Puzhakkal Sobha city mall, Thrissur, Kerala 680553", image: "https://lh3.googleusercontent.com/p/AF1QipNqf1iHifWVUhvyHji-6xLT3zYeOazAtnrGdseo=s1360-w1360-h1020"},
+         { name: "FOCUS MALL", address: "Focus mall, hypar market, Rajaji Road, Kozhikode, Kerala 673004", image: "https://lh3.googleusercontent.com/p/AF1QipO83lurTuZEjDoCJZr8HapH85xGvnhJt2Zkj68g=s1360-w1360-h1020"},
+      ],
+
+       "madhya-pradesh": [
+        { name: "C21 Mall", address: "263, Orbit Mall, AB Rd, Indore, Madhya Pradesh 452010", image: "https://lh3.googleusercontent.com/p/AF1QipNV6N9E05Q8nqBnX20gO3XajIEGixL-vqF_qJNp=s1360-w1360-h1020"},
+        { name: "Aashima Mall", address: "Narmadapuram Rd, Danish Nagar, Bawaria Kalan, Bhopal, Madhya Pradesh 462026", image: "https://lh3.googleusercontent.com/p/AF1QipPzg__JGL3YfFqQ0nTxC2AILDtKXv5Ni23NONU0=s1360-w1360-h1020"},
+         { name: "CENTRAL", address: "Treasure Island Next Mall Regal Circle, RNT Marg, Indore, Madhya Pradesh 452007", image: "https://lh3.googleusercontent.com/p/AF1QipPCfybHF6jVBVkq2OulPkBfZ2cxCoDQy_xB7j4B=s1360-w1360-h1020"},
+         { name: "Treasure Island Mall (TI Mall)", address: "11, Mahatma Gandhi Rd, South Tukoganj, Indore, Madhya Pradesh 452001", image: "https://lh3.googleusercontent.com/p/AF1QipP6E4_11d-I0PSJtQBwchRXUldM1F-2W0Tsc4fS=s1360-w1360-h1020"},
+         { name: "Samdariya Mall", address: "Civic Centre, Samdariya Mall, Jabalpur, Madhya Pradesh 482002", image: "https://lh3.googleusercontent.com/p/AF1QipOV9j2GQlpqB3L-y-nBxhgw7-vAdKbklXl287o=s1360-w1360-h1020"},
+      ],
+
+       "maharashtra": [
+        { name: "Inorbit Mall Malad", address: "New Link Rd, Malad, Malad West, Mumbai, Maharashtra 400064", image: "https://lh3.googleusercontent.com/p/AF1QipOM1cNIbSWJX2fvK0uiffIFvCY1nJ19NdepCRaw=s1360-w1360-h1020"},
+        { name: "The Pavilion Mall", address: "Senapati Bapat Rd, next to JW MARRIOTT HOTEL, Laxmi Society, Model Colony, Shivajinagar, Pune, Maharashtra 411016", image: "https://lh3.googleusercontent.com/p/AF1QipMaJ2qpADH96A1zhiaicTeQoYOHi3D91eZGNcU4=s1360-w1360-h1020"},
+         { name: "Phoenix Palladium", address: "462, Senapati Bapat Marg, Lower Parel, Mumbai, Maharashtra 400013", image: "https://lh3.googleusercontent.com/p/AF1QipNKUInGjgHRsckRdNl1XjM3LEmcs3J9VKniI9FJ=s1360-w1360-h1020"},
+         { name: "Oberoi Mall", address: "Yashodham, Goregaon, Mumbai, Maharashtra 400063", image: "https://lh3.googleusercontent.com/p/AF1QipPKz0Lql-FWYWJXWxQX7_tN3rE7e8vrDwJuCYGV=s1360-w1360-h1020"},
+         { name: "R CITY", address: "Lal Bahadur Shastri Marg, Amrut Nagar, Ghatkopar West, Mumbai, Maharashtra 400086", image: "https://lh3.googleusercontent.com/p/AF1QipMzz-fzppKh13f1Hnv_V1AdOjNT3H8KDf4R0jJk=s1360-w1360-h1020"},
+      ],
+
+       "manipur": [
+        { name: "Mamcy Mall", address: "DM College Rd, Kabrabam Leikai, Thangmeiband, Imphal, Manipur 795001", image: "https://lh3.googleusercontent.com/p/AF1QipPXMofPGE8PwETgxSIP-dW2mbYqqKwuC4grxysV=s1360-w1360-h1020"},
+        { name: "Vishal Shopping Mall", address: "Chingmeirong, Imphal, Manipur 795010", image: "https://lh3.googleusercontent.com/p/AF1QipM5BwI02lYp9oYaejbW7-XLenLxnBpIlR6zBt0=s1360-w1360-h1020"},
+         { name: "Olympia Mall", address: "RWGW+6PC, Chingmeirong Rd, Khongnang Ani Karak, Kabo Leika, Imphal, Manipur 795001", image: "https://lh3.googleusercontent.com/p/AF1QipPUUOdOoiRq-WJd6V0aPmkoX55v2iDvL8sMEVAZ=s1360-w1360-h1020"},
+         { name: "Kumecs City Centre", address: "Kakwa, Imphal, Manipur 795008", image: "https://lh3.googleusercontent.com/p/AF1QipPV_WPTgF_v2rn6BihNxdtL7KNiM3ATXUD042Ug=s1360-w1360-h1020"},
+         { name: "Imphal city mall", address: "Leikinthabi - Koirengei Rd, Awang Leikinthabi, Manipur 795136", image: "https://lh3.googleusercontent.com/p/AF1QipNdZUAt14R7WCeHMi-JzThdiA55TQ59uHcwBdT1=s1360-w1360-h1020"},
+      ],
+
+        "meghalaya": [
+        { name: "OB Shopping Mall", address: "HVGM+J4H, Jail Road, Police Bazar, Shillong, Meghalaya 793001", image: "https://lh3.googleusercontent.com/p/AF1QipO0u_dx7OK9TzX2HEp6MXHA-KkhCOj86DQbTzSu=s1360-w1360-h1020"},
+        { name: "Ladies corner shopping complex", address: "Umiam, Meghalaya 793103", image: "https://lh3.googleusercontent.com/p/AF1QipOWN0bROD5sh_d9Dlr2_mPUaDSbQ9lzQE6ILDjJ=s1360-w1360-h1020"},
+         { name: "MES Shopping Complex", address: "HWF5+H9X, Laitumkhrah To Rynjah Via Goraline, Rynjah, Shillong, Meghalaya 793011", image: "https://static.wanderon.in/wp-content/uploads/2024/06/ob-shopping-mall.webp"},
+         { name: "The Grind", address: "3rd floor, Anderson arcade, Laitumkhrah, Shillong, Meghalaya 793003", image: "https://lh3.googleusercontent.com/p/AF1QipOcAfx-blHga0K2v66vUu-K0iABdhdVT-P0rU_p=s1360-w1360-h1020"},
+         { name: "Rhino Shopping Arcade", address: "HV86+MX5, 3 Mile, Upper Shillong, Lummawbah, Shillong, Meghalaya 793004", image: "https://lh3.googleusercontent.com/p/AF1QipNLf-cURhZdr8sc-t_zf1dj7pnK6rrInNBC8zZ8=s1360-w1360-h1020"},
+      ],
+
+        "mizoram": [
+        { name: "Millennium Centre", address: "Dawrpui, Aizawl, Mizoram 796001", image: "https://lh3.googleusercontent.com/p/AF1QipOcrIfTzawoZSGZRXcubcRjkcQeBsfEOJ044Juv=s1360-w1360-h1020"},
+        { name: "KURIZ Mall", address: "PPJR+3QP World Bank Road, Falkland - Chite Rd, Aizawl, Mizoram 796017", image: "https://lh3.googleusercontent.com/p/AF1QipPq0qggp6KEQ-vsjflNuU9_d74F_4gJnF0dkU-I=s1360-w1360-h1020"},
+         { name: "Lalhlira Shopping Complex", address: "6MFH+FRM, Diakkawn Main St, Diakkawn, Kolasib, Mizoram 796082", image: "https://lh3.googleusercontent.com/p/AF1QipN-cooBOl4fSDYMm77QLNSJ4Xy060CHer3Dn8WJ=s1360-w1360-h1020"},
+         { name: "Jack n Jill", address: "PPXF+657, Ramhlun North, Aizawl, Mizoram 796012", image: "https://lh3.googleusercontent.com/p/AF1QipPlieZPJ32nQ2oUF0QHvAExmC22E5UqrAinRF2g=s1360-w1360-h1020"},
+         { name: "Westside", address: "East Besides Custom Office, GF, 1F & 2F, Ramhlun N Rd, Chanmari, Aizawl, Mizoram 796007", image: "https://pr1.nicelocal.in/XIiarcfqFI4AiKVktVYftw/1120x700,q85/4px-BW84_n0QJGVPszge3NRBsKw-2VcOifrJIjPYFYkOtaCZxxXQ2ZKaimqN4y4JHOplwe3Tfyj202_FDCuZayWNJvVN5oUzsJvnfvcaQ4xq3dsTYrnPJg"},
+      ],
+
+         "nagaland": [
+        { name: "CT Square Shopping Mall", address: "RQGH+7CH, 7th Mile, Chümoukedima, Dimapur, Nagaland 797115", image: "https://lh3.googleusercontent.com/p/AF1QipO56b9Nb98LJVy91_pVjarpZ3mgqgrx4O--nOMw=s1360-w1360-h1020"},
+        { name: "Sparkle shop", address: "Central plaza, Nyamo Lotha Rd, N.S.T. Colony, Dimapur, Nagaland 797112", image: "https://lh3.googleusercontent.com/p/AF1QipN7NBk9434oiJGJiIh9xfqWh-xP3a-Z5YXe52pQ=s1360-w1360-h1020"},
+         { name: "MMC Shopping Complex", address: "Dilong Ward, Mokokchung, Nagaland 798601", image: "https://lh3.googleusercontent.com/p/AF1QipNsprJ7uG1wT3rxJsEJLkpwJfXNEtbzL-bqqlub=s1360-w1360-h1020"},
+         { name: "Westside - Midland, Dimapur", address: "Gb/c H no. 193, Midland, near ICICI bank, Dimapur, Nagaland 797112", image: "https://lh3.googleusercontent.com/p/AF1QipMPwGsvlCvgbwPqfOHR4DEtuhvG4Z8sJ1dnN8Pn=s1360-w1360-h1020"},
+         { name: "TRENDS", address: "N.S.T. Colony, Dimapur, Nagaland 797112", image: "https://lh3.googleusercontent.com/p/AF1QipPH69UmLstaG2fSck45xqfhOsalPxzmBs0clm_6=s1360-w1360-h1020"},
+      ],
+
+         "odisha": [
+        { name: "Nexus Esplanade", address: "Unit No. 32, 721, Puri - Cuttack Rd, Rasulgarh Industrial Estate, Industrial Area Estate, Rasulgarh, Bhubaneswar, Odisha 751010", image: "https://lh3.googleusercontent.com/p/AF1QipMVHPmHlF-Cvhb5DSDIj041ne0vFP00v36RVhJL=s1360-w1360-h1020"},
+        { name: "Utkal Kanika Galleria, Bhubaneswar", address: "Kalpana Square, Gautam Nagar St, opp. BMC, BJB Nagar, Bhubaneswar, Odisha 751014", image: "https://lh3.googleusercontent.com/p/AF1QipO-7Ls-pvTQr5_oAiUmTTEN7rnQeM-UxXMrrdGy=s1360-w1360-h1020"},
+         { name: "DN Regalia Mall ", address: "6QR5+C84, Service Road South Tamando, DN Square, Kalinga Vihar, Patrapada, Bhubaneswar, Odisha 751019", image: "https://lh3.googleusercontent.com/p/AF1QipMMcbzog6zO-yWEbvuPOXFM6Ot2M9ue3bXiwYca=s1360-w1360-h1020"},
+         { name: "THE MART SHOPPING MALL", address: "1st floor, Pandra Square, Cuttack - Puri Bypass Rd, Rasulgarh, Bhubaneswar, Odisha 751010", image: "https://lh3.googleusercontent.com/p/AF1QipP9MXiultBfMz13NPBtRoER6P0w5ye7yEsKyK0=s1360-w1360-h1020"},
+         { name: "Pantaloons", address: "Galleria Mall, Plot No 369/2169/4269 & 369/2168, Square, near Patia, Sishu Vihar, Patia, Bhubaneswar, Odisha 751024", image: "https://lh3.googleusercontent.com/p/AF1QipPaPu1aPPUSLdnioR_5cKTozc3xr_uKUF5T3IM=s1360-w1360-h1020"},
+      ],
+
+      "punjab": [
+        { name: "Pavilion Mall", address: "B-I 1258, Kailash Cinema Rd, Civil Lines, Ludhiana, Punjab 141008", image: "https://lh3.googleusercontent.com/p/AF1QipNANIovJrxg-3nTHAfG0rn53xxbQWMJW6k-EK-K=s1360-w1360-h1020"},
+        { name: "Vijay City Centre Mall", address: "Vijay Market, old city, Dasuya, Punjab 144205", image: "https://lh3.googleusercontent.com/p/AF1QipMEgTMdUbTdx6GGWRhMpysdDSLyReprXwsF8LqE=s1360-w1360-h1020"},
+         { name: "Omaxe Mall", address: "Mall Rd, opposite Kali Devi Temple, Baradari, Patiala, Punjab 147001", image: "https://punjab.mallsmarket.com/sites/default/files/photos/malls/OmaxeMall_Patiala_1.jpg"},
+         { name: "Wave Mall Ludhiana", address: "City Plaza, Plot No. 2 & 3, Ferozepur Rd, Ludhiana, Punjab 141012", image: "https://content.jdmagicbox.com/comp/ludhiana/p5/0161px161.x161.101130172002.q9p5/catalogue/wave-mall-ferozepur-road-ludhiana-malls-2mtcbnq.jpg"},
+         { name: "Silver Arc Mall", address: "622, Ferozepur Rd, Gurdev Nagar, Ludhiana, Punjab 141001", image: "https://housing.com/news/wp-content/uploads/2022/12/malls-in-bangalore-compressed.jpg"},
+      ],
+
+        "rajasthan": [
+        { name: "Crystal Court Mall", address: "D-Block, Crystal Court, Malviya Nagar, Jaipur, Rajasthan 302017", image: "https://lh3.googleusercontent.com/p/AF1QipMTGBODoXlyW7tDlcsbKmBxetaGmRAE_vFdLwCI=s1360-w1360-h1020"},
+        { name: "Lake City Mall", address: "University Rd, Ashok Nagar, Udaipur, Rajasthan 313001", image: "https://lh3.googleusercontent.com/p/AF1QipMHCFnZy_MKG3bOx_oTf-BH5EBzh8YzPSt5ncg=s1360-w1360-h1020"},
+         { name: "Ahluwalia’s the Great Mall of Kota", address: " DCM Rd, Ramchandrapura, Dhanmandi, Kota, Rajasthan 324007", image: "https://lh3.googleusercontent.com/p/AF1QipOyS1rxJ2LYOfYP07hzbgcaSuszIlMlYIOOercK=s1360-w1360-h1020"},
+         { name: "Nexus Celebration Mall", address: "opp. Devendra Dham, Opposite Devendra Dham, Pulla Bhuwana, Bhuwana, Udaipur, Rajasthan 313004", image: "https://lh3.googleusercontent.com/p/AF1QipPREJRkoyB29R8jHc9KsEdx1X5TBoSh1cbIndq4=s1360-w1360-h1020"},
+         { name: "Saraogi Mansion", address: "Mirza Ismail Rd, Bapu Bazar, Biseswarji, Jaipur, Rajasthan 302003", image: "https://lh3.googleusercontent.com/p/AF1QipNPiYoD5M7Ghgdn3ajmPmZnWjDzG8X5shJ5x4v3=s1360-w1360-h1020"},
+      ],
+
+         "sikkim": [
+        { name: "Darjeeling Stores", address: " Mahatma Gandhi Marg, Arithang, Gangtok, Sikkim 737101", image: "https://lh3.googleusercontent.com/p/AF1QipPaJmhpgcA4nw1kVybVHRLzJrk_P3xIkKVc2j24=s1360-w1360-h1020"},
+        { name: "Kanchanjonga Shopping Complex", address: "Kanchanjunga shoping complex, New Market - Lal Market Rd, Vishal Gaon, Gangtok, Sikkim 737102", image: "https://lh3.googleusercontent.com/p/AF1QipOG3l7a70eoqxglzrD4vIih8Tvx2bap8H5AAG-l=s1360-w1360-h1020"},
+         { name: "TRENDS", address: "Golden Plaza, Mg Marg, Old Bazar, Opp Golden Height Hotel,, Gangtok, Sikkim 737101", image: "https://lh3.googleusercontent.com/p/AF1QipNK9hPucGdEsswIUz40b01tkeU0wQ1IZIZQscV9=s1360-w1360-h1020"},
+         { name: "Sikkimis Store", address: "8JH6+HVW, Mahatma Gandhi Marg, Arithang, Gangtok, Sikkim 737101", image: "https://assets.traveltriangle.com/blog/wp-content/uploads/2019/07/cloths-4405672_960_720.jpg"},
+         { name: "MG Marg", address: "Arithang, Gangtok, Sikkim 737101", image: "https://lh3.googleusercontent.com/p/AF1QipMBxODmafvOdr0o7eUOASd1G2Zcyjrj1DWUs4lp=s1360-w1360-h1020"},
+      ],
+
+         "tamil-nadu": [
+        { name: "Brookefields Mall", address: "67-71, Dr Krishnasamy Mudaliyar Rd, Brookefields, Sukrawar Pettai, Ram Nagar, Coimbatore, Tamil Nadu 641001", image: "https://lh3.googleusercontent.com/p/AF1QipMAtct3PrxOb3KhCEM6ZATVC6TbIk4kSyjkZccz=s1360-w1360-h1020"},
+        { name: "Palladium", address: "Velachery Main Rd, Indira Gandhi Nagar, Velachery, Chennai, Tamil Nadu 600042", image: "https://lh3.googleusercontent.com/p/AF1QipOEbetn36fmoLVbqjXkMhYp3QmHfNAQSrIggr3s=s1360-w1360-h1020"},
+         { name: "Nexus Vijaya Mall", address: "183, Great Southern Trunk Rd, Arcot Rd, Vadapalani, Chennai, Tamil Nadu 600026", image: "https://upload.wikimedia.org/wikipedia/commons/8/83/Forum_Vijaya_Arcot_Road_Entry.jpg"},
+         { name: "Fun Republic Mall", address: "Avinashi Rd, next to PSG Tech, Peelamedu, Coimbatore, Tamil Nadu 641004", image: "https://www.blog.123coimbatore.com/uploads/blog-images/10-03-2021_02-14-04_fun.jpg"},
+         { name: "THE MARINA MALL", address: "13/1A, Old Mahabalipuram Road, Egattur, Tamil Nadu 603103", image: "https://www.punnaka.com/images/mall_logo/5dfb7ba7c0fd1-the-marina-mall-chennai.jpg"},
+      ],
+
+         "tripura": [
+        { name: "Jeevan Mall Paras Mall", address: "R7HJ+WC5, Hari Ganga Basak Rd, Dhaleswar, Agartala, Tripura 799001", image: "https://pr1.nicelocal.in/0uucqogaL45MRJPks4RCjA/587x440,q85/4px-BW84_n0QJGVPszge3NRBsKw-2VcOifrJIjPYFYkOtaCZxxXQ2UJ-OdFPDz0tqbBNDeWUtNrJoCFbKekyhDL-wCpoMbkT8SVMXpwBrSVIbuBM03w67g"},
+        { name: "Max", address: "Orient Chowmuhani, Dhaleswar, Agartala, Tripura 799001", image: "https://lh3.googleusercontent.com/p/AF1QipP9L_byrkQc3GsvQB4So8NhDSh-O4R67DO_lOSl=s1360-w1360-h1020"},
+         { name: "V-Mart", address: "Krishna Nagar, Agartala, Tripura 799002", image: "https://content.jdmagicbox.com/comp/hooghly/f2/9999pxx33.xx33.211118204724.e5f2/catalogue/v-mart-hindmotor-hooghly-v-mart-umdu1dw01s.jpg"},
+         { name: "Metro Baazar", address: "Aitorma Agartala Sentrum, Shakuntala Road, Agartala, Tripura 799001", image: "https://lh3.googleusercontent.com/p/AF1QipPh9JSbWFua-LeOA9KzisvsD4zl0RElQqbC9VR3=s1360-w1360-h1020"},
+         { name: "FASHION MART", address: "Hapania, Agartala, Tripura 799014", image: "https://lh3.googleusercontent.com/p/AF1QipNV2qvqX_Qooteo3acr_YQIQpeiIC3DxlYCQ3dX=s1360-w1360-h1020"},
+      ],
+
+        "uttar-pradesh": [
+        { name: "Phoenix United Lucknow", address: "Kanpur Rd, Sector B, Bargawan, Alambagh, Lucknow, Uttar Pradesh 226012", image: "https://lh3.googleusercontent.com/p/AF1QipO1CwKbVYn2e7PpRaOQboXWctQ7RMOQFWtcuZku=s1360-w1360-h1020"},
+        { name: "Ashok Cosmos Mall", address: "119/8-120, 8, Wazirpura Rd, Sanjay Palace, Sanjay Place, Civil Lines, Agra, Uttar Pradesh 282002", image: "https://lh3.googleusercontent.com/p/AF1QipO2IXFE7tmrjKF5Kz2os7lvQ-MnzHvQCRlI1zY0=s1360-w1360-h1020"},
+         { name: "Modi Mall", address: "I-2, Town Centre, Sector 25A, Noida, Uttar Pradesh 201301", image: "https://www.modimall.in/Resize_Image.aspx?ImgHt=270&CrpYN=Y&IptFl=images/brandimage/PAISTEL-min.jpg"},
+         { name: "Z Square Mall", address: "Civil Lines, Kanpur, Uttar Pradesh 208001", image: "https://img.staticmb.com/mbcontent/images/crop/uploads/2022/10/z-square-mall.jfif%20(1)_0_1200.jpg"},
+         { name: "The Great India Place, Noida (U.P.)", address: "The Great India Place Mall, Sector 38, Noida, Uttar Pradesh 201301", image: "https://content.jdmagicbox.com/comp/noida/82/011p179082/catalogue/the-great-india-place-mall-noida-sector-38-noida-malls-1jrprtn5sr.jpg"},
+      ],
+ 
+       "uttarakhand": [
+        { name: "Pacific Mall Dehradun", address: " Pacific mall, Rajpur Rd, Jakhan, Dehradun, Uttarakhand 248001", image: "https://lh3.googleusercontent.com/p/AF1QipO4kLO8jImV3z3Oi3Vlzd6TTzfTZvYuv_0YQvl4=s1360-w1360-h1020"},
+        { name: "Centrio Mall", address: "108/84, Rabindra Nath Tagore Marg, Vijay Colony, Shakti Colony, Dehradun, Uttarakhand 248001", image: "https://lh3.googleusercontent.com/p/AF1QipMxNRz_YmDXMHkW7Z-zBS2i4GYUfCjjtV1GUwD-=s1360-w1360-h1020"},
+         { name: "The Pentagon Mall", address: "Plot No:C1, BHEL Main Road, Sector 12, SIDCUL, Haridwar, Uttarakhand 249403", image: "https://lh3.googleusercontent.com/p/AF1QipO_jdPx0sQz6VWoAT6JEF9b4c0wO8R-dKe1oXZs=s1360-w1360-h1020"},
+         { name: "Lifestyle Stores", address: "Pacific Mall, Rajpur Rd, opposite Scholars Home School, Jakhan, Dehradun, Uttarakhand 248001", image: "https://lh3.googleusercontent.com/p/AF1QipOUDrbVHJXoezFN-7tZque7nJ7GL8_NncKSbNWI=s1360-w1360-h1020"},
+         { name: "Times Square Mall", address: "Near, Sahastradhara Rd, Kewal Vihar, Adhoiwala, Dehradun, Uttarakhand 248001", image: "https://www.dehradunbn.com/wp-content/uploads/2021/07/times-square-mall-dehradun-namastedehradun.jpg"},
+      ],
+
+       "west-bengal": [
+        { name: "Quest Mall", address: "33, Beck Bagan Row, Park Circus, Ballygunge, Kolkata, West Bengal 700017", image: "https://lh3.googleusercontent.com/p/AF1QipNVSeJieH_rZSyB-ueM0OiQrANthVj0x1Hw8fzn=s1360-w1360-h1020"},
+        { name: "City Centre Salt Lake", address: "DC Block, Sector 1, Bidhannagar, Kolkata, West Bengal 700064", image: "https://lh3.googleusercontent.com/p/AF1QipMPvHVmDrfFZMTczAw2Miu4vFBkZ6THT0sgjUby=s1360-w1360-h1020"},
+         { name: "Central Mall", address: "Home Town Building, Street Number 95, opposite Axis mall, across main road, Action Area 1B, Newtown, New Town, West Bengal 700156", image: "https://content.jdmagicbox.com/comp/kolkata/b5/033pxx33.xx33.170626120853.v5b5/catalogue/central-mall-new-town-kolkata-shopping-centres-urqqedn5lz.jpg"},
+         { name: "Mani Square", address: "164/1 Maniktala Main Road, Eastern Metropolitan Bypass Rd, Kolkata, West Bengal 700054", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/Mani_Square_-Kolkata_2011-10-22_6061.JPG/640px-Mani_Square-_Kolkata_2011-10-22_6061.JPG"},
+         { name: "South City Mall", address: "375, Prince Anwar Shah Rd, South City Complex, Jadavpur, Kolkata, West Bengal 700068", image: "https://kolkata.mallsmarket.com/sites/default/files/photos/malls/SouthCityMall_PrinceAnwarShahRoad_1.jpg"},
+      ],
+
+    };
+ 
+    // Function to get the state name from the URL
+
+    function getStateName() {
+
+      const urlParams = new URLSearchParams(window.location.search);
+
+      return urlParams.get('state');
+
+    }
+
+ 
+
+    // Function to render malls for a given state
+
+    function renderMalls(state) {
+
+      const stateMalls = malls[state];
+
+      if (!stateMalls) {
+
+        mallContainer.innerHTML = '<p>No malls found for this state.</p>';
+
+        return;
+
+      }
+
+ 
+
+      stateNameElement.textContent = state.toUpperCase(); // Display state name
+
+      mallContainer.innerHTML = ''; // Clear previous malls
+
+ 
+
+      stateMalls.slice(0, 5).forEach(mall => {
+
+        const mallItem = document.createElement('div');
+
+        mallItem.classList.add('mall-item');
+
+ 
+
+        const image = document.createElement('img');
+
+        image.src = mall.image;
+
+        image.alt = mall.name;
+
+        mallItem.appendChild(image);
+
+ 
+
+        const details = document.createElement('div');
+
+        const name = document.createElement('h3');
+
+        name.textContent = mall.name;
+
+        details.appendChild(name);
+
+ 
+
+        const address = document.createElement('p');
+
+        address.textContent = mall.address;
+
+        details.appendChild(address);
+
+ 
+
+        mallItem.appendChild(details);
+
+        mallContainer.appendChild(mallItem);
+
+      });
+
+    }
+
+ 
+
+    // Main script execution
+
+    const state = getStateName();
+
+    const stateNameElement = document.getElementById('state-name');
+
+    const mallContainer = document.getElementById('mall-container');
+
+ 
+
+    if (state) {
+
+      renderMalls(state.toLowerCase());
+
+    } else {
+
+      mallContainer.innerHTML = '<p>No state parameter found in the URL.</p>';
+
+    }
+
+  </script>
+
+</body>
+
+</html>

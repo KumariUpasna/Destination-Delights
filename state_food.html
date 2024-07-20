@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>State restaurants</title>
+
+  <style>
+
+    /* CSS styles */
+
+    body {
+
+      font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+
+      margin: 0;
+
+      padding: 0;
+      font-size:25px;
+      background-color: #d9b2b2;
+
+    }
+
+    header, footer {
+
+      background-color: #333;
+
+      color: #fff;
+
+      text-align: center;
+
+      padding: 1rem 0;
+
+    }
+
+    main {
+
+      padding: 2rem;
+
+    }
+
+    .restaurant-item {
+
+      display: flex;
+
+      align-items: center;
+
+      margin-bottom: 1rem;
+
+      background-color: #fff;
+
+      padding: 1rem;
+
+      border-radius: 8px;
+
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+    }
+
+    .restaurant-item img {
+      width: 400px;
+      height: 400px;
+      object-fit: cover;
+      margin-right: 1rem;
+      border-radius: 4px;
+    }
+
+    .description {
+
+      margin-top: 0.5rem;
+
+      font-style: italic;
+
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+  <header>
+
+    <h1 id="state-name"></h1>
+
+    <h2>Top Restaurants</h2>
+
+  </header>
+
+  <main>
+
+    <div id="restaurant-container">
+
+      <!-- Restaurant will be dynamically inserted here -->
+
+    </div>
+
+  </main>
+
+  <script>
+
+    // Data for malls grouped by state
+
+    const restaurant = {
+
+      "andhra-pradesh": [
+
+        { name: "New Dhaba City Punjab", address: "Vizag - Srikakulam Hwy, Near Airport, Sakethapuram, Kakani Nagar, Visakhapatnam", image: "https://b.zmtcdn.com/data/pictures/2/19929052/1d56a89613512209596a1aac1221dcab.jpeg" },
+
+        { name: "HOTEL 7", address: "GRP3+C6W, Narketpally Addanki Medarmetla Rd, Tummalcherevu, Andhra Pradesh", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSii5eYNt0hcl2dYqeGHt0STvgvWgBA633Ug&s" },
+
+        { name: "My Restaurant", address: "P8RG+5M8, NH16, behind Pot Biryani Point, Shivaji Palem, Isukathota, Maddilapalem, Visakhapatnam", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDMF4o8PRKY_ALiAu8HSbbtOS2gXIH5gxWHw&s" },
+
+        { name: "The Spicy Venue Restaurant", address: "Siripuram Cir, Balaji Nagar, Siripuram, Visakhapatnam", image: "https://b.zmtcdn.com/data/reviews_photos/87b/aeea1ab3383ab7a0a95c6e57616af87b_1542465944.jpg" },
+
+        { name: "Delhi Highway Restaurant", address: "Gram Panchayat 157/2A1, Valluru, near valluramma temple, Ongole, Andhra Pradesh", image: "https://b.zmtcdn.com/data/pictures/5/20926805/a11d6406bb028ad38772a576cc50ab74.jpg?fit=around|750:500&crop=750:500;*,*" },
+
+        { name: "Platform 65 The Train Theme Restaurant", address: "40-1-51C, 2nd Floor, KBCL Building, MG Rd, beside KFC building, Aacharya, near Benz Circle, Acharya Ranga Nagar, Vijayawada", image: "https://platform65.in/wp-content/uploads/2023/11/Platform-65-The-Train-Restaurant-Kondapur-3.jpg" },
+
+      ],
+
+        "arunachal-pradesh": [
+
+        { name:"J's Jaika", address:"J's Jaika, bank tinali ITANAGAR, TT marg, VIP Rd, near SBI bank ATM, Itanagar" , image:"https://content.jdmagicbox.com/comp/itanagar/n9/9999px360.x360.230817130253.s2n9/catalogue/js-jaika-naharlagun-itanagar-restaurants-29ntlpm1j6.jpg"},
+
+        { name:"Gumsar Dining - Pan Asian cuisine", address:"Bank tiniali, near Heema hospital, above bikaner, Itanagar" , image:"https://img.restaurantguru.com/c483-Restaurant-Gumsar-Dining-Pan-Asian-cuisine-interior.jpg"},
+
+        { name:"Moody Bliss Restaurant & Lounge", address:"Orin market, main market, above PNB, Pasighat, Arunachal Pradesh" , image:"https://img.restaurantguru.com/c065-Moody-Bliss-Restaurant-and-Lounge-Pasighat-interior.jpg"},
+
+        { name:"Choe-Wang’s Kitchen", address:"NH415, Itanagar", image:"https://1033609670.rsc.cdn77.org/rests/original/110_508946811.jpg"},
+
+        { name:"YUMMY FOOD", address:"opposite ICICI BANK, Namsai, Arunachal Pradesh" , image:"https://static.toiimg.com/thumb/resizemode-4,width-1280,height-720,msid-74193206/74193206.jpg"},
+
+        { name:"House of Commons", address:" Pasighat, Arunachal Pradesh" , image:"https://b.zmtcdn.com/data/pictures/4/19132734/f8eb62492e6c0d9d1d594faa1253850b.jpg?fit=around|750:500&crop=750:500;*,*"},
+
+    ],
+
+ 
+
+     "assam": [
+
+        { name:"The Table", address:"3rd Floor, Central Mall, GS Rd, Christian Basti, Guwahati" , image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSNIQM0WpbAqr_p-F8xL9HsHd_z01u_BlAfVQ&s"},
+
+        { name:"Recipes Train Restaurant", address:"4th Floor, Recipes Train Restaurant Mayur Heights, GS Rd, opp. Sohum Emporia, Bhangagarh, Guwahati" , image:"https://media-cdn.tripadvisor.com/media/photo-s/12/98/ee/02/the-first-train-restaurant.jpg"},
+
+        { name:"The View Restaurant and Lounge", address:"6th Floor, Block A, 191 Exotica Greens, RG Baruah Rd, Tarun Nagar, Guwahati" , image:"https://dineout-media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto/v1706819440/23de38354307c6cfb8fc334eade38438.png"},
+
+        { name:"SEEBO - Authentic Assamese Multi-Cuisine Restaurant", address:"AT Road, Haibargaon, near SBI, Haibargaon, Branch, Nagaon" , image:"https://content3.jdmagicbox.com/v2/comp/haiborgaon/d9/9999p3672.3672.221121234546.j9d9/catalogue/seebo-rnb-road-haiborgaon-restaurants-6ta62mhskl.jpg"},
+
+        { name:"The Ethnic Bistro", address:"NH 15, Biswanath Charali, Assam" , image:"https://content3.jdmagicbox.com/comp/biswanath/p2/9999p3712.3712.220317235020.l4p2/catalogue/the-ethnic-bistro-biswanath-0xynuylajh.jpg"},
+
+        { name:"Anuraag Dhaba", address:"NH - 37, Nagaon, Bypass, Borghat, Assam " , image:"https://content.jdmagicbox.com/comp/nagaon/k8/9999p3672.3672.180810142335.s8k8/catalogue/anuraag-dhaba-nagaon-restaurants-izv7jtynvx.jpg"},
+
+    ],
+
+         
+
+          "bihar": [
+
+        { name:"BERCO'S", address:"3rd floor, Besides, Berco's restaurant, Khadi Mall, E Gandhi Maidan Rd, opp. to Gate no 7, Dujra Diara, Patna" , image:"https://content.jdmagicbox.com/comp/patna/t6/0612px612.x612.200323204319.z5t6/catalogue/berco-s-gandhi-maidan-patna-restaurants-svql9knwum.jpg"},
+
+        { name:"Spice Court", address:"Hotel Maurya, South Gandhi Maidan, Raja Ji Salai, Dujra Diara, Patna" , image:"https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1a/45/db/8d/restaurant-layout.jpg?w=1100&h=-1&s=1"},
+
+        { name:"The Oriental Fusion", address:"Ranchi Rd, Bharao Par, Ramchandrapur, Bihar Sharif, Bihar" , image:"https://fastly.4sqi.net/img/general/600x600/36583206_8jA1OwbhiWiUhEgC-ufeINT9N1rOZdA1WIyihnT-oUk.jpg"},
+
+        { name:"New Punjab Rasoi", address:"New Punjab rasoi kundpar Rajgir, Nimal, Rajgir, Bihar" , image:"https://content3.jdmagicbox.com/comp/rajgir/s1/9999p6112.6112.200118204002.c3s1/catalogue/new-punjab-rasoi-kund-road-rajgir-ho-rajgir-indian-restaurants-26e1358vsz.jpg"},
+
+        { name:"17 Degrees", address:"Patliputra industrial area, 6th Floor P & M Mall, Patliputra Kurji Rd, Patna" , image:"https://media-cdn.tripadvisor.com/media/photo-s/0e/86/52/2a/ambiance.jpg"},
+
+        { name:"Flavours", address:"Acme Tower South West Corner Of, Jail Rd, Darbhanga, Bihar" , image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_AsPgxt58FkSWjLAmqUTXgeuk510361bHdA&s"},
+
+    ],
+
+ 
+
+          "chhattisgarh": [
+
+        { name:"Girnar Restaurant", address:" 6JVP+F3G, GE Road Opp Ravi Bhawan, Jaistambh Chowk, Moudhapara, Raipur" , image:"https://media-cdn.tripadvisor.com/media/photo-s/0e/4a/d3/3e/with-new-interiors.jpg"},
+
+        { name:"Restro CG04", address:"Sector 19, Kotara Bhantha, Atal Nagar-Nava Raipur" , image:"https://image.wedmegood.com/resized/800X/uploads/member/1050789/1581759357_g8.png"},
+
+        { name:"Dadi's Paakshala", address:"Tagore Nagar First floor above Bicycle hub Opposite Tirupati apartments, Chhattisgarh" , image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRFfo5nvGGcwwiYIIwbUxzPImJTAsVHtYPbUw&s"},
+
+        { name:"Abis Greens Veg Restaurant", address:"Raipur Naka - Smriti Nagar Road, behind reliance petrol pump, Kailash Nagar, Rajnandgaon, Chhattisgarh" , image:"https://content.jdmagicbox.com/comp/rajnandgaon/g2/9999p7744.7744.171126031958.x9g2/catalogue/abis-green-kailash-nagar-rajnandgaon-restaurants-n8uq4.jpg"},
+
+        { name:"Barbeque Nation", address:"Unit SFPH 02 - 03, Great Eastern Rd, Jivan Vihar, Labhandih, Raipur" , image:"https://www.barbequenation.com/sites/default/files/styles/webp_convert/public/2022-01/DSC_0021.JPG.webp?itok=-yrJGH_V"},
+
+        { name:"OTT - Over The Top by ARIENA", address:"VIP Rd, in front of Oswal Petrol Station, Telibandha, Raipur, Chhattisgarh" , image:"https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2b/27/47/66/envy-restaurant.jpg?w=300&h=-1&s=1"},
+
+    ],
+
+ 
+
+           "goa": [
+
+        { name:"The Fishermans Wharf", address:"At The Riverside, Goa" , image:"https://b.zmtcdn.com/data/pictures/5/130535/9dcf2c92b2a12a789ab9c63f016aee2e.jpg"},
+
+        { name:"Copperleaf Panaji", address:"Ground Floor, Esmeralda Casa de Povo, Santa Inez, Taleigao, Panaji, Goa " , image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSXqR-9x3Qv_-w2nTup5B7-rNh1yKkDAhik0g&s"},
+
+        { name:"The Black Sheep Bistro", address:"The Black Seep Bistro 1st Floor, Villa Braganca, Dr Braganza Pereira Rd, above Fab India Store, Panaji, Goa" , image:"https://www.mydiversekitchen.com/wp-content/uploads/2016/03/the-black-sheep-bistro-goa-a-review.1024x1024-1.jpg"},
+
+        { name:"The Lazy Goose", address:"Bridge, Nerul, Goa" , image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSuDFF4rDif2khf5n1kYGmmIT6TklYgIAplag&s"},
+
+        { name:"The Fisherman's Wharf Panjim", address:"House No 13, 139, 18th June Rd, beside Taj Vivanta, Campal, Panaji, Goa" , image:"https://media-cdn.tripadvisor.com/media/photo-s/12/be/b3/07/decor.jpg"},
+
+        { name:"Martin's Corner", address:"69, Binwaddo, Btalbhati, Goa" , image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQY9S-yN6R_L9PbnfZEiIqeLrdD1KvoY0MuTw&s"},
+
+    ],
+
+          "gujarat": [
+
+        { name:"Rajwadu", address:"Nr. Jivraj Tolnaka, Malav Talav Rd, behind Ambaji Temple, Lavanya Society, Jivraj Park, Ahmedabad" , image:"https://rajwadu.com/wp-content/uploads/2014/05/gujarati_restaurant_in_gujarat.jpg"},
+
+        { name:"Tinello", address:"Hyatt Regency Ahmedabad, India Lobby Level, 17/A, Ashram Rd, Usmanpura, Ahmedabad" , image:"https://www.hyattrestaurants.com/uploaded/restaurant_photos/restaurant_photos-1553704084.jpg"},
+
+        { name:"Agashiye", address:"the house of MG sidi saiyyed mosque, Old City, Gheekanta, Lal Darwaja, Ahmedabad" , image:"https://media-cdn.tripadvisor.com/media/photo-s/1d/2a/41/0c/agashiye-lounge-and-garden.jpg"},
+
+        { name:"Apple Bite", address:"4 Plus Complex, Sardar Nagar Main Rd, Astron Chowk, Near, Sardarnagar, Rajkot" , image:"https://media-cdn.tripadvisor.com/media/photo-s/06/7f/db/c9/main-entrance.jpg"},
+
+        { name:"Gordhan Thal", address:"Sapath Complex, Ground Floor, Sarkhej - Gandhinagar Hwy, Opposite Rajpath Club, Bodakdev, Ahmedabad, Gujarat" , image:"https://i.ytimg.com/vi/TSDUCHFTtrA/maxresdefault.jpg"},
+
+        { name:"Mandap The Authentic Gujarati Thali Restaurant", address:" RC Dutt Rd, Aradhana Society, Vishwas Colony, Alkapuri, Vadodara, Gujarat" , image:"https://media-cdn.tripadvisor.com/media/photo-s/05/8a/16/5c/mandap.jpg"},
+
+    ],
+
+         "haryana": [
+
+        { name:"Haveli", address:"Delhi - Panipat Highway, Murthal, Haryana" , image:"https://media-cdn.tripadvisor.com/media/photo-s/10/93/1a/65/haveli-at-murthal.jpg"},
+
+        { name:"threesixtyone°", address:"The Oberoi, Gurgaon, 443, Udyog Vihar Phase V Rd, Phase V, Udyog Vihar, Sector 19, Gurugram, Haryana" , image:"https://www.oberoihotels.com/-/media/oberoi-hotels/website-images/the-oberoi-gurgaon/dining/detail/togn-threesixtyone.jpg?w=724&hash=68adbfd4aea1f3f299e7f0a1419886e0"},
+
+        { name:"THE GREAT KHALI DHABA", address:"Grand Trunk Rd, Samana Bahu, Haryana" , image:"https://www.realmobiweb.com/uploads/listing_images/cd8c07f880186f6835ec6c5bedfd0fe1.jpg"},
+
+        { name:"Hotel The Diner's Restaurant & Party Hall", address:"18, 261, Sheila Bypass Rd, Jasbir Colony, Chankyapuri, Rohtak, Haryana" , image:"https://lh5.googleusercontent.com/p/AF1QipOoyeM3CGA9F3rYnANS8cAnIwZvfToB6KrNnFsg=s296-w296-h168-n-k-no-v1"},
+
+        { name:"Dehati Thath", address:"Hotal No.1 Ch.Dadri, Loharu Rd, Charkhi Dadri, Haryana" , image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTTI-MdOkatQXWHmhzbH_ig86AP-1bbGEAfwQ&s"},
+
+        { name:"Seasonal Tastes", address:"The Westin Gurgaon New Delhi 1, MG Road Sector 29, New Delhi, NCR, Gurugram, Haryana" ,image:"https://media-cdn.tripadvisor.com/media/photo-s/02/6d/cf/ac/wgnd79.jpg"},
+
+    ],
+
+       "himachal-pradesh": [
+
+        { name:"The Daig Mountain Cuisine & Hospitality", address:"Tsil Sadar, Himachal Darshan Photo Gallery Vrindavani Post Office Dudar, Distt, Mandi, Himachal Pradesh" , image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRdVOaHfjtkhmOczdz2ili82GuyGtCdkiyn6Q&s"},
+
+        { name:"Eighteen71 Cookhouse & Bar (Indian & Oriental Fine Dining Restaurant)", address:" near Tourism Lift Hotel Willow Banks, The Mall, Shimla, Himachal Pradesh " , image:"https://media-cdn.tripadvisor.com/media/photo-s/11/59/28/59/photo6jpg.jpg"},
+
+        { name:"Goofa Ashiana Restaurant", address:"Ridge, Middle Bazar, The Mall, Shimla, Himachal Pradesh " , image:"https://content.jdmagicbox.com/comp/shimla/q6/0177px177.x177.130612112621.t5q6/catalogue/goofa-ashiana-restaurant-lower-bazar-shimla-restaurants-and-bars-cuwqw.jpg"},
+
+        { name:"IL Forno", address:"65WM+84V, Hadimba Temple Rd, Siyal, Manali, Himachal Pradesh" , image:"https://media-cdn.tripadvisor.com/media/photo-s/02/c4/f6/61/il-forno.jpg"},
+
+        { name:"Kwality Restaurant", address:"Gandhi Chowk, Dalhousie, Himachal Pradesh" , image:"https://media-cdn.tripadvisor.com/media/photo-s/12/80/b9/89/kwality.jpg"},
+
+        { name:"Tibet Kitchen", address:"House #1, Main Square, Jogiwara Rd, McLeod Ganj, Dharamshala, Himachal Pradesh" , image:"https://b.zmtcdn.com/data/pictures/1/18709271/3afd8645675f4b43fa56fe7ccfe87795.jpg?fit=around|750:500&crop=750:500;*,*"},
+
+    ],
+
+      "jharkhand": [
+
+        { name: "The Great Kebab Factory", address: "Located on the Diversion Road in Hindpiri area of Ranchi", image: "https://media-cdn.tripadvisor.com/media/photo-s/04/ae/dc/b4/the-great-kabab-factory.jpg"},
+
+        { name: "Kaveri Restaurant", address:"Shop 9, 1st Floor G.E.L. Church Shopping Complex, 11, Mahatma Gandhi Main Rd, Ranchi", image: "https://content.jdmagicbox.com/comp/dhanbad/s9/9999px326.x326.180815092846.m2s9/catalogue/kaveri-restaurant-housing-colony-dhanbad-restaurants-zurnz81jyn.jpg"},
+
+         { name: "Zinnia Restaurant", address: "Diamond Plaza Purulia Road Beside IOCL Petrol Pump Kantatoli Chowk, Lalpur, Ranchi", image: "https://b.zmtcdn.com/data/pictures/4/2700354/dbab91f302ab7cb8a85ba75bd3ab7371.jpeg?fit=around|750:500&crop=750:500;*,*"},
+
+         { name: "Yellow Sapphire", address: "Mahatma Gandhi Main Rd, near punjab Sweet House, Maulana Azad Colony, Capitol Hill, Ranchi", image: "https://content.jdmagicbox.com/comp/ranchi/a5/0651px651.x651.170923035203.g9a5/catalogue/sapphire-kids-school-morabadi-ranchi-schools-6o41d7xcnr.jpg"},
+
+         { name: "The Oriental Kitchen", address: "Station Rd, Sirom Toly, Kishan Singh Colony, Gosaintola, Ranchi", image: "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1c/82/1b/24/restaurant-image.jpg?w=1200&h=-1&s=1"},
+
+         {name:"The Reef Rooftop Restaurant", address:"Hotel Coral Grand, Purulia Rd, opposite audi showroom, Kantatoli, Ranchi", image:"https://content.jdmagicbox.com/comp/ranchi/q5/0651px651.x651.191120233316.f3q5/catalogue/the-reef-rooftop-restaurant-kantatoli-ranchi-restaurants-vruqty1nbv-250.jpg"},
+
+      ],
+
+       "karnataka": [
+
+        { name: "JW Kitchen", address: "JW Marriott Bengaluru, 24/1, Vittal Mallya Rd, KG Halli, Shanthala Nagar, Ashok Nagar, Bangalore", image: "https://media-cdn.tripadvisor.com/media/photo-s/28/7a/55/15/jw-kitchen-ambience.jpg"},
+
+        { name: "Lotus Pavilion - ITC Gardenia", address: "1, Residency Rd, Ashok Nagar, Bengalore", image: "https://www.itchotels.com/content/dam/itchotels/in/umbrella/itc/hotels/itcgardenia-bengaluru/images/overview-landing-page/headmast/desktop/lotus-pavillion.png"},
+
+         { name: "Spice Terrace", address: "24, JW Marriott Bengaluru, 1, Vittal Mallya Rd, Ashok Nagar, Bengalore", image: "https://images.jdmagicbox.com/v2/comp/bangalore/d3/080pxx80.xx80.140117121300.s2d3/catalogue/spice-terrace-restaurant-j-w-marriott-hotel-vittal-mallya-road-bangalore-restaurants-rs0858klij.jpg"},
+
+         { name: "Basaveshwar Khanavali", address: "No.6 , 1st floor, 1st Cross Rd, 5th Block, Koramangala, Bengaluru", image: "https://images.jdmagicbox.com/comp/bangalore/b2/080pxx80.xx80.210219183817.n1b2/catalogue/basaveshwar-khanavali-jayanagar-east-bangalore-pure-veg-restaurants-a9jr258fyg.jpg"},
+
+         { name: "Cable Car", address: "Marenahalli Rd, TMC Layout, 1st Phase, J. P. Nagar, Bengalore", image: "https://b.zmtcdn.com/data/reviews_photos/09d/b5e2521725af65014322f9b9b55c209d_1542954411.jpg"},
+
+         {name:"Hi Seoul Restaurant", address:" 309, 7th Main Rd, HRBR Layout 2nd Block, HRBR Layout, Kalyan Nagar, Bengaluru", image:"https://content.jdmagicbox.com/v2/comp/bangalore/k8/080pxx80.xx80.131024150341.h6k8/catalogue/hiseoul-korean-restaurant-kalyan-nagar-bangalore-korean-restaurants-oyz24.jpg"},
+
+      ],
+
+       "kerala": [
+
+        { name: "Brindhavan Vegetarian Restaurant", address: " 43/3075, NH 66, near Hotel Rock Rose, Chakkalakkal, Palarivattom, Kochi, Ernakulam, Kerala", image: "https://media-cdn.tripadvisor.com/media/photo-s/16/96/62/c2/entrance.jpg"},
+
+        { name: "Paragon Restaurant Trivandrum", address: " Kesavadasapuram, Thiruvananthapuram", image: "https://content.jdmagicbox.com/comp/thiruvananthapuram/g8/0471px471.x471.180701134801.h9g8/catalogue/paragon-restaurant-kesavadasapuram-thiruvananthapuram-restaurants-l761FSBSXO.jpg"},
+
+         { name: "Dhe Puttu", address: "1st Floor, East Service Rd, NH 66, Edappally, Ernakulam, Kerala", image: "https://content3.jdmagicbox.com/comp/kozhikode/e4/0495px495.x495.141107131009.s9e4/catalogue/dhe-puttu-puthiyara-kozhikode-restaurants-1722877.jpg"},
+
+         { name: "Restaurant Chef Pillai", address: " Le Méridien Kochi, Nettoor, Maradu, Kochi, Ernakulam, Kerala", image: "https://media-cdn.tripadvisor.com/media/photo-s/2a/8f/1a/bc/whether-you-re-seeking.jpg"},
+
+         { name: "HOTEL BHARATH (PURE VEG)", address: "Swaraj Round, Purushotham Building, Chembottil Ln, behind Ragam Theatre, Kuruppam, Thekkinkadu Maidan, Thrissur, Kerala", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQg5NJqE9aWo0AETvPY23fAXaQ0ERDAFPLYkA&s"},
+
+         {name:"Thomson's Casa", address:"Ikkanda Warrior Rd, East Fort, Pillakad, Thrissur, Kerala", image:"https://content.jdmagicbox.com/comp/thrissur/d7/9999px487.x487.210804134516.k7d7/catalogue/thomason-s-casa-restaurant-ikkanda-warrior-road-thrissur-ho-thrissur-restaurants-v2pf0xvg16.jpg"},
+
+      ],
+
+       "madhya-pradesh": [
+
+        { name: "Manohar Dairy & Restaurant", address: "132 A & B, Ram Gopal Maheshwari Marg, near Jyoti Talkies, Zone-I, Maharana Pratap Nagar, Bhopal", image: "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0e/44/dc/d2/hallway-to-an-overall.jpg?w=800&h=-1&s=1"},
+
+        { name: "The Black Pepper Restaurant & Lounge", address: "186-b, Airport Rd, near Ondoor Store, Indra Vihar Colony, Data Colony, Lalghati, Bhopal", image: "https://content.jdmagicbox.com/comp/bhopal/v5/0755px755.x755.170208153506.u9v5/catalogue/the-blackpepper-restaurant-bhopal-15rptjtm1w.jpg"},
+
+         { name: "Fagun Restaurant", address: "Lasudia Mori Dewas Naka, near Bhaskar Academy, Indore", image: "https://www.shoppingbazar.in/uploads/images/d1bdd47a9e8bec6326b99b34518d46581509014518.jpg"},
+
+         { name: "Sagar Gaire", address: " Shop No, BDA Complex, 101, 7 Number Chouraha, Stop, Shivaji Nagar, Bhopal", image: "https://content.jdmagicbox.com/comp/bhopal/m5/0755px755.x755.170921202059.p8m5/catalogue/sagar-gaire-bhopal-8o7lm.jpg"},
+
+         { name: "Lazeez Hakeem", address: "187, near Milan Sweet, Zone-I, Maharana Pratap Nagar, Bhopal", image: "https://media-cdn.tripadvisor.com/media/photo-s/18/f8/2b/6b/restaurant.jpg"},
+
+         {name:"Zam Zam Fast Food", address:"Hamidia Rd, opp. Corporation Bank, Dangi Colony, Railway Colony, Bhopal", image:"https://content3.jdmagicbox.com/comp/bhopal/l4/0755px755.x755.140501130505.d6l4/catalogue/zam-zam-fast-food-and-restaurant-bhopal-gpo-bhopal-restaurants-2ftki6yqcn.jpg"},
+
+      ],
+
+       "maharashtra": [
+
+        { name: "Peshwa Pavilion", address: "International Airport, Itc Maratha, Chhatrapati Shivaji Maharaj Int'l Airport Rd, Ashok Nagar, Andheri East, Mumbai", image: "https://content.jdmagicbox.com/comp/mumbai/64/022p4010864/catalogue/the-peshwa-pavilion-itc-maratha-hotel--sahar-andheri-east-mumbai-north-indian-restaurants-vhga4.jpg "},
+
+        { name: "Family Tree", address: "Shop no 4, Ravi Industrial Estate, Panchpakhadi, Thane, Mumbai, Maharashtra 400602", image: "https://media-cdn.tripadvisor.com/media/photo-s/15/af/e9/23/20181116220402-img-8128.jpg"},
+
+         { name: "Shahi Bhoj Thali Restaurant", address: "Bus Stand, C-2, next to Fame Inox Cinema, near Cidco, Sector C/3, Town Centre, N 1, Cidco, Aurangabad, Maharashtra", image: "https://cdn.venuelook.com/uploads/space_39179/1717057828_595x400.png"},
+
+         { name: "Burma Burma Restaurant & Tea Room", address: "Kothari House, Allana Centre Lane, opposite Mumbai University, Kala Ghoda, Fort, Mumbai", image: "https://www.burmaburma.in/images/oberoi.jpg"},
+
+         { name: "The Sassy Spoon Pune", address: "Sanskriti Lifestyle, Lane No. 7, Ashok Chakra Society, Meera Nagar, Koregaon Park, Pune", image: "https://media-cdn.tripadvisor.com/media/photo-s/0e/d5/5c/8c/the-sassy-spoon.jpg"},
+
+         { name: "Bang Tan Shefs", address: "Shop No. 2/3, Ostwal Point Building, Kanakia Rd, opp. Park View Hotel, Unique Gardens, Gaurav City, Mira Road East, Mumbai, Mira Bhayandar, Maharashtra ", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-wzmrA0iCecTgBMyAaMRzbCaIaU5CZQrTSg&s"},
+
+      ],    
+
+    "manipur":[
+
+       { name:"Leirung Resto", address:"leikai, Sangaiprou mamang, Airport Road, opp. ISKCON temple, Imphal, Manipur", image:"https://content.jdmagicbox.com/comp/imphal/s4/9999p3852.3852.230116093510.l2s4/catalogue/nachom-cafe-imphal-restaurants-vj4nxnp7m8.jpg"},
+
+       { name:"Char-koal Restaurant", address:"Krishna Premi Shopping Complex, near MSRTC Gate, Moirangkhom Loklaobung, Sanakhwa Yaima Kollup, Imphal, Manipur", image:"https://lh3.googleusercontent.com/I24U7gmeMoBtWsXE7mxn038-poOgnVzQGvAuThHYMcQknyjlLLG9YCNDRdV5AUQM49TyJAYdCbCjVvzBGPNLz3Irn5Y=w1200-rw"},
+
+       { name:"The PLACE Music and Grill", address:"Viewland Bazaar, Near IwuiBookStore/Zimik Plaza, Ukhrul, Manipur", image:"https://img.restaurantguru.com/ceba-Restaurant-The-PLACE-Music-and-Grill-interior.jpg"},
+
+       { name:"Elder Biryani", address:"DM College Rd, Kabrabam Leikai, Thangmeiband, Imphal, Manipur", image:"https://img.restaurantguru.com/r201-Elder-Biryani-food.jpg"},
+
+       { name:"BBQ & BIRYANI NATION", address:"DM College Rd, Thangmeiband, Imphal, Manipur", image:"https://content.jdmagicbox.com/comp/kolkata/f6/033pxx33.xx33.220501094432.s2f6/catalogue/ubq-by-barbeque-nation-hridaypur-kolkata-north-indian-delivery-restaurants-ym3p0pnwhu.jpg"},
+
+       { name:"Happy Belly", address:"DM College Rd,Thangmeiband,Imphal, Manipur", image:"https://images.thequint.com/thequint%2F2022-09%2F08e71d21-d0c4-4c3e-a3ac-e9e06e7c8261%2FHappyBelly.jpeg?auto=format%2Ccompress&fmt=webp&width=440&w=1200"},
+
+   ],
+
+       "meghalaya":[
+
+       { name:"Madras Cafe", address:"HVGJ+MM3, Jail Road, Police Bazar, Shillong, Meghalaya ", image:"https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0f/84/31/6c/inside-madras-cafe.jpg?w=1200&h=-1&s=1"},
+
+       { name:"City Hut Family Dhaba", address:"Earle Holiday Home, Oakland Rd, Police Bazar, Shillong, Meghalaya", image:"https://static.wanderon.in/wp-content/uploads/2023/11/top.jpg"},
+
+       { name:"Jiva Veg", address:"GS Rd, Nongpoh, Nongkhrah, Meghalaya", image:"https://content.jdmagicbox.com/comp/shillong/u5/9999px364.x364.170626132204.h3u5/catalogue/jiva-veg-shillong-1eblqjzjim.jpg"},
+
+       { name:"Qzine Restaurant", address:"Police Bazar, Shillong, Meghalaya ", image:"https://dynamic-media-cdn.tripadvisor.com/media/photo-o/17/3c/bb/c4/img-20190421-wa0004-largejpg.jpg?w=1200&h=-1&s=1"},
+
+       { name:"Dejavu Restaurant", address:"Nongkynrih, Laitumkhrah, Shillong, Meghalaya", image:"https://content3.jdmagicbox.com/comp/shillong/l6/9999px364.x364.140506144636.v7l6/catalogue/deja-vu-laitumkhrah-shillong-restaurants-1abtshhwdh.jpg"},
+
+       { name:"The Wok Restaurant", address:"Lummawrie, National Highway 44, Nongrimbah, Shillong, Meghalaya", image:"https://content3.jdmagicbox.com/comp/shillong/d3/9999px364.x364.161001154634.l5d3/catalogue/the-wok-laitumkhrah-shillong-restaurants-b1iq5b.jpg"},
+
+   ],
+
+    "mizoram":[
+
+       { name:"Chopstyx Restaurant", address:"F-79, Bazar Rd, Lower, Chanmari, Aizawl, Mizoram", image:"https://content.jdmagicbox.com/comp/aizawl/f3/9999px389.x389.170610144129.l7f3/catalogue/chopstyx-restaurant-aizawl-1u1nq.jpg"},
+
+       { name:"Johnson's Garden", address:"Muanna veng, Aizawl, Mizoram", image:"https://bengvarna.com/filereader/1/1062/jpg"},
+
+       { name:"La Ruby 2.0", address:" PPJR+F85 Godown, Falkland, Road, near Folkland Park", image:"https://images.jdmagicbox.com/comp/aizawl/h4/9999px389.x389.220129223325.c8h4/catalogue/ransam-armed-veng-aizawl-restaurants-pxgam89zds-250.jpg?clr="},
+
+       { name:"Aizawl Peak Restaurant", address:"Zuangtui, Hangi, Lunglên Tlang, Aizawl, Mizoram ", image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQHCNCM8JBJqoVvw_PGKNo5Vyfs-ChPxJmoLA&s"},
+
+       { name:"HMS Restaurant", address:" PPRQ+RJ7, Aizawl-Seling-Champhai Rd, Aizawl, Mizoram ", image:"https://img.restaurantguru.com/r74d-HMS-Restaurant-design.jpg"},
+
+       { name:"Nu Zovi Choka", address:"1st Floor, Dr B Thangdailova Building, Zemabawk Gali, Kawn Veng, Aizawl, Mizoram ", image:"https://content.jdmagicbox.com/comp/aizawl/h9/9999px389.x389.231023181936.z9h9/catalogue/nu-zovi-choka-aizawl-restaurants-9zlam3yfdc.jpg"},
+
+   ],
+
+     "nagaland":[
+
+       { name:"The Belgian Waffle Co", address:"SHOP NO-01, HOTEL GRAND TIZU BUILDING, Notun Bosti, Dimapur, Nagaland ", image:"https://media-assets.swiggy.com/swiggy/image/upload/f_auto,q_auto,fl_lossy/5116a385bac0548e06c33c08350fbf11"},
+
+       { name:"Ooopar", address:"1st Floor, LK Square, Jail Colony, Kohima, Nagaland ", image:"https://static.wanderon.in/wp-content/uploads/2024/05/kohima-restaurants.jpg"},
+
+       { name:"The Indian Restaurant", address:"Middle Point, Tajen Ao Rd, Churches Colony, Notun Bosti, Dimapur, Nagaland", image:"https://content.jdmagicbox.com/comp/dimapur/s8/9999p3862.3862.170920153413.k2s8/catalogue/the-indian-restaurant-dimapur-restaurants-k0qnexhevc.jpg"},
+
+       { name:"The King Chilli", address:"Hibos Garden, Green Park Junction, opp. SBI, 5th Mile, Chümoukedima, Dimapur, Nagaland", image:"https://lh3.googleusercontent.com/p/AF1QipPY7RRDjZuTfUhnwgc62Hf-KRbRNCM1Ycf1ngl7=s1360-w1360-h1020"},
+
+       { name:"Amaris", address:"Jail Colony, Kohima, Nagaland", image:"https://lh3.googleusercontent.com/p/AF1QipMQVURWVgevpCKPfx40Q_wuTSSaBrLJT1AwHSu7=s1360-w1360-h1020"},
+
+       { name:"House Of Asia", address:"House of Asia, Center, City Tower, below HDFC Bank, N.S.T. Colony, Dimapur, Nagaland", image:"https://lh3.googleusercontent.com/p/AF1QipNSP_N-XXqmBxht8Swhfzn0Jye1S1yfTs_RSssd=s1360-w1360-h1020"},
+
+   ],
+
+      "odisha":[
+
+       { name:"Barbeque Nation", address:"NALCO CHOWK, 3RD FLOOR, Triplex Mall, Sachivalaya Marg, MAUZA- SAMANTAPURI GAJAPATI NAGAR, near Gagan Awas Appartment, Chandrasekharpur, Bhubaneswar, Odisha", image:"https://media-cdn.tripadvisor.com/media/photo-s/17/91/7d/25/img-20190518-131055-largejpg.jpg"},
+
+       { name:"Venus Inn Restaurant", address:" 217, Bapuji Nagar, Bhubaneswar, Odisha", image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsc5YeI94Y1tl6VSkEweypFq9PMF03PwZaQw&s"},
+
+       { name:"Zaika Palace", address:"Sachivalaya Marg EW, Sainik School Rd, Gajapati Nagar, Bhubaneswar, Odisha", image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ40HgruQcqIUR8_NgkIk6JZOzJnPU2mpQyUA&s"},
+
+       { name:"Lemon Grass", address:"Shop No 6 Lagoon, MayFair Road, Bhubaneswar, Odisha", image:"https://media-cdn.tripadvisor.com/media/photo-s/08/ab/85/21/getlstd-property-photo.jpg"},
+
+       { name:"Nakli Dhaba", address:"1, Shop No: 1, Mayfair Lagoon, Jayadev Vihar, Bhubaneswar, Odisha", image:"https://media-cdn.tripadvisor.com/media/photo-s/0e/59/07/50/very-comfy-seating-and.jpg"},
+
+       { name:"Dalma", address:"VIP Rd, near Puri Fire Station, Puri, Odisha", image:"https://deepantripathy.wordpress.com/wp-content/uploads/2020/07/dalma.jpg?w=840"},
+
+   ],
+
+         "punjab":[
+
+       { name:"Haveli", address:"Highway, Grand Trunk Rd, Amritsar, Jandiala Rural, Punjab", image:"https://b.zmtcdn.com/data/pictures/8/18694768/d8359e741a7ad4f1f6e710e92b2fbc5c.jpg"},
+
+       { name:"Colonel's Cabin", address:"3780, Ishmeet Singh Road, Jagjit Nagar, near Pakhowal Pully, Ludhiana, Punjab", image:"https://b.zmtcdn.com/data/pictures/6/15336/0ead120e22733e68e4f893a6a505af8d.jpg"},
+
+       { name:"Barbeque Nation ", address:"387-L, Rainbow Rd, Prakash Nagar, Model Town, Jalandhar, Punjab", image:"https://www.barbequenation.com/sites/default/files/styles/webp_convert/public/2019-12/120.%20gallery%20857x491EXT_7.jpg.webp?itok=SksuDTnt"},
+
+       { name:"The Yellow Chilli", address:" 32C, SCF, Sarabha Nagar Main Market, Sarabha Nagar, Ludhiana, Punjab ", image:"https://content.jdmagicbox.com/comp/patiala/i9/9999px175.x175.150225110622.n3i9/catalogue/the-yellow-chilli-patiala-ho-patiala-restaurants-1dhu3.jpg"},
+
+       { name:"The Garden Restaurant (TGR)", address:"Urban Estate Phase 2 Rd, Opposite PUDA Market, Jyoti Nagar, Jalandhar, Punjab", image:"https://b.zmtcdn.com/data/pictures/5/18763205/85bf8c0ec4c5a4388ddd0a3e42407c05.jpg?fit=around|960:500&crop=960:500;*,*"},
+
+       { name:"Sanjha Chulha", address:"Lawrence Road, Opp. BBK DAV College, Joshi Colony, Amritsar", image:"https://content.jdmagicbox.com/comp/amritsar/m5/0183px183.x183.131117203107.c4m5/catalogue/sanjha-chulha-amritsar-1c9fjr42me.jpg"},
+
+   ],
+
+       "rajasthan":[
+
+       { name:"Suvarna Mahal", address:"VRX5+66Q, Rambagh Palace, Bhawani Singh Rd, Rambagh, Jaipur, Rajasthan ", image:"https://cdn.sanity.io/images/ocl5w36p/production/00a2e96c04c9f8c9bc2956667da223fda3582db3-1400x1120.jpg?w=480&auto=format&dpr=2"},
+
+       { name:"PESHAWRI", address:"ITC RAJPUTANA, Road, Palace, Jaipur, Rajasthan", image:"https://b.zmtcdn.com/data/pictures/1/100351/4175d021dc24e3007436173b36a10689.jpg"},
+
+       { name:"Thali & more", address:"1st floor plot no, C 46, Sarojini Marg, Panch Batti, C Scheme, Ashok Nagar, Jaipur", image:"https://b.zmtcdn.com/data/pictures/chains/5/102695/d90527aecdbf850ecc2e2cffd990e891.jpg?fit=around|750:500&crop=750:500;*,*"},
+
+       { name:"Kailash Veg Restaurant", address:"Corner Khawasji ka rasta, 441, 442, Hawa Mahal Rd, Pink City, Jaipur, Rajasthan", image:"https://media-cdn.tripadvisor.com/media/photo-s/09/f8/2d/46/kailash-veg-restaurant.jpg"},
+
+       { name:"Hari-Mauryan", address:"12th B Rd, below Talwarkar Gym, Sardarpura, Jodhpur", image:"https://b.zmtcdn.com/data/reviews_photos/f81/60e82a8e51007ffead9c4eb1adba7f81_1609423248.jpg"},
+
+       { name:"Rajasthani Bhog", address:"D-71-D, Madho Singh Rd, Sindhi Colony, Bani Park, Jaipur, Rajasthan ", image:"https://www.gorajasthan.travel/blog/wp-content/uploads/2021/03/Rajasthani-cuisine-1200x675.jpg"},
+
+   ],
+
+        "sikkim":[
+
+       { name:"Nimtho", address:" Mahatma Gandhi Marg, Vishal Gaon, Gangtok, Sikkim", image:"https://media-cdn.tripadvisor.com/media/photo-s/12/57/19/90/nimtho-new-market-mg.jpg"},
+
+       { name:"Osm Restro & Lounge", address:"Norbula Complex, Mahatma Gandhi Marg, Arithang, Gangtok, Sikkim", image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBehAP_uoDhyMmaRn7q6yjlDIMlXzHjTMgmw&s"},
+
+       { name:"Taste Of Tibet", address:" Mahatma Gandhi Marg, Arithang, Gangtok, Sikkim", image:"https://media-cdn.tripadvisor.com/media/photo-s/18/7a/df/08/taste-of-tibet.jpg"},
+
+       { name:"Shuffle Momos", address:" Mahatma Gandhi Marg, Arithang, Gangtok, Sikkim ", image:"https://media.assettype.com/indulgexpress%2Fimport%2F2023%2F10%2F24%2Foriginal%2FCheckouttheseMomohotspotstIndia.jpg?w=1200&ar=40%3A21&auto=format%2Ccompress&ogImage=true&mode=crop&enlarge=true&overlay=false&overlay_position=bottom&overlay_width=100"},
+
+       { name:"The Dragon Wok", address:" 8JH6+PWM, Mahatma Gandhi Marg, above Bata Showroom, Arithang, Gangtok, Sikkim", image:"https://media-cdn.tripadvisor.com/media/photo-s/13/1d/f8/3e/outside-view.jpg"},
+
+       { name:"The Square Family Restaurant and Bar", address:" Mahatma Gandhi Marg, Vishal Gaon, Gangtok, Sikkim", image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTR2uDM_325GVqFjMu_GM5eTNVBECgT2qZ1zg&s"},
+
+   ],
+
+        "tamil-nadu":[
+
+       { name:"Southern Spice", address:" Uthamar Gandhi Rd, Anna Salai, Nungambakkam, Chennai, Tamil Nadu", image:"https://media-cdn.tripadvisor.com/media/photo-s/07/81/73/91/restaurant-interiors.jpg"},
+
+       { name:"Madras Pavilion", address:"ITC Grand Chola, 63, Anna Salai, Little Mount, Guindy, Chennai, Tamil Nadu ", image:"https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1a/e3/19/97/madras-pavilion.jpg?w=1200&h=-1&s=1"},
+
+       { name:"Phil's Bistro", address:" 444, 9th Main Rd, Managiri, Madurai, Tamil Nadu", image:"https://philsbistro.in/wp-content/uploads/2022/01/Image3.png"},
+
+       { name:"The Cascade", address:"Devi Chit Fund Complex 5/35 Junction Main Road, 5 Rd, opp. Chenai Silks, Arisipalayam, Salem, Tamil Nadu ", image:"https://media-cdn.tripadvisor.com/media/photo-s/19/a0/13/47/20191014-135743-largejpg.jpg"},
+
+       { name:"9Restaurants ", address:" Pycrofts Garden Rd, Srirampuram, Thousand Lights West, Thousand Lights, Chennai, Poombukar Nagar, Tamil Nadu", image:"https://tnhouse.tn.gov.in/app/webroot/img/Vaigai.jpg"},
+
+       { name:"Dakshin", address:"Crowne Plaza Chennai Adyar Park, 132, TTK Road, Chennai, Tamil Nadu", image:"https://dynamic-media-cdn.tripadvisor.com/media/photo-o/05/5a/00/ed/dakshin-park-sheraton.jpg?w=1200&h=-1&s=1"},
+
+   ],
+
+         "tripura":[
+
+       { name:"Eatopia Zannat Restaurant And Banquet", address:" 2nd Floor, Agartala City Center, Paradise Chowmohani, Agartala, Tripura 799001", image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_buAPR9Yt-u68WyIpAfRAKdO7m3qbiwQTYg&s"},
+
+       { name:"Khunti kadai", address:" HGB road, opposite of Madan Mohan Mandir, Melarmath, Dhaleswar, Agartala, Tripura", image:"https://www.mappls.com/place/JK8LLC_1649398423411_0.jpeg"},
+
+       { name:"The Fern", address:"Madhya, Banamalipur, Indranagar, Agartala, Tripura 799001", image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6pRI2BWMkeZXVRoJkOkGqg2ms11EUkBpPfw&s"},
+
+       { name:"Aquilaria Clubhouse", address:" Airport Road Gurkhabasti, Agartala, Tripura", image:"https://img.restaurantguru.com/r6de-Aquilaria-Clubhouse-logo.jpg"},
+
+       { name:"The Serial Griller", address:" Officers Quarter Ln, Krishna Nagar, Agartala, Tripura ", image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSiYrW09d6RK7Y1RPNDU5MtT8dI2BGsK5AkbQ&s"},
+
+       { name:"1&Only Restaurant & Cafe", address:"Post Office, Aside Gandhigram Gas Agency, near Oxygen Park, Gandhigram, LPG, Agartala, Tripura ", image:"https://www.1andonly.co.in/wp-content/uploads/2023/02/banquet.jpg"},
+
+   ],
+
+    "uttar-pradesh":[
+
+       { name:"Moti Mahal Restaurant", address:"No.75, Mahatma Gandhi Marg, next to Central Bank of India, Sushanpura, Lalbagh, Lucknow, Uttar Pradesh ", image:"https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0b/05/78/71/moti-mahal.jpg?w=1200&h=-1&s=1"},
+
+       { name:"Milan-A Speciality Restaurant", address:"65, Gurunanak market, metro station, opposite Railway station, near Charbagh, Cash and Pay Colony, Charbagh, Lucknow, Uttar Pradesh", image:"https://menubatao.com/wp-content/uploads/2022/06/milan-restaurant-and-hotel-charbagh-railway-station-lucknow-north-indian-restaurants-o80hsrmiue-1024x768.jpg"},
+
+       { name:"Mahesh’s Mansarovar", address:"Commercial 8, Aliganj Main Rd, near Bank of India, Officers Colony, Nirala Nagar, Lucknow, Uttar Pradesh ", image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTpKD8mStlA1NFSOYnimYHsER3fXLIRB-IozQ&s"},
+
+       { name:"Green Restaurant By Neelkanth", address:" VX5W+4XR, Baldev Singh Arya Marg, near Neelkanth Sweets, Vivek Khand 2, Gomti Nagar, Lucknow, Uttar Pradesh", image:"https://static.toiimg.com/photo/msid-47765587,width-96,height-65.cms"},
+
+       { name:"Milan-A Speciality Restaurant", address:" 65, Gurunanak market, metro station, opposite Railway station, near Charbagh, Cash and Pay Colony, Charbagh, Lucknow, Uttar Pradesh", image:"https://media-cdn.tripadvisor.com/media/photo-s/1a/d9/d3/e8/trending-on-google-49.jpg"},
+
+       { name:"The Manish Eating Point", address:" 1/120 Be Side Deva Place, GomtiNagar, Viram Khand, Lucknow, Uttar Pradesh", image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTIjIcrQfxyLXT2vcDCMbgYK7BtJUc0njuF4Q&s"},
+
+   ],
+
+     "uttarakhand":[
+
+       { name:"The Sitting Elephant - A Rooftop Restaurant ", address:" Hotel EllBee Ganga View, 355, Haridwar Rd, Palika Nagar, Rishikesh, Uttarakhand ", image:"https://pr1.nicelocal.in/oFqAq1SkDTuyXYuegiJfdw/640x427,q85/4px-BW84_n0QJGVPszge3NRBsKw-2VcOifrJIjPYFYkOtaCZxxXQ2bsTCEOTVMp3JSNx0WLn_XEuipyf8YfXhCbR6tfiWDAA81-vORk1FBK8DkqSbArfug"},
+
+       { name:"Hoshiyarpuri", address:"Upper Rd, Haridwar, Uttarakhand", image:"https://content.jdmagicbox.com/comp/haridwar/b8/9999p1334.1334.180820230117.w7b8/catalogue/hoshiyarpuri-restaurant-khanna-nagar-haridwar-restaurants-wobn4ortxe.jpg"},
+
+       { name:"Village Vatika Restaurant", address:"NH309, Ladwachaur, Ramnagar, Uttarakhand", image:"https://i.ytimg.com/vi/9l_Gw-9-V_w/maxresdefault.jpg"},
+
+       { name:"Black Pepper Restaurant", address:"3, Rajpur Rd, Ashtley Hall, Irigation Colony, Karanpur, Dehradun, Uttarakhand", image:"https://b.zmtcdn.com/data/reviews_photos/e5a/61963fc9461d85d0914f1a4463b68e5a_1610354840.jpg"},
+
+       { name:"South Indian Vibes", address:"3 , Astley hall Rajpur road Ist floor 2nd floor, 9, Rajpur Rd, Ashtley Hall, Irigation Colony, Karanpur, Dehradun, Uttarakhand ", image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTgaRh2omW9grlRH4YY8bY_5WnyvPxx0ol0Eg&s"},
+
+       { name:"Aerodine Restaurant", address:"356/618, ground floor, Rajpur Rd, in front of japee guest house, Hathibarkala Salwala, Dehradun, Uttarakhand", image:"https://media-cdn.tripadvisor.com/media/photo-s/19/52/ef/54/inside-view.jpg"},
+
+   ],
+
+      "west-bengal":[
+
+       { name:"Mocambo Restaurant and Bar", address:"Ground Floor, 25B, Mirza Ghalib St, Taltala, Kolkata, West Bengal", image:"https://media-cdn.tripadvisor.com/media/photo-s/17/2c/0a/12/retro-yet-quite-sophisticated.jpg"},
+
+       { name:"Eden Pavilion - ITC Sonar", address:"1, JBS Haldane Ave, Tangra, Kolkata, West Bengal", image:"https://media-cdn.tripadvisor.com/media/photo-s/04/29/3e/30/eden-pavilion-restaurant.jpg"},
+
+       { name:"Golden Joy Restaurant", address:"50, Matheswartala Road, Topsia, Kolkata, West Bengal ", image:"https://media-cdn.tripadvisor.com/media/photo-s/07/b4/8b/68/golden-joy-tangra.jpg"},
+
+       { name:"Momo I AM RDB Sector 5", address:"RDB Boulevard, GP Block, Sector V, Bidhannagar, Kolkata, West Bengal", image:"https://www.mappls.com/place/KRZJCM_1648784866437_0.png"},
+
+       { name:"Tanur Heshel ( Desh Theke Deshantore ) - Best in Authentic / Traditional Bengali Food ", address:"213, Opp:Post office, Sarat Bose Rd, Kolkata, West Bengal", image:"https://img.restaurantguru.com/r862-photo-KOPAI-RESTAURANT-Swade-Thakur-Bari-2022-10-5.jpg"},
+
+       { name:"Oh! Calcutta", address:"Silver Arcade, 3rd Floor, T-1, T-2 (EM Bypass),5,JBS Haldane Ave, Kolkata, West Bengal", image:"https://i0.wp.com/yummraj.com/wp-content/uploads/2016/04/img_5570.jpg?ssl=1"},
+
+   ],
+
+    };
+
+    // Function to get the state name from the URL
+
+    function getStateName() {
+
+      const urlParams = new URLSearchParams(window.location.search);
+
+      return urlParams.get('state');
+
+    }
+
+    // Function to render malls for a given state
+
+    function renderRestaurant(state) {
+
+      const stateRestaurant = restaurant[state];
+
+      if (!stateRestaurant) {
+
+        restaurantContainer.innerHTML = '<p>No malls found for this state.</p>';
+
+        return;
+
+      }
+
+      stateNameElement.textContent = state.toUpperCase(); // Display state name
+
+      restaurantContainer.innerHTML = ''; // Clear previous malls
+
+ 
+
+      stateRestaurant.slice(0, 5).forEach(restaurant => {
+
+        const restaurantItem = document.createElement('div');
+
+        restaurantItem.classList.add('restaurant-item');
+
+ 
+
+        const image = document.createElement('img');
+
+        image.src = restaurant.image;
+
+        image.alt = restaurant.name;
+
+        restaurantItem.appendChild(image);
+
+ 
+
+        const details = document.createElement('div');
+
+        const name = document.createElement('h3');
+
+        name.textContent = restaurant.name;
+
+        details.appendChild(name);
+
+ 
+
+        const address = document.createElement('p');
+
+        address.textContent = restaurant.address;
+
+        details.appendChild(address);
+
+ 
+
+        restaurantItem.appendChild(details);
+
+        restaurantContainer.appendChild(restaurantItem);
+
+      });
+
+    }
+    // Main script execution
+
+    const state = getStateName();
+
+    const stateNameElement = document.getElementById('state-name');
+
+    const restaurantContainer = document.getElementById('restaurant-container');
+
+    if (state) {
+
+      renderRestaurant(state.toLowerCase());
+
+    } else {
+
+      restaurantContainer.innerHTML = '<p>No state parameter found in the URL.</p>';
+
+    }
+
+  </script>
+
+</body>
+
+</html>

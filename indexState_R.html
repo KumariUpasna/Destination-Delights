@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Destination Delights - States</title>
+  <style>
+    /* CSS styles */
+    body {
+      font-family: Georgia, 'Times New Roman', Times, serif;
+      margin: 0;
+      padding: 0;
+      font-size: 22px;
+      background-color: #e6aef1;
+    }
+    header, footer {
+      background-color: rgb(221,161,233);
+      color: #090707;
+      text-align: center;
+      padding: 1rem 0;
+    }
+    main {
+      padding: 2rem;
+    }
+    #state-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+    }
+    .state-button {
+      flex: 1 1 calc(25% - 2rem);
+      padding: 2rem;
+      font-size: 35px;
+      margin: 1rem;
+      color: #0c0b0b;
+      background-color: #dcdcdc; /* Set a single background color here */
+      border: none;
+      cursor: pointer;
+      border-radius: 35px;
+      text-transform: capitalize;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+      box-shadow: 0 4px 6px rgba(215, 41, 122, 0.866), 0 2px 4px rgba(0, 0, 0, 0.06);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .state-button:hover {
+      opacity: 0.8;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 12px rgba(70,192,164), 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    @media (max-width: 768px) {
+      .state-button {
+        flex: 1 1 calc(50% - 2rem);
+      }
+    }
+    @media (max-width: 480px) {
+      .state-button {
+        flex: 1 1 calc(100% - 2rem);
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>RESTAURANTS</h1>
+   
+  </header>
+  <main>
+    <section id="Restaurants-search">
+      <h2> Foodies Corner</h2>
+      <div id="state-buttons">
+        <!-- State buttons -->
+        <button class="state-button" data-state="andhra-pradesh">Andhra Pradesh</button>
+        <button class="state-button" data-state="arunachal-pradesh">Arunachal Pradesh</button>
+        <button class="state-button" data-state="assam">Assam</button>
+        <button class="state-button" data-state="bihar">Bihar</button>
+        <button class="state-button" data-state="chhattisgarh">Chhattisgarh</button>
+        <button class="state-button" data-state="goa">Goa</button>
+        <button class="state-button" data-state="gujarat">Gujarat</button>
+        <button class="state-button" data-state="haryana">Haryana</button>
+        <button class="state-button" data-state="himachal-pradesh">Himachal Pradesh</button>
+        <button class="state-button" data-state="jharkhand">Jharkhand</button>
+        <button class="state-button" data-state="karnataka">Karnataka</button>
+        <button class="state-button" data-state="kerala">Kerala</button>
+        <button class="state-button" data-state="madhya-pradesh">Madhya Pradesh</button>
+        <button class="state-button" data-state="maharashtra">Maharashtra</button>
+        <button class="state-button" data-state="manipur">Manipur</button>
+        <button class="state-button" data-state="meghalaya">Meghalaya</button>
+        <button class="state-button" data-state="mizoram">Mizoram</button>
+        <button class="state-button" data-state="nagaland">Nagaland</button>
+        <button class="state-button" data-state="odisha">Odisha</button>
+        <button class="state-button" data-state="punjab">Punjab</button>
+        <button class="state-button" data-state="rajasthan">Rajasthan</button>
+        <button class="state-button" data-state="sikkim">Sikkim</button>
+        <button class="state-button" data-state="tamil-nadu">Tamil Nadu</button>
+        <button class="state-button" data-state="tripura">Tripura</button>
+        <button class="state-button" data-state="uttar-pradesh">Uttar Pradesh</button>
+        <button class="state-button" data-state="uttarakhand">Uttarakhand</button>
+        <button class="state-button" data-state="west-bengal">West Bengal</button>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    document.querySelectorAll('.state-button').forEach(button => {
+      button.addEventListener('click', () => {
+        const state = button.getAttribute('data-state');
+        window.location.href = `state_food.html?state=${state}`;
+      });
+    });
+  </script>
+</body>
+</html>
+

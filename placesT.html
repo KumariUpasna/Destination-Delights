@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Top Places</title>
+
+  <style>
+
+    /* CSS styles */
+
+    body {
+
+      font-family: Arial, sans-serif;
+
+      margin: 0;
+
+      padding: 0;
+      font-size:25px;
+      background-color: #d9b2b2;
+
+    }
+
+ 
+
+    header, footer {
+
+      background-color: #333;
+
+      color: #fff;
+
+      text-align: center;
+
+      padding: 1rem 0;
+
+    }
+
+ 
+
+    main {
+
+      padding: 2rem;
+
+    }
+
+ 
+
+    .attraction-item {
+
+      display: flex;
+
+      align-items: center;
+
+      margin-bottom: 1rem;
+
+    }
+
+    .attraction-item img {
+
+      max-width: 500px; /* Adjust image size */
+
+      height: 400px;
+
+      margin-right: 1rem;
+
+      border-radius: 4px;
+
+    }
+
+    .description {
+
+      margin-top: 0.5rem;
+
+      font-style: italic;
+      font-size:24px;
+
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+  <header>
+
+    <h1 id="district-name"></h1>
+
+    <h2>Top 3 Places</h2>
+
+  </header>
+
+ 
+
+  <main>
+
+    <div id="places-container">
+
+      <!-- Places will be dynamically inserted here -->
+
+    </div>
+
+  </main>
+
+ 
+
+  <script>
+
+    const urlParams = new URLSearchParams(window.location.search);
+
+    const district = urlParams.get('district');
+
+    const districtNameElement = document.getElementById('district-name');
+
+    const placesContainer = document.getElementById('places-container');
+
+ 
+
+    const districts = {
+
+       "Adilabad": [
+
+        { name: "Kuntala Waterfalls",address:"The Kuntala Waterfalls is located 12 kms from the Neredikonda villege about 64 km from Adilabad", image: "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0c/8d/82/2d/main-stream.jpg?w=1200&h=1200&s=1",description:"Kuntala Waterfall is the highest waterfall in the state with a height of 150 meters."},
+
+        { name: "Sathnala Dam",address:"Located near Kapna village at a distance of 16kms from Adilabad",image: "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0a/9a/2d/c2/hold-water-dam.jpg?w=1200&h=1200&s=1",description:"It is a famous picnic spot built across the river Sathnala." },
+
+        { name: "Pochera Waterfalls",address:"Pochera Waterfalls is located at a distance of nearly 37 km from Nirmal town, 47 km from Adilabad town and 7 km from Boath and accessible by road.", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQHRdgDEice4Q9zCFiHJ3Bekz3U0zfveqO7ig&s",description:"Pochera Waterfalls is a scenic natural attraction located near the town of Adilabad." }
+
+      ],
+
+       "Bhadradri Kothagudem": [
+
+         { name: "Sita Ramachandraswamy Bhadrachalam Temple",address:"It is located on the banks of the Godavari River in the town of Bhadrachalam in east Telangana",image: "https://images.hindustantimes.com/img/2022/07/10/550x309/1434ea3a-007b-11ed-8b83-088ecd342bb3_1657478606614.jpg",description:"It is a Hindu temple dedicated to Rama, a prominent avatar of the god Vishnu." },
+
+        { name: "Kinnerasani Wildlife Sanctuary",address:"It is located at a distance of 12kms away from Palvancha town of bhadradri Kothagudem",image: "https://vajiramandravi.s3.us-east-1.amazonaws.com/media/2024/2/10/14/39/34/Papikonda_National_Park.jpg" ,description:"The wildlife sanctuary is a home to a rich wildlife including leopards,spotted deer and gaurs.This got its name after the river Kinnerasani."},
+
+        { name: "Kinnerasani Dam",address:"Located at a distance of 12 kilometers away from the Palvancha town ",image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-RKlj7MeHZ84vYdcUTIErGBLFssMHjKMqrw&s",description:"It is a home to a rich wildlife, including leopards, spotted deer and gaurs, besides different bird species." }
+
+      ],
+
+      "Hyderabad": [
+
+        { name: "Charminar",address:"The Charminar is a monument located in Hyderabad", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQOztWDnQ1j30xF4KptmchO3_FVzHwlFwCvQA&s",description:"Charminar was built in 1591 and is a symbol of Hyderabad. This monument is the official emblem of Telangana. Charminar is derived from Urdu, meaning 'Four Pillars." },
+
+        { name: "Golconda Fort",address:"It is located in the western part of Hyderabad city and is about 9 km from the Hussain Sagar Lake", image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQnAul9yKrLsqI_s_xvyqZ-cxD4qJ7uUv6W5g&s",description:"Golconda was the principal capital of the Qutub Shahi kings.It is one of most magnificent fortress complexes in India. " },
+
+        { name: "Hussain Sagar Lake",address:"It is located nearly 3 km from Nampally railway station and 4.5 km from Secunderabad railway station", image: "https://images.hindustantimes.com/rf/image_size_640x362/HT/p2/2015/12/23/Pictures/_e48cf168-a94e-11e5-bc4d-302034fae57a.jpg",description:"Hussain Sagar is a heart-shaped lake in Hyderabad, Telangana, built by Ibrahim Quli Qutb Shah in 1563." }
+
+      ],
+
+      "Jagtial": [
+
+        { name: "Dharmapuri Temple",address:"Situated at a distance of about 28–30 km from Jagityal town", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQgq-UyfKUTGiKf0rFu3pVS8y65LBLbSjGcEg&s",description:"The Dharmapuri Lakshmi Narasimha Swamy Temple is one of the most important settlements of Vedic Brahmins in the state." },
+
+        { name: "Sri Ram Sagar Project",address:" Located in Jagtial district, 3 km away from National Highway 44", image: "https://www.en.etemaaddaily.com/pages/world/hyderabad/3299sriram.jpg",description:"The Sriram Sagar Project is also known as the Pochampadu Project is an Indian flood-flow project on the Godavari. " },
+
+        { name: "QILA fort jagityal",address:"Puranipet, Jagtial", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR9P-j0LuopYNzVczGgPcs9TQi1Pi5q0Pw05w&s",description:"QILA Fort Jagityal is also known as 'Raja Gadi' and is considered one of Telangana's strongest forts.The fort is situated on the banks of river Godavari " }
+
+      ],
+
+      "Jangaon": [
+
+        { name: "Khilashapur Fort",address:"Q6WH+G5G, Quileshapur, Telangana 506244", image: "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0e/3b/71/34/photo2jpg.jpg?w=400&h=-1&s=1",description:"The fort built by Sardar Sarvai Pappanna (1650 and died in 1709 A.D) is estimated to be built in 1690, according to researcher and heritage enthusiast Aravind Arya Pakide." },
+
+        { name: "Sri Rama Temple",address:"located in Jeedikal village,Lingalaghnapur,Jangaon District", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCmooVnkZIB0r3Fvpja3-UObgWr7uIab58aw&s",description:"According to a local lore, the temple's existence dates back to 'Tretayuga' as it was here that Lord Rama, while in exile, is said to have shot rakshasa Maricha with an arrow, who comes in the guise of a golden deer." },
+
+        { name:"Kolanupaka",address:"P4CW+5RP,Banapuram Colony,Jangaon", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_tuU_Vm7PtecaWAIXmEy0Lmz73ap-HHvYsw&s",description:"It is a learning place for many children in dance and Vedas too." }
+
+      ],
+
+"Jayashankar Bhupalpally": [
+
+        { name: "Kaleshwara Mukteswara Swamy Temple",address:"Kaleshwaram, Bhoopalpallyt", image: "https://cms.tgtdc.in/fetch?payload=1c63664b-1123-4d58-b582-b19c3a946fa5.jpg",description:"This is a revered temple is dedicated to the worship of the powerful Lord Shiva." },
+
+        { name: "Pandavula Guttalu",address:"Located in Jayashankar Bhupalpally", image: "https://medaramjathara.com/assets/img/attractions/pandavula-guhalu/pandavula-guhalu-01.jpg",description:"Rock art is a form of landscape art which is found only in certain regions of india." },
+
+        { name: "Nainpaka Temple",address:"It is just 25km before to Jayashankar Bhupalpally", image:"https://xploreall.com/wp-content/uploads/2022/11/Pandalam_kshethram1-jpeg.webp ",description:"Nainpaka temple is beleived to built in 15thn or 16th century on a pink stone rock." }
+
+      ],                             
+
+      "Jogulamba Gadwal": [
+
+        { name: "Jogulamba Temple",address:"Located in Gadwal-Jogulanba district", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRD433fMSh0-QsXPLSGouY_oQ7JqeMLltoEtQ&s",description:"It is home to acient Nava brahma Temples"},
+
+        { name: "Gadwal Fort",address:"Gadwal fort is located close to Gadwal town,situated nearly 185 km from the capital city of Hyderabad",image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-y2AwYKQoaki0iOiFjZtc77cH54-8di7PQg&s",description:"It is a historical gem. It holds great importance because of its architectural beauty and rich cultural heritage" },
+
+        { name: "Jurala Dam",address:"Located at a distance of 10 kilometers from Kurvapur village in the Jogulamba-Gadwaldistrict",image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQlW-WhdAI32ApD4P9CuJtJYbAxnz6TzpjKNQ&s",description:"It is also known as the Priyadarshini Project is laid over the Krishna River, the Reservoir is at a level of 1045 feet" }
+
+      ],
+
+      "Kamareddy": [
+
+        { name: "Domakonda Fort",address:" Located in Domakonda village of Kamareddy district", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmBPc9M789-bitut4R98oH2FAHu2oyZgW-JQ&s",description:"This fort is also called Gadi Domakonda or Killa Domakonda as it houses a palatial mahal inside and popularly called Addhala Meda (Glass house)" },
+
+        { name: "Nizam Sagar Dam",address:"Located at about 145 km north-west of the state capital Hyderabad and 81 km from Nizamabad District", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUT9c7LrRorzgMTADAkcNxYUyPUofvBR0hAA&s",description:"It was built in 1923,is a reservoir which is constructed across the Manjira River." },
+
+        { name: "Koulas Fort", address:"Located approx 180km from Hyderabad (NH-161), 90km from Kamareddy",image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqmVL8sanm7b9RLLXHXjji3BGTDJyStQKNeA&s",description:"Kowlas Fort was constructed at the present site by Rashtrakutas during 9th Century CE. The Fort was captured by Chalukyas of Kalyani dynasty in the third quarter of 10th Century CE." }
+
+      ],
+
+      "Karimnagar": [
+
+       { name: "Elgandal Fort",address:"It approximately 10 kilometres from Karimnagar on the Sircilla Road", image: "https://upload.wikimedia.org/wikipedia/commons/a/ac/Elgandal_Fort.jpg",description:"Elgandal Fort is situated amidst palm groves on the banks of the Manair River (a tributary of the Godavari River)"},
+
+        { name: "Gandhi Centenary Museum",address:"The Gandhi Centenary Museum is located in the heart of Karimnagar Town, close to New Bus Station", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZyNdEo9N7Ky6jfTIsAcWyXHgbV97ZSP0Xag&s",description:"The Museum showcases stone tools, coins, terracotta figurines, arms and weapons pertaining to the Karimnagar District"},
+
+        { name: "Lower Manair Dam",address:"It is 4.5kms from the Karimnagar Bus Stand in the town of Alugunur,which is near Karimnagar",image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSMFBM1sLuu_JS5oiRlEeajM6Seae2EGMVOhg&s",description:"During the monsoon season,this place enchants travelers with the mesmerizing sight of water flowing from its floodgates." }
+
+      ],
+
+       "Khammam": [
+
+        { name: "Khammam Fort",address:"Fort Road,Khammam Fort,Nizampet,Khammam", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0J3UuraUYJxk56jP8xH3B3B88LU_ShRancw&s", description:"Khammam Fort was constructed by Musunuri Nayaks.The fort is situated in a very vast area in the heart of the City of Khammam" },
+
+        { name: "Wyra Reservoir",address:"It is located next to the Wyra town,Khammam District", image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtylf4ly9-oTXJbaIGZImhCz01b57SZZx8fQ&s",description:"Wyra Reservoir is a medium irrigation project constructed across the Wyra River,a tributary of Krishna River" },
+
+        { name: "Jamalapuram Temple",address:"It is located in Jamalapuram, near to Errupalem in Khammam", image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1eo9boO-RNVkdGypZ_OZU43l8rlx6I4PhMA&s",description:"The temple was renovated by Vijayanagara Emperor Sri Krishna Devarayalu and is also called Khammam Chinna Tirupathi" }
+
+      ],
+
+      "Kumuram Bheem Asifabad": [
+
+        { name: "Mitte Waterfalls",address:"It is located around 2kms from Pittaguda village,Lingapur Mandal,Komaram Bheem Asifabad District", image: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgiNNRTjlqxXrRPI3F2JT-NflWChY9iSxlJ8XQRELOBrE1eb6Qa3WbQRTGVclZ3BBVYHg4KDpcY1ktf95ZFruKh5g5ndWwO8IQQ_U4rxKB8h_-_f4ZNJ1g2hL3fp6ujTZwF-L1T5skGJuQ/s1600/sapthagundam.jpg",description:"It comprises not just one but seven waterfalls,hence the name Saptagundala" },
+
+        { name: "Gangapur temple", address:"Situated 5kms away from the mandal centre", image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT7okfHOH23ER0hPYYnZKc8iLdx59E6UgeDAw&s",dsecription:"The ancient Sri Balaji Venkateshwara Swamy Devasthanam " },
+
+        { name: "Kumuram Bheem Tribal Museum", address:"It is a museum at Jodeghat village of Kerameri mandal",image:" https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSp2bTDKSNjzA7zxrZZ_MowQa5-vFx8Rx87QQ&s",description:"The museum stands out as one of the most historically significant locations in terms of Asifabad's tribal culture and Heritage." }
+
+      ],
+
+      "Mahabubabad": [
+
+        { name: "Ananthagiri Temple",address:"Mahabubabad Yellandu Road, Anantharam, Anantharam, Mahbubabad - 506102", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ7MPGzzDMwaKT5PNNXy0bVcr8lXjqSliatwA&s",description:" The temple, which is said to have been built in the pre-Kakatiya period, is located amid wild bushes, with a charming lake at its foothills." },
+
+        { name: "Kuravi Veerabhadra Swamy Temple",address:"It is in the Kuravi mandal",image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSq9jv8Qm5as6enTcAaTTnXbcLSOcJFiZygHA&s",description:"This temple is dedicated to Lord Veerabhadra swamy,who is fierce looking Diety with three eyes and ten hands. " },
+
+        { name: " Bheemuni Paadam Waterfalls",address:"Seethanagaram Village, GUDUR Mandal, Mahabubabad", image: "https://lh3.googleusercontent.com/p/AF1QipOZ0rQHwVFIBC1r3P7s98uGff-joUgpE0dFdHjh=s680-w680-h510",description:"water falls from a hillock from about 20 feet in a semi-circular enclosure. Apart from the sound of falling water, it is quiet all around. It has has not been conclusively established where the water comes from." }
+
+      ],
+
+"Mahbubnagar": [
+
+        { name: "Vallur Fort",address: "R33H+8JP, Vallur, Telangana 509301", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTMEq4159ClbNxD0B5vc2d7RIwPjGYb710l7A&s",description: "The fort is considered to be amongst the best examples of military architecture in Southern India and is known for its grand ramparts, wide moat and robust masonry." },
+
+        { name: "Koilsagar Dam",address: "Koilsagar Dam is located at Koilsagar Village of Deverakadra Mandal in Mahabubnagar District,509301", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSAad3bbJXv2m0kOEaOii9hq-AN3cuGIr_Hsw&s",description: "Beside Koilsagar there is Veerabadhra Temple called KoilKonda. Every year there is a celebration (Jathara) held by nearby villagers." },
+
+        { name: "Sri Ranganayaka Swamy Temple",address: "52XX+FXV, Shri Rangapur, Telangana 509105", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRcSd3HwPeUF_C7pxD7lqSqfpMPUB71gbmK8w&s",description: "Sri RanganayakaSwamyTemple was built during the 18th century A.D." }
+
+      ],
+
+        "Mancherial": [
+
+        { name: "Sri Satyanarayana Swamy Temple Gudem Gutta",address: "Gudem (V), Dandepally (M, Mancherial, Telangana 504215", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTA-Nu0MGH_QYEw3jj4c9tEWhIziqBxTAEwMw&s",description: "It has the famous ‘sri Satyanarayana Swamy Temple’. Lots of pilgrims visit this place during ‘Karthika Masam’ to have a holy dip in Godavari river" },
+
+        { name: "Singareni Thermal Power Plant",address: "RHPF+48X, Pegdapalle, Telangana 504216", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/58/Singareni_Thermal_Power_Plant.jpg/640px-Singareni_Thermal_Power_Plant.jpg",description: "The power plant has an installed capacity of 1200 MW, consisting of two 600 MW units, and is operated by the Singareni Collieries Company." },
+
+        { name: "Gandhari Khilla",address: "XC27+3V2, Bokkalagutta, Gadhpur, Telangana 504207", image: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiagIvbTmxTy-Eq2tZ9J19sFdwJy3kmE6ZKyCcYyzMesfte4i4XqIlTWAVer0ClYuDKh1kGw9N3LTMyzQQBpNPm5jlsBHjXbo-rwAoDl0p6c4dlofPwJXFEmbsLDwPhTqFiqOp-lUHkznM/s1600/Gandhari-Fort.jpg",description: "The fort was built within a thickly forested area which has a wealth of plant species which includes many medicinal herbs." }
+
+      ],
+
+      "Medak": [
+
+        { name: "Pocharam Reservoir Lake",address:"This place is around 16 KM from Medak town", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTbalgDDLu9TeQ-od0z8hbPxuVADi0SFuRtxw&s",description:"It is also known as the Pocharam Dam Reservoir, it was constructed between 1916 and 1922 and straddles the Allair River, a tributary of Manjira River." },
+
+        { name: "Medak Fort",address:"Medak Fort is situated in Medak district and about 100kms from the state capital,Hyderabad", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRM8k-1_qFnqJ-0nu-UIuEz0FyUaO8r8w_Jgw&s",description:"Medak fort has about 500 steps to climb.It may be exhausting while climbing but is achievable. It was built in the 12th century during Kakatiya rule." },
+
+        { name: "Medak Cathedral Church",address:" ", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS18M8KO--B2v9qTbxOP2rxuAxIgF2mokBzXg&s",description:"It was built by Charles Walker Fasnet of British Wesleyan Methodists and consecrated on 25 December 1924. It is the single largest diocese in Asia and the second-largest in the world after the Vatican located in Medak town." }
+
+      ],
+
+      "Medchal-Malkajgiri": [
+
+        { name: "Sri Ramalingeswara Swamy Temple",address:"It is situated at Keesara (V & M) Medchal Malkajgiri Dis",image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtrfge20z60IRXlhH1Rbol3Dqr1eHQ3qvB_w&s",description:"The traditional literature says that LORD RAMACHANDRA visited this place after killing RAVANA and desire to install 101 shivalingams at this sacred place and accordingly directed."},
+
+        { name: "Shamirpet Lake",address:"It is about 24 kilometers north of Secunderabad.", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSx1RpcQlsw6D56L_ZjElHo-S6pvT2fJY9Pxw&s",description:"Shamirpet Lake is an artificial lake near Hyderabad." },
+
+        { name: "Shamirpet Deer Park",address:"Located in Shamirpet, Medchal–Malkajgiri district", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_zHj2Ftp5DQMKrTW_-iJnTqBdGXZU3iEtTQ&s",description:" this park is dedicated to the conservation of deers, you can also find many other animal species and you can also take part in activities like trekking." }
+
+      ],
+
+     "Mulugu": [
+
+        { name: "Ramappa Temple",address:"Located in Palampet village", image: "https://resize.indiatvnews.com/en/resize/newbucket/1200_-/2021/07/e7jspzdveaydmp6-1627304262.jpg",description:"Ramappa Temple,also known as the Rudreshwara temple, is a Kakatiya style Hindu temple dedicated to the Hindu god Shiva" },
+
+        { name: "Laknavaram Lake", address:"It in Govindaraopet mandal", image: "https://www.laknavaram.co.in/pic/flexslider/1.jpg",description:"It is built by the Kakatiya dynasty in 13th century"},
+
+        { name: "Medaram",address:"Medaram Village", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBkpAgKYhO49mOolqnaUz-rofAKjgzidOxLw&s",description:" A popular religious festival called Sammakka Sarakka Jatara takes place biennially in this village" }
+
+      ],
+
+        "Hanamkonda": [
+
+        { name: "Thousand Pillar Temple",address:"2H3F+FVF, Hyderabad - Warangal Hwy, Raganna Darwaja, Rd, Brahmanawada,Hanamkonda", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/1000pillar_temple_warangal.jpg/1200px-1000pillar_temple_warangal.jpg",description: "It was built in 12th century by the Kakatiya King Rudra Deva. Dedicated primarily to Lord Shiva, this temple is also known by the name of Sri Rudreshwara Swamy Temple." },
+
+       { name: "Bhadrakali Tank Bund",address:"Hunter Road, Dwaraka Nagar, Shyampet, Warangal", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTpJEo4x-V8T5TYxWBr-j3TxKdkakEgaHb6zw&s",description: "Bhadrakali Lake is a lake built by Ganapati of Kakatiya dynasty. The lake is situated near the famous Bhadrakali Temple." },
+
+        { name: "Kakatiya Zoo Park",address: "XHV6+FJ2, Hunter Rd, Postal Colony, Meerpet, Hanamkonda", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ8mrfn89u-ONUKt-1MFDm2o2Xs80kCNyBZlQ&s",description: "Kakatiya Zoological Park (also known as Warangal Vana Vignana Kendram or Warangal Zoo) is a zoo situated in Hanamakonda" }
+
+      ],
+
+         "Warangal": [
+
+        { name: "Bhadrakali Temple",address: "Warangal MGM Road, beside Govt Diploma Clg",image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRYWIutvTHJcW2Rw39BjeRqReUhJ3wqkE3dg&s",description: "Bhadrakali Temple is believed to be built in 625 A.D by the King Pulakeshin II of Chalukya dynasty to commemorate his victory over Vengi region of Andhra Desham, as per the writings on the temple wall. Kakatiya kings later have adopted the temple and considered Goddess Bhadrakali as their “Kula Devatha”." },
+
+        { name: "Warangal Fort",address: "Mathwada, Warangal, Telangana 506001",image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQij1O_ai6epK2fncLadUrHZizrRzwDnolmZw&s",description: "Warangal Fort is located in Warangal District, Telangana, India. It was the capital city of Kakatiya dynasty and the Musunuri Nayakas." },
+
+        { name: "Pakhal Lake",address: "Pakhal Lake is located on Narsampet-Warangal division, around 50 km away from Warangal city. It is around 12 km from Narsampet, a taluk headquarter.",image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTjUfAXIBhOg3B--sPSKu1UBzR9R2kq2Xc0Jg&s",description: "The lake constructed around 1213 A.D. by Kakatiyan Ruler, Ganapatideva is spread over an area of 30 km2., provides a beautiful site" }
+
+      ],
+
+"Siddipet": [
+
+        { name: "Komati Cheruvu",address: "Komati Cheruvu, Siddipet, Telangana", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpVLyLVFbI4QRKfvB0uOMUXhyScdtpRvL0Ig&s",description:"In addition to being a spot for relaxation and exercise, Komati Cheruvu acts as an important water resource for the region, aiding in irrigation and supporting local biodiversity." },
+
+        { name: "Glow Garden",address:"3RWQ+MWJ, Siddipet, Telangana", image: "https://lh5.googleusercontent.com/p/AF1QipONHIdg3I3f8V9mRnL7D3gP8LdjK2egBddX474r=s296-w296-h168-n-k-no-v1",description: "The Siddipet Municipality has built a  Glow Garden on the tank bund and a musical  fountain in the center of the tank as part of its efforts to make Komati Cheruvu more attractive." },
+
+        { name: "Oxygen Park",address: "2VRF+6J5, Hyd - KNR Highway, Nacharpalle, Siddipet, Telangana", image: "https://pbs.twimg.com/media/Es1PYaxU4AE2nT7.jpg:large",description: "Bringing world-class education to Qatar's doorstep. Education. Triggering transformative change through research and innovation. Research. Empowering ."}
+
+      ],
+
+       "Suryapet": [
+
+        { name: "Nuthankal Waterfalls",address: "8M6M+GW3, Mukkudeudevi Palle, Telangana", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTCsIHoXcVMhUJio_6WyWstJn5KR3zmpVlVlQ&s",description: "Nuthankal Waterfalls offers a unique blend of learning, entertainment, and inspiration." },
+
+        { name: "Raju Gari Kota",address: "3VR9+8MP, Nadigudem, Telangana", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRswwKnZmr1zC6ScrBIMqatrVVzOCrCvhJKA&s",description: "Raju Gari Kota offers a unique blend of learning, entertainment, and inspiration." },
+
+        { name: "Nagarjuna Sagar Dam",address: "Palnadu district, Andhra Pradesh & Nalgonda district, Telangana", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcST0QBaLrLWy3C7YapTp0550iBxafqLgptDFA&s",description: "Nagarjuna Sagar Dam is a masonry dam across the Krishna River at Nagarjuna Sagar which straddles the border between Palnadu district in Andhra Pradesh and Nalgonda district." }
+
+      ],
+
+      "Vikarabad": [
+
+        { name: "Anantagiri Hills",address: "Vikarabad Ananthagiri Hills is located at Vikarabad, Ranga Reddy district", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRo_3eTz1zRD8kgERkm74qcwMl8R3exaP3x2A&s",description: "The spectacular view is combined with the clouds over the valley, as the climb reaches Telangana." },
+
+        { name: "Sri Anantha Padmanabha Swamy Devasthanam",address: "8V57+X44, Ananthagiri Road, Vikarabad, Burgupally", image: "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/11/d5/12/d2/pic20.jpg?w=1200&h=-1&s=1",description: "It is a temple of Lord Vishnu. The Head priest of this temple is Sri Nalapur Sitaram Chary. According to Skanda Purana, it is believed the temple is installed by the Rishi Markandeya in Dwapara Yuga." },
+
+        { name: "Kotpally Reservoir",address: "zflpd8, Ranga Reddy Telangana, Dharur, Vikarabad District", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNq8RY3iLrNqkdcrCeN63lQtiLQ7xdFukAjQ&s",description: "Kotepally reservoir is located in Vikarabad district of Telangana at a distance of 20 Kms from Ananthagiri Hills. The Kotepally Reservoir offers opportunities to go canoeing, kayaking, and boating for very low prices. " }
+
+      ],
+
+      "Nagarkurnool": [
+
+        { name: "Srisailam Dam",address: "Sri Sailam, Nandyal district, Andhra Pradesh, India Domalapenta, Nagarkurnool district, Telangana, India", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/NSRS_Srisailam_Dam.jpg/1200px-NSRS_Srisailam_Dam.jpg",description: "The dam was constructed in a deep gorge in the Nallamala Hills in between Nandyal and Nagarkurnool districts, 300 m (980 ft) above sea level. It is 512 m (1,680 ft) long, 145 metres (476 ft) maximum height and has 12 radial crest gates" },
+
+        { name: "Mallela Theertham",address: "Achampet,Nagarkurnool,509209", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRME1fC_lKP2v-muiiUme11P34u78NcBwruXA&s",description: "The waterfall runs down with all its energy, making its own path and breaking free from the heart of a dense forest. The amazing sight calls for attention, because you just can’t miss looking at heaven. The fall is directed on small Shivling, and the height of the waterfall is about 150 feet." },
+
+        { name: "UmaMaheshwaram Temple",address: "Temple is located in a picturesque Nallamala forest range near Mannanur Village, Amrabad Mandal.", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTL8C5r0PzkjcJq8VMo_HOJ-j846pcAX6kBOQ&s",description: " The temple dates back to 2nd century and belongs to the reign of Maurya Chandragupta. The temple houses a Shivalinga, which has two colours – white on one side and red on the other. " }
+
+      ],
+
+      "Nalgonda": [
+
+        { name: "Nagarjuna Sagar Dam",address: "Palnadu district, Andhra Pradesh & Nalgonda district, Telangana", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/NagarjunaSagarDam.JPG/1200px-NagarjunaSagarDam.JPG",description: "The Nizam made the British engineers begin the survey work for this dam across the Krishna River in the year 1903.The project's construction was officially inaugurated by Prime Minister Jawaharlal Nehru on 10 December 1955 and proceeded for the next twelve years." },
+
+        { name: "Kunda Satyanarayana Kala Dhamam - Mythological Museum",address: "Nalgonda,508001,Telangana", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTabezKGogncOaTiArecLD0JyFhZdRsKN1Xdw&s",description: "It is basically a mythological theme park. There are huge statues of different mythological characters and depictions of many stories from Mahabharata and Ramayana. The statues and not exactly life like and seem a bit garish or gaudy, but the concept is good. You can take children there as they get quite fascinated by the stories and concepts, and also, they can know about the important events from the epics" },
+
+        { name: "Chaya Someshwaralayam",address: " 37GW+X3Q, Nalgonda, Telangana 508004", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQjE2gt0qWnA-0qmrZJXY0zL2rOzEcxnEGBuw&s",description: "It was built around the mid 11th-century during the rule of the Kunduru Chodas (a branch of Telugu Cholas), supported and embellished further by later Hindu dynasties of Telangana. Some date it to late 11th to early 12th-century." }
+
+      ],
+
+     "Narayanpet": [
+
+        { name: "Akr Forest View",address: "Uddandapur, Mahabubnagar - 509001", image: "https://content.jdmagicbox.com/comp/yadgir/q8/9999p8473.8473.180414103817.f4q8/catalogue/malla-falls-gurmitkal-yadgir-tourist-attraction-ccamynv3Kl.jpg",description: "It attract many torist with eye catching view of Akr Forest. " },
+
+        { name: "Kuntala Waterfall",address: "8M75+87W, Pedda Amberpet, Telangana 501505", image: "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0c/8d/82/2d/main-stream.jpg?w=1200&h=-1&s=1",description: "Kuntala Waterfall, located in the heart of the Sahyadri mountain range, is one of the most beautiful places in Narayanpet. It is said to be the highest waterfall in Telangana, and the cascading water falling from such a great height is breathtaking." },
+
+        { name: "Markendeya Swamy Temple",address: "QF2W+V9C, Narayanpet Rd, Narayanpet, Telangana 509210", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYjxKxwWSgR9N0NCnPjazPEcRRNLlmXQ6_eQ&s",description: "The Lord Sri Padamati Anjenaya Swamy temple is situated at the city called “Makthal”, the city that lies near Krishna river doab." }
+
+      ], 
+
+  "Nirmal": [
+
+    {name: "Shyam Ghad Fort",address: "38HW+5R4, NH 44, Nirmal, Telangana",image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSzCiMYn99CZo4NV3Ehxx5OzvmdJpnhikdPqg&s",description: "According to the history of Nirmal town, the fort was built as part of a defense mechanism by French engineers, who were employed by Nizam II who ruled over this region in 1747."},
+
+    {name: "Kadam Project",address: "kadem, Nirmal District, Telangana",image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTb16N6Awq-voNUnfJDRwBQcmyP4TrkDpaX9A&s",description: "The Kadem Project also called Kadem Adi Narayan Reddy Project is a reservoir on the river Kadem, a tributary river of Godavari near Kademm Mandal, Nirmal District, Telangana. This project covers localized ayacut under Nirmal and Mancherial Districts."
+
+    },
+
+    {name: "Nirmal Ghat Waterfalls",address: "59V6+2GQ, Nirmal Rd, Bagirathipur, Telangana 504323",image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTCBEc0o5qAP0lz1hcT0s8BeCuzuzK6uHFgXQ&s",description: "It has an eye-catching view. People of different ages can enjoy here."
+
+    }
+
+  ],
+
+  "Nizamabad": [
+
+    { name: "Nizamsagar Dam",address: "6W3F+2CP, Nizam Sagar dam 2, Achampet, Telangana",image: "https://media-cdn.tripadvisor.com/media/photo-s/03/bc/bc/d7/nizam-sagar-dam.jpg",description: "The Nizamsagar dam was built in 1923 by Mir Osman Ali Khan, the then ruler of the royal Hyderabad."},
+
+    {name: "Pocharam Wildlife Sanctuary",address: "15 km from Medak and around 115 km from Hyderabad",image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_mJ8SqASIKFwhPRHXnXsQAyDsq9Xi51ywxg&s",
+
+      description: "The place is an ideal spot for eco-tourism where visitors can enjoy spotting five species of Antelopes and Deer."},
+
+    {name: "Mallaram Forest",address: "Mallaram forest is situated at a distance of 8 kilometers to the south-west of Nizamabad town",image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZnx8TXOOiJN_SoUDZz2wPTMrHjCMbdBhDOw&s",description: "According to geologists, the famous mushroom-shaped rock at Mallaram forest dates back 2000 million years ago which also has a rock pedestal that strikingly resembles the upper portion of a mushroom."
+
+    },
+
+    { name: "Neelakanteshwara Temple", address: "Kanteshwar, Nizamabad, Telangana 503002",image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6eUwKvtX3JF2kGcjP_QF6Sx6ap1bw2ZQlwQ&s",description: "This temple is famous for its stunning architecture. The deity Lord Shiva gains the name of Neelakanteshwara due to the presence of a blue throat. It is about 500 years old temple and attracts a large number of devotees."
+
+    }
+
+  ],
+
+    "Peddapalli": [
+
+        { name: "Ramagir Fort",address: "HHH2+VV8, Manthani-Peddapalli Road", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSc_hMUOkGkKPV3xG38mx36LQ8-fLcewJs5Fg&s",description: "The Ramagiri Fort, also known as Ramagiri Khilla, located over a mountain top, is in the Peddapalli district of the Indian state of Telangana." },
+
+        { name: "Buddhist Stupa Dhulikatta",address: "J75C+RQ3, Vadkapur, Peddapalli", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-ZImJL115lpM1-_o5eEmupzspKuuajYq3QQ&s",description: "The Stupa consists of lower pradakshana patha, circular drum with ayaka platforms on four cardinal directions i.e. on east, west, north and south and a dome." },
+
+        { name: "Sbitham Waterfall",address:"JFC8+64P, Sabhitham Water Falls Rd, Gattusingaram", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRiSN5WJVYW1cvOIMP5qaSabCcRvj-bpSyH_g&s",description: "Located in a thick forest and surrounded by hillocks, the waterfall in the Sabhitam village in Peddapalli mandal is drawing huge crowds this monsoon season." }
+
+      ],
+
+      "Rajanna Sircilla": [
+
+        { name: "Vemulawada Temple",address: "Rajanna, 7/8/61, Gandhi Nagar, Gandi Nagar, Sircilla, Vemulawada", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQncKSeRp_pFJAyYAQK1zgwvozSNNwwTDzXpg&s",description: "The temple is thronged by thousands of devotees during festivals especially Shivarathri and other auspicious occasions. Rock cut inscriptions found in and around Vemulawada Temple establish the historical importance of this place which was the capital of the Vemulawada Chalukyas ,from 750 AD to 973AD." },
+
+        { name: "Nampally Gutta",address: "Lakshmi Narsimha Gardens&Function Hall, SH 11, Anupuram New, Nampalli", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4kQT9PXUa_TXkfLqp0JxnG706KXv_DYuFeA&s",description: "It is a small shrine dedicated to Lord Lakshmi Narasimha, an incarnation of Lord Vishnu." },
+
+        { name: "Singa Samudram Cheruvu",address: "Ghambiraopet mandal,Rajanna Sircilla", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQfo6O-KD8dY1ywwl-Syv-2ku3HAdXv_ziKsg&s",description: "Singa Samudram Cheruvu in Rajanna Sircilla district is one of the rarest tanks in Telangana.Visitors are flocking in large numbers to see this beauty." }
+
+      ],
+
+      "Rangareddy": [
+
+        { name: "Ocean Park",address: "Osman Sagar Rd, near CHAITANYA BHARATHI INSTITUTE OF TECHNOLOGY, Kokapet, Gandipet, Hyderabad", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRpM0WXGy6v8txREaxiTRj43J58YBGC0blVsQ&s",description: "Ocean Park is a lot of water with pots of fun for everyone and is one of the best amusement parks in India. Ocean Park, occupying 15 acres of beautifully landscaped gardens is located at Gandipet,"},
+
+        { name: "Chilkur Balaji Temple",address: "Chilkur Balaji Temple Rd, Chilkur Village, Hyderabad", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRiAlU_G1v2PrFQMRvZTHjgUXwWK7x8CeQ8wA&s",description: "The temple is one of the oldest in Telengana, having been built during the time of Akkanna and Madanna, the uncles of Bhakta Ramdas." },
+
+        { name: "Mrugavani National Park",address: "983P+J34, Moinabad, Ranga Reddy District, Chilkoor", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZKCNR-2GKIze97Ly2l5oQeHpu_570T_uqAA&s",description: "It was declared as a National Park in 1994." }
+
+      ],
+
+      "Sangareddy": [
+
+        { name: "Singoor Project",address: "project located in Singooru village near Sangareddy district", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQGbJpVqwjk1ssjdQMoC1JzlGaGOuc4M2Gebg&s",description: "The Singur Dam is a reservoir built for hydroelectric and irrigational purposes. It also serves as a source of drinking water for Hyderabad." },
+
+        { name: "Archaeological Museum",address: "G2X4+W88, Unnamed Road, Haridaspur", image: "https://www.shutterstock.com/image-photo/telangana-india-18-may-2019-260nw-1400752955.jpg",description: "Initially identified by Archaeologist Mr. Henry Cousens in the early part of the 19th century, it later passed on to the Archeological Department of the then Nizam of Hyderabad who carried on a series of excavations through 1940-41" },
+
+        { name: "Gottam Gutta Waterfalls",address: "Located at a distance of 25 Kms from Zaheerabad and 7 KMs from Chandrapall", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_CQcTyESmcSHZBCLT7E76xxaY4yPiRUHLrQ&s",description: "it looks green and beautiful. The mind is captivated by the pleasures of nature. The journey through the jungle is thrilling at every step." }
+
+      ],
+
+     
+
+      "Wanaparthy": [
+
+    {"name": "Wanaparthy Palace",address: "At a distance of 1 km from Wanaparthy Bus Station, Wanaparthy",image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQyRT4WvE9yxk_lmwZv4l9aAX1Y3wGH5aaFLg&s",description: "It was built by Wanaparthy Rajas in the 19th century. Wanaparthy was one of the important princely regions under the Hyderabad Nizams. The Palace is named as Mustafa Mahal after a Muslim saint."},
+
+    {"name": "Ghanpur Fort",address: "Ghanpur Fort is located near Khilla Ghanpur village in the Mahabubnagar district, Wanaparthy, 509103",image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3oDy7-Y4bdCVNvMybtp40b7uCDN7rMVg7CA&s",description: "The Ghanpur Fort is a hill fort built on a rocky hill by King Gona Ganapa Reddy in the early 13th century. He ruled this area as a feudatory to Kakatiya rulers."
+
+    },
+
+    {"name": "Sri Ranganayaka Temple",address: "52XX+FXV, Shri Rangapur, Telangana","image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTa3Pjcqp6MTZV79PtflZsellGfxwwfbp7xeQ&s",
+
+      description:"Ranganayaka Swamy Temple was built during the 18th century A.D. According to legend, Krishnadevaraya, the Vijayanagar ruler, went to Srirangam and was enthralled by the Sri Ranganayakaswamy Temple there."
+
+    }
+
+        ],
+
+  "Yadadri-Bhuvanagiri": [
+
+    {name: "YadagiriGutta Temple",address: "Yadadri Temple Ghat Rd, Gandhi Nagar, Yadagirigutta, Telangana",image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQx8ICWQ7LCdDopdlcDifZVJsj52SEByGVNRw&s",description: "There the sage worshiped the Lord for many years. After Yadarishi attained moksha, a number of tribals, hearing of the Lord's presence, came to worship Him at this temple. But, not being very learned, these devotees began to engage in improper worship. Because of this, Sri LakshmiNarasimha moved into the hills."},
+
+    {name: "Bhongir Fort",address: "Bhuvanagiri, Yadadri Bhuvanagiri District",image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTZqjF_PnF6-3Xoy737x1dc2bpRq37BdcGs3A&s",
+
+      description: "Bhuvanagiri Fort, also known as Bhongir Fort, has a rich history dating back to the 10th century. The fort was built in 973 CE by the Western Chalukya ruler Tribhuvanamalla Vikramaditya VI. The town of Bhuvanagiri (Bhongir) derives its name from him."},
+
+    {name: "Surendrapuri",address: "Yadadri Road, Near Yadadri Temple, Yadadri Bhuvanagiri District, Telangana",image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSv2Tu63DrWLgXJ8IN6xpsioaxo7Ite1Hq3Hw&s",description: "Surendrapuri, also known as the Kunda Satyanarayana Kaladhamam, is a unique mythological theme park and museum."}
+
+  ]
+
+ };
+
+    if (district && districts[district]) {
+
+      districtNameElement.textContent = district;
+
+      districts[district].forEach(attraction => {
+
+        const attractionItem = document.createElement('div');
+
+        attractionItem.className = 'attraction-item';
+
+        attractionItem.innerHTML = `
+
+          <img src="${attraction.image}" alt="${attraction.name}">
+
+          <div>
+
+            <h3>${attraction.name}</h3>
+
+            <p><strong>Address:</strong> ${attraction.address}</p>
+
+            <p class="description">${attraction.description}</p>
+
+          </div>
+
+        `;
+
+        placesContainer.appendChild(attractionItem);
+
+      });
+
+    } else {
+
+      districtNameElement.textContent = 'No attractions found';
+
+    }
+
+  </script>
+
+</body>
+
+</html>

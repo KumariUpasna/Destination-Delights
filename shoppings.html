@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>State places</title>
+
+  <style>
+
+    /* CSS styles */
+
+    body {
+
+      font-family: Arial, sans-serif;
+
+      margin: 0;
+
+      padding: 0;
+      font-size:25px;
+      background-color: #d9b2b2;
+
+    }
+
+    header, footer {
+
+      background-color: #333;
+
+      color: #fff;
+
+      text-align: center;
+
+      padding: 1rem 0;
+
+    }
+
+    main {
+
+      padding: 2rem;
+
+    }
+
+    .mall-item {
+
+      display: flex;
+
+      align-items: center;
+
+      margin-bottom: 1rem;
+
+      background-color: #fff;
+
+      padding: 1rem;
+
+      border-radius: 8px;
+
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+    }
+
+    .mall-item img {
+
+      max-width: 500px;
+
+      height: 400px;
+
+      margin-right: 1rem;
+
+      border-radius: 4px;
+
+    }
+
+    .description {
+
+      margin-top: 0.5rem;
+
+      font-style: italic;
+      font-size:24px;
+
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+  <header>
+
+    <h1 id="district-name"></h1>
+
+    <h2>Malls</h2>
+
+  </header>
+
+  <main>
+
+    <div id="mall-container">
+
+      <!-- Malls will be dynamically inserted here -->
+
+    </div>
+
+  </main>
+
+  <script>
+
+    // Data for malls grouped by district
+
+    const malls = {
+
+      "Adilabad": [
+
+        { name: "Shri Varasiddhi Shopping Mall", image: "https://i.ytimg.com/vi/Dr_Ci6djdUA/mqdefault.jpg", address: "Cinema Rd, Bhuktapur, Adilabad, Telangana 504001" },
+
+        { name: "ACN Shopping Mall", image: "https://lh5.googleusercontent.com/p/AF1QipO2V92t_Mtx0NXyy7I3Lo4RrkgxQmzuzQkxpTX0=w480-h300-k-n-rw", address: "MGCM+X6M, Cinema Rd, near HDFC Bank, Mahalaxmiwada, Adilabad, Bhuktapur, Telangana 504001" },
+
+        { name: "HUSSAIN SHOPPING MALL", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9SeQav5ZkNjXUAWm2kTzkTH02V2XsCCs-YA&s", address: "Kumarpet, Mahalaxmiwada, Adilabad, Telangana 504001" }
+
+      ],
+
+      "Bhadradri Kothagudem": [
+
+        { name: "CMR Shopping Mall", image: "https://images.picxy.com/cache/2018/7/19/902414bfba6d10cd0d0beb6d964f442f.jpg", address: "4-1-2, 4-1-3, Vidyanagar Colony, Sri Ramanjaneya Nagar Colony, Kothagudem, Telangana 507101" },
+
+        { name: "GV Mall", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-CXuWQdPNs9-XoIVYVuf-IgMiOvN93LxKag&s", address: "GJQ8+896, 3-1-238/3/1 skt towers, Vidyanagar Colony Rd, Sri Ramanjaneya Nagar Colony, Kothagudem, Telangana 507101" },
+
+        { name: "Sumangali Shopping Mall", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYUwYRBtRKieES7U8_NIx3tBqQIGzJrXQfIQ&s", address: "M G Rd, Coolie Lane, Hanuman Basthi, Kothagudem, Telangana 507101" }
+
+      ],
+
+      "Hyderabad": [
+
+        { name: "GVK One Mall", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUVgovAnAzlS9hRR4PehHATwhebZilZWreHw&s", address: "Banjara Hills Rd Number 1, Balapur Basthi, Banjara Hills, Hyderabad, Telangana 500034" },
+
+        { name: "City Center Mall", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTbhyVCtjqQBzh0QHP7y8ce6MMqr_yDi-p-jw&s", address: "CITY CENTER, 8-2-592, Rd Number 1, Banjara Hills, Hyderabad, Telangana 500034" },
+
+        { name: "Next Galleria Mall", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSKPyQxtpBN4zQeBvwJ5HQrbzZJ9ZrlF9S-OA&s", address: "Punjagutta Rd, Irram Manzil Colony, Punjagutta, Hyderabad, Telangana 500082" }
+
+      ],
+
+      "Jagtial": [
+
+        { name: "LVR Shopping Mall", image: "https://lh5.googleusercontent.com/p/AF1QipOc29AARqEYwKUI-Bk9V6dVKwdCYRqz3bszDMhd=w426-h240-k-no", address: "2-4-275 Tower Raod Rambazar, Jagtial, Telangana 505327" },
+
+        { name: "Trends", image: "https://content.jdmagicbox.com/comp/hyderabad/b8/040pxx40.xx40.190607130958.y1b8/catalogue/trends-women-hyderabad-19uqcaflcn.jpg", address: "Govindpalli, Jagtial, Telangana 505327" },
+
+        { name: "Anand Shopping Mall", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSzbcNN6NLWmbY5eURF7FKZ3EhwdfWnfrAyVw&s", address: "mochibazar, Market Rd, Puranipet, Jagtial, Telangana 505327" }
+
+      ],
+
+      "Jangaon": [
+
+        { name: "Huzur Shopping Mall", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRAiTDb_bSlXq3Y4tYfFfdx85YHKKJtbEdcoA&s", address: "4-47, Aravind Nagar, Jangaon, Telangana 506167" },
+
+        { name: "Chandana Brothers Shopping Mall", image: "https://content.jdmagicbox.com/comp/hyderabad/35/040p8901935/catalogue/chandana-brothers-kukatpally-hyderabad-baby-readymade-garment-retailers-q2o6gp4cqo.jpg", address: "Ganesh Nagar, Jangaon, Telangana 506167" },
+
+        { name: "Balu Shoe Mart", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-Vl5ky6Ya_N-7vZEGhbf99pGeRO7jGzRnRQ&s", address: "4-6-150 Near Bustand Beside Syndicate Bank, Ganesh Nagar, Jangaon, Telangana 506167" }
+
+      ],
+
+      "Jayashankar Bhupalpally": [
+
+        { name: "Mundrathi Brothers Shopping Mall", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRa8W64v53Q7lFCVhZTTFRjOnX6EGiPKH0xlA&s", address: "Mundrathi Complex, Bhupalpally, Main Road, Bhupalpally, Bhupalapalli, Warangal - 506169 (Near Anand Cinema)" },
+
+        { name: "Shree Sai Krishna Mall", image: "https://content.jdmagicbox.com/comp/hyderabad/g1/040pxx40.xx40.151012190104.e2g1/catalogue/sri-krishna-silks-kphb-colony-hyderabad-readymade-garment-retailers-2wzjvge9dr.jpg", address: "CVQ9+22W, Bhupalpally Main Rd, Subash Colony, Bhupalpally, Telangana 506169" },
+
+        { name: "Big c Shopping Mall", image: "https://lh3.googleusercontent.com/p/AF1QipO8jfxvmo1dt31PRoevGJ4TDYkPvkxpWwtAicmL=s1360-w1360-h1020", address: "Subash Colony, Bhupalpally, Telangana 506169" }
+
+      ],
+
+      "Jogulamba Gadwal": [
+
+        { name: "Sai Nana Shopping Mall", image: "https://content3.jdmagicbox.com/comp/warangal/m7/9999px870.x870.190917123355.y1m7/catalogue/kasam-shopping-mall-warangal-1jjm52jucq.jpg", address: "Shop Number 17, Market Road, Gadwal Ho, Gadwal - 509125 (Opposite Binni Show Room)" },
+
+        { name: "Krishna Shopping Mall", image: "https://content.jdmagicbox.com/comp/vizianagaram/k7/9999p8922.8922.190617213303.j5k7/catalogue/krishna-stores-vizianagaram-9i3o382gs7.jpg", address: "Raichur Rd, Ganjipeta, Gadwal, Telangana 509125" },
+
+        { name: "Sri Venkateshwara ", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRy33Fl6w0QuRn9mk2fUVSGHATV6O4EXICD2Q&s", address: "H.no 31-1-42, Sangala Thikanna Complex, KrishnaReddy Banglow, Gadwal HO, Gadwal - 509125 (Near Krishna Reddy Baglow)" }
+
+      ],
+
+"Kamareddy": [
+
+ 
+
+        { name: "AYYAPPA Shopping Mall", image: "https://content.jdmagicbox.com/comp/kamareddy/y1/9999p8468.8468.140420193748.z9y1/catalogue/ayyappa-shopping-mall-kamareddy-ho-kamareddy-u90q8bbfcx.jpg",address:" Tilak Rd, Padmajiwadi X Road, Kamareddy, Telangana 503111" },
+
+ 
+
+        { name: "Kisan fashion Mall", image: "https://lh3.googleusercontent.com/p/AF1QipOSCfwxQksmi_Lm3ErLrxhttc_ZgQ15Bc0ozhqS=s1360-w1360-h1020",address:"Nizam Sagar, X Road, Kamareddy, Telangana 503111" },
+
+ 
+
+        { name: "Sri LVR Shopping Mall", image: "https://images.jdmagicbox.com/comp/nizamabad/s3/9999p8462.8462.171123210600.a2s3/catalogue/sri-lvr-shopping-mall-nizamabad-malls-3jzketx7qr-250.jpg" ,address:"Bharat petroleum pump, nizamsagar cross roads, Kamareddy, Telangana 503111"}
+
+ 
+
+      ],
+
+ 
+
+      "Karimnagar": [
+
+ 
+
+        { name: "Mangalya Shopping Mall", image: "https://lh3.googleusercontent.com/p/AF1QipPqslkya9QlFzXol1nTzByy2eiAEL7S2ibK4JNm=s1360-w1360-h1020",address:" C4MM+XCC, Bunder Rd, Osmanpura, Sai Nagar, Karimnagar, Telangana 505001" },
+
+ 
+
+        { name: "Ambekar Shopping Mall", image: "https://content.jdmagicbox.com/comp/karimnagar/g2/9999px878.x878.190331034101.x3g2/catalogue/ambekar-fashion-mall-karimnagar-jogsiqh3jk.jpg",address:"Door No : 4-1-206, Tower Road, Tower Circle, Karimnagar - 505001 (Near By North Side Tower)" },
+
+ 
+
+        { name: "Srivani Shopping Mall", image: "https://content.jdmagicbox.com/comp/karimnagar/y7/9999px878.x878.190118182812.v8y7/catalogue/srivani-matching-dress-material-karimnagar-h8jzpfwpua.jpg",address:"Telephone Bhavan Road, Karimnagar City, Karimnagar - 505001 (Near Rajiv Chowrastha)" }
+
+ 
+
+      ],
+
+"Khammam": [
+
+ 
+
+        { name: "Trends Shopping Mall", image: "https://content.jdmagicbox.com/comp/khammam/f4/9999p8742.8742.180119153051.p1f4/catalogue/trends-kaviraj-nagar-khammam-online-websites-yudfre7xbp.jpg" ,address:"Town & Municipality, Reliance Trends H.Nos.9-7-48 to 9-7, 51, Kaman Bazar Rd, Khammam, Telangana 507001"},
+
+ 
+
+        { name: "G V Shopping Mall", image: "https://hblimg.mmtcdn.com/content/hubble/img/ttd_images/mmt/activities/m_Khammam_Gv_mall_3_p_456_449.jpg" ,address:"9-6-30/5, Kasba Bazar, Braman Bazar, Nizampet, Khammam, Telangana 507001"},
+
+ 
+
+        { name: "Reliance Shopping Mall", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS09TAZ9P4It48fTdZvNIy3WGLmasaecjyIJQ&s",address:"Balaji Nagar, Khammam, Telangana 507001" }
+
+ 
+
+      ],
+
+ 
+
+      "Kumuram Bheem Asifabad": [
+
+ 
+
+        { name: "Friends wear", image: "https://lh5.googleusercontent.com/p/AF1QipOSwjcaGLVXqcUmwFYsiw_Buq-rbn2Ici-vX-uA=w346-h160-k-no" ,address:"Mancherial - Chandrapur - Nagpur Rd, Asifabad, Telangana 504293"},
+
+ 
+
+        { name: "Nirmala Textiles and jewellers", image: "https://lh3.googleusercontent.com/p/AF1QipOjqU6walg1YI_K-wx3Uc21mZ7u58P7vlXwYqGZ=s1360-w1360-h1020",address:"Jain Mandir Rd, near shivkeshav temple, Asifabad, Telangana 504293" },
+
+ 
+
+        { name: "Trends Shopping Mall", image: "https://lh5.googleusercontent.com/p/AF1QipOMsrt7K5B2BkvJCYtokSUtxpOAQuyK_UvdrQJa=w213-h160-k-no",address:"Sy No 189 ,Komaram Bheem Chowk, opposite komaram Bheem, Chowk, Asifabad, Telangana 504293" }
+
+ 
+
+      ],
+
+ 
+
+      "Mahabubabad": [
+
+ 
+
+        { name: "Madhu Shopping Mall", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTX9VqY8JneW90m04krn-DFMrVN1qo1zSrAkA&s" ,address:"Mahabubabad, Mahaboobabad Kesamudram Road, Mahabubabad, Mahbubabad - 506101"},
+
+ 
+
+        { name: "MV Shopping Mall", image: "https://lh3.googleusercontent.com/p/AF1QipOjCIwUF_NLyp8zz_V8NGwmVdSNz1kOcrz20d2g=s1360-w1360-h1020",address:"H2X2+8Q6, Bus Stand Rd, Mahabubabad, Telangana 506101" },
+
+ 
+
+        { name: "Venkateshwara Shopping Mall", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7VN9L0g9Cr5oGZDuiMQ8JteDP6zPkQNp5Jg&s",address:"Mahabubabad - Thorrur Rd, Mahabubabad, Telangana 506101" }
+
+ 
+
+      ],
+
+    "Mahbubnagar": [
+
+ 
+
+     {
+
+ 
+
+    name: "D Mart Shopping Mall",
+
+ 
+
+    image: "https://content.jdmagicbox.com/comp/hyderabad/q3/040pxx40.xx40.191120194819.l9q3/catalogue/d-mart-vanasthalipuram-hyderabad-supermarkets-pk8azhjvbd.jpg",
+
+ 
+
+    address: "Bugga Reddy Garden, Shadnagar, Mahabubnagar - 509216"
+
+ 
+
+      },
+
+ 
+
+    {
+
+ 
+
+    name: "Shadnagar mall and complex",
+
+ 
+
+    image: "https://content.jdmagicbox.com/comp/mahabubnagar/p9/9999p8542.8542.230518152635.p2p9/catalogue/shadnagar-mall-and-multiplex-shadnagar-mahabubnagar-malls-spx4x1ur1g.jpg",
+
+ 
+
+    address: "Eshwar Colony, Shadnagar, Mahabubnagar - 509216"
+
+ 
+
+      },
+
+ 
+
+    {
+
+ 
+
+    name: "Reliance Trends",
+
+ 
+
+    image: "https://content.jdmagicbox.com/comp/mahabubnagar/i8/9999p8542.8542.190928153628.b4i8/catalogue/reliance-trends-mahabubnagar-0a6szbjbx1.jpg",
+
+ 
+
+    address: "House No 8-6-27/B/1, Padmavathi Colony, Mahabubnagar - 509001"
+
+ 
+
+     }
+
+ 
+
+],
+
+ 
+
+       "Mancherial": [
+
+ 
+
+    {"name": "D-max Shopping Mall","image": "https://content3.jdmagicbox.com/comp/mancherial/z6/9999p8736.8736.190427111506.r9z6/catalogue/kids-shopping-mall-mancherial-readymade-garment-retailers-vqer9kh977.jpg","address": "No 192, Gr & 1st Flr, City Centre Mall, Luxtpet Road, opposite Vysya Bhavan, Mancherial, Telangana 504208"},
+
+ 
+
+    { "name": "Vishal mega mart","image": "https://content.jdmagicbox.com/comp/mancherial/p3/9999p8736.8736.200116114524.q9p3/catalogue/vishal-mega-mart-main-road-mancherial-departmental-stores-hm4dzmae00.jpg","address": "Main Rd, opp. Hi Tech Colony, Maruthi Nagar, Mancherial, Telangana 504208"},
+
+ 
+
+    { "name": "Ameya Shopping Mall","image": "https://content.jdmagicbox.com/comp/mancherial/g2/9999p8736.8736.170811123119.d6g2/catalogue/ameya-shopping-mall-mancherial-9vaucvmrnu.jpg","address": "Market Road, Mancherial HO, Mancherial - 504208"}
+
+ 
+
+  ],
+
+ 
+
+      "Medak": [
+
+ 
+
+        { name: "Sri sai subhamasthu  Shopping Mall", image: "https://lh3.googleusercontent.com/p/AF1QipNxPWv1LCj0fdrJwhrVND0LshSZfwXOzz4j1JMu=s1360-w1360-h1020",address:"Basaveswara chowk, beside shubhamasthu shopping mall, Turkapally, Narayankhed (CT), Telangana 502286" },
+
+ 
+
+        { name: "victor Shopping Mall", image: "https://content3.jdmagicbox.com/comp/medak/d4/9999p8452.8452.180206045255.s5d4/catalogue/victor-shopping-mall-krishnapur-zaheerabad-medak-shopping-centres-6pn9vcdog7.jpg",address:" Zahirabad Rural, Zaheerabad, Krishnapur Zaheerabad, Medak - 502246" },
+
+ 
+
+        { name: "Venkateshwara Shopping Complex", image: "https://lh3.googleusercontent.com/p/AF1QipMTkBm2GU0xA42xEeE7PG2N7fffaokTDtznJfyi=s1360-w1360-h1020",address:"NH 9, Medak - 502228 (Subhash Gunj)" }
+
+ 
+
+      ],
+
+"Medchal-Malkajgiri": [
+
+ 
+
+        { name: "Ganesh Shopping Mall", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRF5USSUq6Aa2CQR-LxhtxkM2G9InFPis1ZWg&s",address: "Thumkunta, Medchal, Malkajgiri, Secunderabad, Telangana 500078" },
+
+ 
+
+        { name: "RR Shopping Mall", image: "https://content.jdmagicbox.com/comp/hyderabad/k3/040pxx40.xx40.170228164255.i5k3/catalogue/r-r-shopping-mall-medchal-hyderabad-readymade-garment-retailers-32g0j3n.jpg",address: "near Vivekanda Statue, Medchal, Hyderabad, Secunderabad, Telangana 501401" },
+
+ 
+
+        { name: "Firstcry.com Store Medchal", image: "https://content.jdmagicbox.com/comp/nalgonda/g5/9999p8682.8682.171129121104.b1g5/catalogue/firstcry-com-retail-store-miryalaguda-nalgonda-firstcry-7t0h57zpi0.jpg",address: "Ground & First Floor, Bus Stop, opposite to Medchal, above Raymond, Medchal, Hyderabad, Secunderabad, Telangana 501401" }
+
+ 
+
+      ],
+
+ 
+
+      "Mulugu": [
+
+ 
+
+        { name: "White House Mulugu", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbS5ctGYKQARNVdj--0H3tF8c9JLm7X9zOBg&s",address: "Shop Number-2, Main Road, Ambedkar Colony, Opp:DLR Garden, Mulugu, Telangana 506343" },
+
+ 
+
+        { name: "Laxmi Narsimha Cloth Stores", image: "https://content.jdmagicbox.com/comp/hyderabad/c3/040pxx40.xx40.150717123000.e3c3/catalogue/sri-lakshmi-narasimha-swamy-matching-and-dress-materials-vanasthalipuram-hyderabad-saree-retailers-2qs414x.jpg",address: "Shop No 11-4 Main Road, Mallampally, Mulugu, Telangana 506343" },
+
+ 
+
+        { name: "Jockey Exclusive Store", image: "https://content.jdmagicbox.com/comp/ramagundam/p4/9999p6857.6857.181213072039.f5p4/catalogue/jockey-exclusive-store-ramagundam-women-undergarment-retailers-jockey-ltruXJEwYl.jpg",address: "15-2-7-8,9,10, SVP Road Mulugu Cross, Road, Telangana 506007 2.0 km"}
+
+ 
+
+      ],
+
+   "Hanamkonda": [
+
+ 
+
+        { name: "Chennai Shopping Mall", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvp4WkkVDNpM4Z2pYg5qYsLZsFPZhQ0tsXPA&s",address: "opp. Ashoka Hotel,506001" },
+
+ 
+
+        { name: "Zudio ", image: "https://i.ytimg.com/vi/o46L3PRHaec/hqdefault.jpg",address: "2H74+CQ7, Naim Nagar, Hanamkonda, Telangana 506001" },
+
+ 
+
+        { name: "Max ", image: "https://content.jdmagicbox.com/comp/hyderabad/j6/040pxx40.xx40.160902160127.b6j6/catalogue/max-vanasthalipuram-hyderabad-readymade-garment-retailers-ptko81a8dd.jpg",address: "5/10/158/159/160/161, Karimnagar Road Kishanpura, opposite Pushpanjili Junction Hall, Naim Nagar, Hanamkonda, Telangana 506001" }
+
+ 
+
+      ],
+
+ 
+
+       "Warangal": [
+
+ 
+
+        { name: "Kalyana Lakshmi Shopping Mall", image: "https://content.jdmagicbox.com/comp/warangal/w8/9999px870.x870.161113170004.t9w8/catalogue/kalyanalakshmi-shopping-mall-hanamkonda-warangal-i03r902kiy.jpg",address: "Jayaprakash Narayan Road, Nandayya Gari Compound, Sherpura, Warangal, Telangana 506002"  },
+
+ 
+
+        { name: "Kasam Shopping Mall", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRHDxbhy3phb8TaHL7ROOS7JlnoIyyI4NWcyw&s",address: "XHJW+386, Swami Vivekananda Rd, Battala Bazar, Ramannapet, Warangal, Telangana 506002" },
+
+ 
+
+        { name: "Kasam Pullaiah Shopping Mall", image: "https://content3.jdmagicbox.com/comp/warangal/j2/9999px870.x870.230128151907.p2j2/catalogue/kasam-pullaiah-wedding-mall-warangal-readymade-garment-retailers-jk2d1e0sbx.jpg",address: "Warangal,506002"}
+
+ 
+
+      ],
+
+ 
+
+      "Siddipet": [
+
+ 
+
+        { name: "Unlimited Fashion Store", image: "https://pointlocals.com/uploads/2020/07/04/5f000cac2c799-S8_KRISHNA20200623_102721-0001.jpg",address: "3VX3+V37, Hyderabad Rd, opposite APGVB Bank, Srinivas Nagar, Siddipet, Telangana 502103" },
+
+ 
+
+        { name: "The Chennai Shopping Mall-Siddipet", image: "https://lh5.googleusercontent.com/p/AF1QipNOZGbXbGFeKNj5jKjelKYLytUnqpg6dNzVCO6k=w480-h300-k-n-rw",address: "H.NO: 9-2-22/23/24/25 & 9-4-34, GANDHI ROAD, Siddipet, Telangana 502103"  },
+
+ 
+
+        { name: "Maangalya Shopping Mall-Siddipet", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPwlqD5-1vu3dKIJkCK9QIK-1INUEM3QwssQ&s",address: "Vegetable Market Road, Azam Pura, Siddipet, Telangana 502103"  }
+
+ 
+
+      ],
+
+   "Suryapet": [
+
+ 
+
+        { name: "A to Z Mega Shopping Mall", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSixNREWQ5CZclCyrhm76GZeYVEvDDGrDpatg&s",address: "Besides more super market, MG Rd, Vidyanagar, Suryapet, Telangana 508213"  },
+
+ 
+
+        { name: "CMR Shopping Mall-Suryapet", image: "https://content3.jdmagicbox.com/v2/comp/suryapet/z5/9999p8684.8684.240125191642.j9z5/catalogue/cmr-shopping-mall-krishna-nagar-colony-suryapet-readymade-garment-retailers-fctpyyvsbd.jpg",address: "1-6-141/29, Ward 1 , 60 Feet Road, Suryapeta - Khammam Rd, Block-6, Krishna Nagar Colony, Suryapet, Telangana 508213" },
+
+ 
+
+        { name: "G Shopping Mall", image: "https://content.jdmagicbox.com/comp/suryapet/d7/9999p8684.8684.170224112549.p3d7/catalogue/g-shopping-mall-suryapet-ho-suryapet-baby-readymade-garment-retailers-s44k2gvukf-250.jpg",address: "KK Rd, Manasa Nagar, Suryapet, Telangana 508213"  }
+
+ 
+
+      ],
+
+ 
+
+      "Vikarabad": [
+
+ 
+
+        { name: "Trends", image: "https://content.jdmagicbox.com/comp/hyderabad/g8/040pxx40.xx40.190525090651.x9g8/catalogue/trends-kondapur-hyderabad-reliance-trends-6x3pw3scb3.jpg" ,address: "Alampally, Vikarabad, Telangana 501101"},
+
+ 
+
+        { name: "Chandana Brothers Shopping Mall", image: "https://i0.wp.com/www.socialnews.xyz/wp-content/uploads/2023/10/09/Actress-anu-emmanuel-launched-chandana-brothers-shopping-mall-at-vikarabad-gallery-set-1-.jpg?fit=1600%2C1200&quality=80&zoom=1&ssl=1?v=1696865260",address: "Alampally Rd, beside SBI BANK, MIG Colony Phase1, Vikarabad, Telangana 501102" },
+
+ 
+
+        { name: "A R Shopping Mall", image: "https://static.squareyards.com/resources/images/landmarkimage/ar-shopping-mall-78287-a950e892-7a09-43e4-8e56-dc3d75d37cb7.jpg",address: "Vikarabad,501102" }
+
+ 
+
+      ],
+
+ 
+
+      "Nagarkurnool": [
+
+ 
+
+        { name: "Maangalya Shopping Mall", image: "https://lh3.googleusercontent.com/p/AF1QipMVyPY6_K8eBccS8ME__qme0uu-rJ6ikuk9UC9D=s1360-w1360-h1020",address:"F8R3+GQC, Raghavendra Colony, Nagarkurnool, Telangana 509209" },
+
+ 
+
+        { name: "miss World", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_VQ1FY8JGG--YI2FhZtI7BgPr_FucBn3xbg&s",address:"D.No.40/321, Abdhulla Khan Estate, Bhaskar Nagar, Kurnool - 518001" },
+
+ 
+
+        { name: "Shree Lakshmi Sarees", image: "https://content.jdmagicbox.com/comp/kurnool/t3/9999p8518.8518.200106160023.c3t3/catalogue/sri-lakshmi-sarees-center-kurnool-yen1bgbiz3.jpg",address:"Checkpost Road, Sri Nagar Colony, Kurnool - 518002 (Opp.relaince Petrol)" }
+
+ 
+
+      ],
+
+ 
+
+      "Nalgonda": [
+
+ 
+
+        { name: "Vaishnavi Shopping Mall", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTe1_DHSUhmWWMyTDWmyWioRaKYKFkA87bd2w&s",address:"X4C6+3XC, Unnamed Road, Kastala, Kurampally, Telangana 508255"},
+
+ 
+
+        { name: "Sathish mens wear", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSmL1zsNqXn-V3eco1O5PwCX2MxKSoESiYuA&s" ,address:"Sathish mens wear, Near, Clock Tower Rd, Municipal Quarters Area, Nalgonda, Telangana 508001"},
+
+ 
+
+        { name: "Mega Mart", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-rIAywG7loZAAGG-L1zBogC7r9mxAvc7Bsg&s",address:"DVK Rd, beside SBI Bank, Kanaka Durga Colony, Nilagiri Colony, Nalgonda, Telangana 508001" }
+
+ 
+
+      ],
+
+     "Narayanpet": [
+
+ 
+
+        { name: "Surthi Fashion Mall The Complete Family Showroom", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTroYExVUTWj25Ou-dVH74AzL7z6wO1ZPRQMg&s",address:"Saraf Bazar, Dhoolpet, Narayanpet, Mahabubnagar - 509210 (Near Kalamma Temple)" },
+
+ 
+
+        { name: " The Orchid King Of Malls", image: "https://content3.jdmagicbox.com/comp/gulbarga/x4/9999p8472.8472.210513192049.l9x4/catalogue/the-orchid-king-of-malls-brahmapura-gulbarga-gulbarga-malls-vrkgz63bhg.jpg",address:"Khuba Plot, Brahmapura Gulbarga, Gulbarga - 585103 (Near Mahaveer Nagar)" },
+
+ 
+
+        { name: "Mallappa Complex Shopping Mall", image: "https://content.jdmagicbox.com/comp/mahabubnagar/t5/9999p8542.8542.230129045534.k9t5/catalogue/chennai-shopping-mall-ravinder-nagar-mahabubnagar-malls-FFOdjNbqre.jpg",address:"PFVW+654, Main Rd Narayanpet, Narayanpet, Telangana 509210" }
+
+ 
+
+      ],
+
+ 
+
+
+ 
+
+      "Nirmal": [
+
+ 
+
+        { name: "gayatri Shopping Mall", image: "https://content.jdmagicbox.com/comp/nirmal/b9/9999p8734.8734.130607161429.i4b9/catalogue/gayatri-fashion-mall-nirmal-ho-nirmal-saree-retailers-0pcqplpkoo.jpg",address:"Old Bus Stand Road, Chinthakunta Wada, Nirmal, Telangana 504106" },
+
+ 
+
+        { name: "Lakshmi Shopping Mall", image: "https://content.jdmagicbox.com/comp/nirmal/q9/9999p8734.8734.190611102643.z5q9/catalogue/sri-laxmi-narsaiah-maching-saree-center-nirmal-i4ozmwps1g.jpg",address:"483V+Q6G, Gandhi Nagar Colony, Nirmal, Telangana 504106" },
+
+ 
+
+        { name: "Sri Sai Shopping Mall", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRib-sxniPgsSFO7-l7n7XPRVDJ1Gko0n77fQ&s",address:"Mancherial - Chandrapur - Nagpur Road, Rama Goud Complex, Near, Old Bustand, Shanti Nagar, Mandamarri, Telangana 504231" }
+
+ 
+
+      ],
+
+ 
+
+      "Nizamabad": [
+
+ 
+
+        { name: "Anagha Shopping Mall", image: "https://lh3.googleusercontent.com/p/AF1QipOZBUsweTiUyyujP60OQBqIBGzq6OdVSeBhwPnd=s1360-w1360-h1020",address:"M3FX+H5C, Rashtrapati road, NH 63, Kumar Gali, Nizamabad, Telangana 503001" },
+
+ 
+
+        { name: "Venkateshwara Shopping Mall", image: "https://content.jdmagicbox.com/comp/nizamabad/u3/9999p8462.8462.171014124818.b4u3/catalogue/sri-venkateshwara-shopping-mall-nandipet-nizamabad-malls-bhqkgo04fl.jpg",address:"35/1/d, Nandipet Navipet Road, Nandipet, Nizamabad - 503212" },
+
+ 
+
+        { name: "LVR Shopping Mall", image: "https://lh3.googleusercontent.com/p/AF1QipNPyy2F03_WCfb16bD1fB55o7r7MzLdy3AAOgu2=s1360-w1360-h1020",address:"M3FX+M8H, NH 16, Kumar Gali, Nizamabad, Telangana 503001" }
+
+ 
+
+      ],
+
+ 
+
+      "Peddapalli": [
+
+ 
+
+        { name: "Trends Shopping Mall", image: "https://lh3.googleusercontent.com/p/AF1QipOZin6jJJkgCYtAfiIW1c3fY91I4fB2m4n23QUY=s1360-w1360-h1020",address: "H.No 2-3-107, Bus Stand, RRL Trends, 2-3-107/C/1, opp. Govt ITI College, Area, Peddapalli, Telangana 505172" },
+
+ 
+
+        { name: "Venkateshwara Shopping Mall", image: "https://content.jdmagicbox.com/comp/peddapalli/q6/9999p8728.8728.210806191122.i7q6/catalogue/-t4x70s858t.jpg" ,address: "J98M+7HC, Pragathinagar, Godavarikhani, Rd, Hanuman Nagar, Peddapalli, Telangana 505172"},
+
+ 
+
+        { name: "white house Shopping Mall", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTM8RSVSzK7WmdifglqYX0hgTrrV64KvaVpCw&s",address: "Bus Stand, Road, near Ayyappa Swamy Temple, Peddapalli, Telangana 505172" }
+
+ 
+
+      ],
+
+ 
+
+      "Rajanna Sircilla": [
+
+ 
+
+        { name: "vishala  Shopping Mall", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRl8FV5E_exwPuwwFGwTqRqcpzsXxTjMlb9oA&s",address: "Markandeya Street, gandhi chowk, Sircilla, Telangana 505301" },
+
+ 
+
+        { name: "MANYA Shopping Mall", image: "https://streetviewpixels-pa.googleapis.com/v1/thumbnail?panoid=csOf-Wb5nJ6-xLDbjCxo6A&cb_client=search.gws-prod.gps&yaw=309.69296&pitch=0&thumbfov=100&w=520&h=175",address: "12-09-66, 12-11-123/1, Venkampet, Shanti Nagar, Sircilla, Telangana 505301" },
+
+ 
+
+        { name: "Sri Vijaya Shopping Mall", image: "https://content3.jdmagicbox.com/comp/jangaon/s8/9999p8716.8716.101011121646.i2s8/catalogue/vijaya-shopping-mall-jangaon-ho-jangaon-readymade-garment-retailers-11gx3sds21.jpg",address: "# 13-46, Market Road, Near Muncipal Office, Gajwel, Hyderabad, Telangana 502278" }
+
+ 
+
+      ],
+
+       "Rangareddy": [
+
+ 
+
+        { name: "Kanjarla Mall", image: "https://images.jdmagicbox.com/comp/hyderabad/j4/040pxx40.xx40.180326180925.x1j4/catalogue/kanjarla-mall-himayat-nagar-moinabad-hyderabad-malls-0owf2m87n8-250.jpg",address: "Himayat Nagar Village, Beside Indian Petrol Bunk, Moinabad Mandal,RangaReddy District, Hyderabad, Telangana 500075" },
+
+ 
+
+        { name: "Sarath City Capital Mall ", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRgTrTcEKguf_yqoOmm_YVpr3AXinkzYEiWgA&s",address: "Gachibowli - Miyapur Rd, Whitefields, HITEC City, Kondapur, Telangana 500084"  },
+
+ 
+
+        { name: "Manjeera  Shopping Mall ", image: "https://lh3.googleusercontent.com/p/AF1QipOEUq-bqZAxggskT5sNpxspudYtmHA0XdUrCQBw=s1360-w1360-h1020",address: "JNTU Rd, Kukatpally Housing Board Colony, Kukatpally, Rangareddy, Telangana 500072"  }
+
+ 
+
+      ],
+
+ 
+
+      "Sangareddy": [
+
+ 
+
+        { name: "Mukunda Shopping Mall", image: "https://content3.jdmagicbox.com/comp/sangareddy/z6/9999p8455.8455.230617163750.l4z6/catalogue/mukunda-shopping-mall-shanthi-nagar-sangareddy-shopping-centres-mraxbarj4z.jpg",address: "near NEW BUS STOP, OPPOTISITE IB, Shanthi Nagar, Sangareddy, Telangana 502001" },
+
+ 
+
+        { name: "CBS Shopping Mall", image: "https://content.jdmagicbox.com/v2/comp/sangareddy/f4/9999p8455.8455.240319231913.z4f4/catalogue/cbs-shopping-mall-sangareddy-shanthi-nagar-sangareddy-qstcfwzgrs.jpg",address: "Siddhartha Nagar, Colony, opposite Hotel Redla’s Inn, ShantiNagar, Sangareddy, Telangana 502001" },
+
+ 
+
+        { name: "Mallikarjuna Complex", image: "https://content.jdmagicbox.com/comp/hyderabad/k8/040pxx40.xx40.221116214650.e2k8/catalogue/nexus-hyderabad-kukatpally-hyderabad-malls-nb9lhij8y0-250.jpg",address: "J37J+WF8, opp. new bus stand, Ahmed Nagar, Sangareddy, Telangana 502001" }
+
+ 
+
+      ],
+
+ 
+
+      "Wanaparthy": [
+
+ 
+
+        { name: "Sri Ganapathi Shopping Mall", image: "https://content.jdmagicbox.com/comp/mahabubnagar/i7/9999p8542.8542.140305212017.n7i7/catalogue/sri-ganapathi-fashions-mahabubnagar-0tpyenfa0g-250.jpg" ,address: "No.6-120, NH44, Tupran, Telangana 502334"},
+
+ 
+
+        { name: "JP Shopping Mall", image: "https://content3.jdmagicbox.com/comp/def_content_category/ethnic-wear-retailers/c6b04319d0-ethnic-wear-retailers-4-4kabb.jpg",address: "9367+R2J, RAJIV CHOWK, beside Rajiv chowk, Chandapur, Maremmakunta, Wanaparthy, Telangana 509103" },
+
+ 
+
+        { name: "Durga Ele Wnp Shopping Mall", image: "https://content3.jdmagicbox.com/comp/def_content/malls/devushka-nozhki-sumochki-pokupki-malls-6-xsx47.jpg",address: "9366+MRH, Chandapur, K,D,R Nagar, Wanaparthy, Telangana 509103" }
+
+ 
+
+      ],
+
+     "Yadadri-Bhuvanagiri": [
+
+ 
+
+        { name: "Veerabhadra Shopping Mall", image: "https://lh3.googleusercontent.com/p/AF1QipOhxp6lKXMoEXhvkCr9oPTnk51rcJtV-djYxtD7=s1360-w1360-h1020", address: "GV9R+G6W, Opp: Gandhi Park Station Road Bhuvanagiri, YBG Dist, Telangana 508116" },
+
+ 
+
+        { name: "S.V Shopping Mall", image: "https://lh5.googleusercontent.com/p/AF1QipN1_coiy4fAWVVkPiYQlfNsm7InDwtErdlsUpxy=w260-h175-n-k-no", address: "Main road, Vinayaka chowrastha, Medikuntapally, Bhuvanagiri, Telangana 508116" },
+
+ 
+
+        { name: "YADADRI CENTRE", image: "https://content.jdmagicbox.com/comp/nalgonda/s6/9999p8682.8682.230617134603.e2s6/catalogue/sri-mangalam-shopping-mall-choutuppal-nalgonda-shopping-centres-kftix6pqi8.jpg?clr=", address: "GV35+J5F, Bhuvanagiri, P.Anantharam, Telangana 508116" }
+
+ 
+
+      ]
+
+    };
+
+ 
+
+    // Function to get the district name from the URL
+
+    function getDistrictName() {
+
+      const urlParams = new URLSearchParams(window.location.search);
+
+      return urlParams.get('district');
+
+    }
+
+ 
+
+    // Function to render malls for a given district
+
+    function renderMalls(district) {
+
+      const districtMalls = malls[district];
+
+      if (!districtMalls) {
+
+        mallContainer.innerHTML = '<p>No malls found for this district.</p>';
+
+        return;
+
+      }
+
+ 
+
+      districtNameElement.textContent = district.toUpperCase(); // Display district name
+
+      mallContainer.innerHTML = ''; // Clear previous malls
+
+ 
+
+      districtMalls.slice(0, 5).forEach(mall => {
+
+        const mallItem = document.createElement('div');
+
+        mallItem.classList.add('mall-item');
+
+ 
+
+        const image = document.createElement('img');
+
+        image.src = mall.image;
+
+        image.alt = mall.name;
+
+        mallItem.appendChild(image);
+
+ 
+
+        const details = document.createElement('div');
+
+        const name = document.createElement('h3');
+
+        name.textContent = mall.name;
+
+        details.appendChild(name);
+
+ 
+
+        const address = document.createElement('p');
+
+        address.textContent = mall.address;
+
+        details.appendChild(address);
+
+ 
+
+        mallItem.appendChild(details);
+
+        mallContainer.appendChild(mallItem);
+
+      });
+
+    }
+
+ 
+
+    // Main script execution
+
+    const districtNameElement = document.getElementById('district-name');
+
+    const mallContainer = document.getElementById('mall-container');
+
+    const district = getDistrictName();
+
+ 
+
+    if (district) {
+
+      renderMalls(district);
+
+    } else {
+
+      mallContainer.innerHTML = '<p>No district parameter found in the URL.</p>';
+
+    }
+
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Destination Delights - Amusement Parks</title>
+  <style>
+    /* CSS styles */
+    body {
+      font-family:Georgia, 'Times New Roman', Times, serif;
+      margin: 0;
+      padding: 0;
+      font-size:25px;
+      background-color: #d9b2b2;
+    }
+
+    header, footer {
+      background-color: #b7e6f7;
+      color: #0f0e0e;
+      text-align: center;
+      padding: 1rem 0;
+    }
+
+    main {
+      padding: 2rem;
+    }
+
+    button {
+      display: none; /* Hide the search button */
+    }
+
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    .attraction-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1rem;
+      border-bottom: 1px solid #e8b5b5;
+      padding-bottom: 1rem;
+      font-size:25px;
+    }
+
+    .attraction-item img {
+      max-width: 500px;
+      height: 400px;
+      margin-right: 1rem;
+      border-radius: 4px;
+    }
+
+    .attraction-item div {
+      flex: 1;
+      text-align: left;
+      font-size:26px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>TELANGANA</h1>
+    <h2>Amusement Parks and Adventure Spots</h2>
+  </header>
+
+  <main>
+    <ul id="amusement-parks-list"></ul>
+  </main>
+
+  <script>
+    const amusementParks = [
+      { name: "Wonderla", image: "https://pbs.twimg.com/media/GINYQ78XQAEfD4g.jpg:large", address: "Nehru Outer Ring Road Exit No. 13, Raviryal, Telangana 501510" },
+      { name: "Ramoji Film City", image: "https://live.staticflickr.com/65535/49668654507_b5edb54e9c_z.jpg", address: "#1-10-76, Fair Field, Mayuri Marg, Begumpet, Hyderabad, Telangana 500016" },
+      { name: "Thrill City", image: "https://content.jdmagicbox.com/comp/hyderabad/a2/040pxx40.xx40.211005104538.p6a2/catalogue/thrill-city-necklace-road-hyderabad-amusement-parks-r3pbz35yka.jpg", address: "Railway Station, 1233, PV Narasimha Rao Marg, Opp. to Sanjeeviah Park, Hussain Sagar, Begumpet, Hyderabad, Telangana 500003" },
+      { name: "Ocean Park", image: "https://cdn.abhibus.com/2024/05/Ocean-Park-Hyderabad.jpg", address: "Survey No: 166, 167, College 21, 168 & 169 8, Osman Sagar Rd, near CHAITANYA BHARATHI INSTITUTE OF TECHNOLOGY, Kokapet, Gandipet, Hyderabad, Telangana 500075" },
+      { name: "Flipside Adventure Park", image: "https://image.wedmegood.com/resized/540X/uploads/member/934348/1576940519_Screenshot_1.png", address: "ISB Rd, Financial District, Vattinagulapally, Nanakramguda, Telangana 500075" },
+      { name: "Dino World Dinosaur Park", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcStT30yjntji7LBZvpsD3OHJX1jqPzGW46GFw&s", address: "8CXX+G9H, Nehru Zoological Park, Kishan Bagh, Hyderabad, Telangana 500264" },
+      { name: "Escape Water Park", image: "https://content3.jdmagicbox.com/comp/rangareddy/k2/040pxx40.xx40.121115150301.e9k2/catalogue/escape-water-park-shamshabad-rangareddy-amusement-parks-1mqt97ztch.jpg", address: "Siddulagutta Rd, beside Fort Grand, Shamshabad, Hyderabad, Telangana 501218" },
+      { name: "New Maharaja Water Park", image: "https://www.hyderabadtourism.travel/images/tourist-places/new-maharaja-water-park-hyderabad/new-maharaja-water-park-hyderabad-tourism-opening-time-closing.jpg", address: "Jahangir Pir Daragh, Opposite JP Dargah, Road, Shadnagar, Telangana 509228" },
+      { name: "Mount Opera", image: "https://media1.thrillophilia.com/filestore/bup6jt2w55wkgyxtktxaeu58h5xg_1590486979_mountopera.jpg", address: "8P8F+92P Mount Opera Amusement park Road Batasingaram Village, Vijayawada - Hyderabad Hwy, Hyderabad, Telangana 501512" },
+      { name: "Fly Zone Hyderabad", image: "https://www.hyderabadtourism.travel/images/visiting-places/headers/sky-zone-hyderabad-tourism-entry-fee-timings-holidays-reviews-header.jpg", address: "Survey No: 46/A 47/A, Shankarpalli Road Near Ocean Park, Gandipet, Kokapet, Telangana 500075" },
+      { name: "NTR Amusement Park", image: "https://media1.thrillophilia.com/filestore/12hxsm2w6qkw78miqsviue1tuli7_1575968991_slide1-1.jpg", address: "NTR Gardens, NTR Marg, Central Secretariat, Khairtabad, Hyderabad, Telangana 500004" },
+      { name: "Wonderfun Park And Party Zone", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQhbPuGfcy6Gc8RtycUUjj7vlaaPGtDtBj5Mw&s", address: "Necklace Road, Railway Station, 1233, PV Narasimha Rao Marg, Opposite to Sanjeeviah Park, Begumpet, Hyderabad, Telangana 500003" },
+      { name: "Supreme Trampoline Park", image: "https://i.ytimg.com/vi/XMPKMp1J2Mw/maxresdefault.jpg", address: "ALIND Employees Colony, Serilingampalle (M), Telangana 500133" },
+      { name: "Play Planet", image: "https://cdn3.untumble.com/uploads/customerimages/listicle/play-areas-hyd-1-637039488252718052.jpg", address: "Traffic Police Station, 3-13-17, Opposite Lbnagar, Rajivgandhi Nagar, Rajeevgandhi Nagar, L. B. Nagar, Hyderabad, Telangana 500074" },
+      { name: "Snow World", image: "https://media.easemytrip.com/media/Blog/India/637406230971836619/637406230971836619nMkeSH.jpg", address: "Survey No. 54, Lower Tank Bund Rd, Lower Tank Bund, Kavadiguda, Hyderabad, Telangana 500029" },
+      { name: "Sim And Sams Party And Playtown Kokapet", image: "https://simandsams.com/wp-content/uploads/2024/01/IMG_7479_6_11zon-min.jpg", address: "245-246, Shankarpalli Rd, Inside ORO Sports Village, Khanapur, Gandipet, Hyderabad, Telangana 500075" },
+      { name: "Bullseye Shooting Range", image: "https://content3.jdmagicbox.com/comp/hyderabad/n4/040pxx40.xx40.221015201347.q2n4/catalogue/bullseye-shooting-range-hyderabad-amusement-parks-19j2d85ne0.jpg", address: "PV Narasimha Rao Marg, Raj Nagar, Khairtabad, Hyderabad, Telangana 500004" },
+      { name: "Panchatantra Park", image: "https://www.hyderabadtourism.travel/images/visiting-places/headers/panchatantra-theme-park-hyderabad-tourism-entry-fee-timings-holidays-reviews-header.jpg", address: "C8M9+2G7, Unnamed Road, Journalists Colony Phase 3, Phase 3, Gachibowli, Hyderabad, Telangana 500032" },
+      { name: "Zero Latency Hyderabad", image: "https://d12d6l12s3d372.cloudfront.net/cfxrht_fg67_1_d39c0fcba3.jpg", address: "Rajiv Gandhi International Airport, Aeroplaza Level C, Car Parking, Next to Ratnadeep, Shamshabad, Hyderabad, Telangana 500409" },
+      { name: "Dinosaur Park", image: "https://media1.thrillophilia.com/filestore/qxukuuf4hevtwdbv1uzd9gtt4h67_2019-07-08.jpg", address: "8CXX+G9H, Nehru Zoological Park, Kishan Bagh, Hyderabad, Telangana 500264" },
+      { name: "Mirror Maze", image: "https://www.maziply.com/cdn/shop/articles/mirror-maze-maziply-toys-kingston-ma-new-england-usa.jpg?v=1573410483", address: "CF68+W9V, First Floor, Prasads, IMAX Rd, Hyderabad, Telangana" },
+      { name: "Ministry Of Kids", image: "https://content3.jdmagicbox.com/comp/hyderabad/m4/040pxx40.xx40.190521152204.a9m4/catalogue/ministry-of-kids-jubilee-hills-hyderabad-entertainment-centres-etabc1a8tn.jpg", address: "4th Floor, Odyssey Mall, Rd Number 36, Below Air Live, Jubilee Hills, Hyderabad, Telangana 500033" }
+    ];
+
+    // Function to display amusement parks
+    function displayAmusementParks() {
+      const amusementParksList = document.getElementById('amusement-parks-list');
+      amusementParksList.innerHTML = '';
+
+      amusementParks.forEach(park => {
+        const parkItem = document.createElement('li');
+        parkItem.className = 'attraction-item';
+
+        const parkImage = document.createElement('img');
+        parkImage.src = park.image;
+        parkImage.alt = park.name;
+
+        const parkDetails = document.createElement('div');
+        parkDetails.innerHTML = `
+          <h3>${park.name}</h3>
+          <p><strong>Address:</strong> ${park.address}</p>
+        `;
+
+        parkItem.appendChild(parkImage);
+        parkItem.appendChild(parkDetails);
+        amusementParksList.appendChild(parkItem);
+      });
+    }
+
+    // Call the function to display amusement parks when the page loads
+    document.addEventListener('DOMContentLoaded', displayAmusementParks);
+  </script>
+</body>
+</html>

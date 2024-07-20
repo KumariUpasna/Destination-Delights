@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Destination Delights-cafes</title>
+  <style>
+    /* CSS styles */
+    body {
+      font-family: Georgia, 'Times New Roman', Times, serif;
+      margin: 0;
+      padding: 0;
+      font-size:25px;
+      background-color: #d9b2b2;
+    }
+
+    header, footer {
+      background-color: #333;
+      color: #b4e6f5;
+      text-align: center;
+      padding: 1rem 0;
+    }
+
+    main {
+      padding: 2rem;
+    }
+
+    select, button {
+      padding: 0.5rem;
+      font-size: 16px;
+      margin-bottom: 1rem;
+    }
+
+    button {
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      display: none; /* Hide the button initially */
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    .attraction-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1rem;
+      border-bottom: 1px solid #ccc;
+      padding-bottom: 1rem;
+    }
+
+    .attraction-item img {
+      max-width: 600px;
+      height: 400px;
+      margin-right: 1rem;
+      border-radius: 4px;
+    }
+
+    .attraction-item div {
+      flex: 1;
+      text-align: left;
+      font-size:26px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>TELANGANA</h1>
+    <h2>Cafes-Destination</h2>
+  </header>
+
+  <main>
+    <ul id="cafes-list"></ul>
+  </main>
+
+  <script>
+    const cafes = [
+      { name: "Humming Bird Cafe", image: "https://b.zmtcdn.com/data/pictures/1/18662201/3fcd92b1bbe056feb72e1377fe415bf3.jpg", address: "Madhapur Rd, near Maharaja Chat, next to Vellanki Foods, Sri Rama Colony, Jubilee Hills, Hyderabad, Telangana 500033" },
+      { name: "Autumn Leaf Cafe", image: "https://b.zmtcdn.com/data/pictures/1/18312961/75c32f572061c3b5f69e179c4d60b997.jpg", address: "plot no, 823, Rd Number 41, CBI Colony, Jubilee Hills, Hyderabad, Telangana 500033" },
+      { name: "Cravery Cafe", image: "https://b.zmtcdn.com/data/pictures/7/21054057/bd25d28371718278566d4a967d030052.jpg?fit=around|960:500&crop=960:500;,", address: "Film Nagar, Plot No 416A, Rd Number 78, Phase III, Jubilee Hills, Hyderabad, Telangana 500033" },
+      { name: "Roastery Coffee House", image: "https://hospitalitybizindia.com/wp-content/uploads/2024/06/Roastery-Coffee-House-Kolkata.jpg", address: "8 2, 418, 287/12, Road No. 14, Banjara Hills, Hyderabad, Telangana 500034" },
+      { name: "Cafe Niloufer Classic", image: "https://i0.wp.com/www.shoaibqureshi.in/wp-content/uploads/2022/03/IMG20220225205530-scaled.jpg?ssl=1", address: "V.P, 11-5-422/C/B, Red Hills Rd, Lakdikapul, Hyderabad, Telangana 500004" },
+      { name: "The Gallery Cafe", image: "https://b.zmtcdn.com/data/pictures/5/97305/6992d5a4ee050b9aee755e088f5040a7.jpg", address: "H. No, 8-2-465, Road No 4, Green Valley, Banjara Hills, Hyderabad, Telangana 500034" },
+      { name: "Cafe Game Theory - Restaurant, Gaming Zone, Private Theatres & Party Events", image: "https://media.assettype.com/newindianexpress%2F2024-07%2F25e027df-cb47-4291-a49d-cdb88cdc7810%2Fex.jpg", address: "Plot 162/P, Jayabheri Park Rd, near Cine Planet, Kompally, Hyderabad, Telangana 500014" },
+      { name: "The Grind Cafe", image: "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/29/49/6d/d5/cafe-interior.jpg?w=1200&h=-1&s=1", address: "Saleha Manzil, 8-2-248/5/10, Rd Number 3, behind Tata Capital, North H Block, Journalist Colony, Venkateshwara Hills, Banjara Hills, Hyderabad, Telangana 500034" },
+      { name: "Motown Stories Cafe", image: "https://img.restaurantguru.com/rdc0-image-DRIVEN-CAFE-2022-10-6.jpg", address: "C8CQ+VF2, Kapil Towers, Opposite to ICICI Bank Nanakram Guda, ISB Rd, Financial District, Gachibowli, Hyderabad, Telangana 500008" },
+      { name: "Last House Coffee", image: "https://b.zmtcdn.com/data/pictures/1/20926961/91a2ef3e6e684a96b31010f37fc11183.jpg", address: "LastHouse Coffee, adj. Durgam Cheruvu Road, Amar Co-Operative Society, Doctor's Colony, Madhapur, Hyderabad, Telangana 500033" },
+      { name: "The Hole In The Wall Cafe", image: "https://b.zmtcdn.com/data/pictures/9/18671839/97a13e0bc3d9eda7bdc3a18472ac2224_featured_v2.jpg", address: "8-2-703/4/1, Plot No. 179, 1st Floor, Apurupa Jubilee Heights, Kavuri Hills Phase 1, Kavuri Hills, Madhapur, Hyderabad, Telangana 500033" },
+      { name: "Aura Cafe & Infusion Bar", image: "https://media-cdn.tripadvisor.com/media/photo-s/16/48/2e/c3/aura-ambiance.jpg", address: "Plot No, 280-A, Rd Number 10C, Venkatagiri, Jubilee Hills, Hyderabad, Telangana 500033" },
+      { name: "Le Vantage Cafe Bar", image: "https://b.zmtcdn.com/data/pictures/2/18549662/23be9788feb287161603ac6b93bffc30.jpg", address: "195/A, Rd Number 13, Jubilee Hills, Hyderabad, Telangana 500033" },
+      { name: "SkyPark Cafe", image: "https://media-cdn.tripadvisor.com/media/photo-s/12/78/46/43/caption.jpg", address: "5th Floor, Owners Pride Building - 3rd Floor = Spinsci Technologies, 8-2-68/1/B/B1, Road No. 12, GS Nagar, Nandi Nagar, Banjara Hills, Hyderabad, Telangana 500034" },
+    ];
+
+    document.addEventListener('DOMContentLoaded', function() {
+      const cafesList = document.getElementById('cafes-list');
+
+      cafes.forEach(cafe => {
+        const cafeItem = document.createElement('li');
+        cafeItem.className = 'attraction-item';
+
+        const cafeImage = document.createElement('img');
+        cafeImage.src = cafe.image;
+        cafeImage.alt = cafe.name;
+
+        const cafeDetails = document.createElement('div');
+        cafeDetails.innerHTML = `
+          <h3>${cafe.name}</h3>
+          <p><strong>Address:</strong> ${cafe.address}</p>
+        `;
+
+        cafeItem.appendChild(cafeImage);
+        cafeItem.appendChild(cafeDetails);
+        cafesList.appendChild(cafeItem);
+      });
+    });
+  </script>
+</body>
+</html>

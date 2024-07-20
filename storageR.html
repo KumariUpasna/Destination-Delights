@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Static Reviews Storage</title>
+  <style>
+    /* CSS styles */
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+
+    #reviews-container {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .review {
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+
+    .review h3 {
+      margin-top: 0;
+    }
+
+    .review p {
+      margin-bottom: 5px;
+    }
+
+    form {
+      margin-top: 20px;
+    }
+
+    form textarea {
+      width: 100%;
+      height: 100px;
+      resize: vertical;
+      padding: 5px;
+      font-size: 14px;
+    }
+
+    form button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div id="reviews-container">
+    <h1>Customer Reviews</h1>
+
+    <div id="reviews-list"></div>
+
+    <form onsubmit="submitReview(event)">
+      <h2>Add a Review</h2>
+      <label for="reviewer-name">Your Name:</label><br>
+      <input type="text" id="reviewer-name" required><br>
+      <label for="review-content">Your Review:</label><br>
+      <textarea id="review-content" required></textarea><br>
+      <button type="submit">Submit Review</button>
+    </form>
+  </div>
+
+  <script>
+    // JavaScript code
+    // Array to store reviews
+    let reviews = [];
+
+    // Function to submit a review
+    function submitReview(event) {
+      event.preventDefault(); // Prevent form submission
+
+      // Get input values
+      let reviewerName = document.getElementById('reviewer-name').value;
+      let reviewContent = document.getElementById('review-content').value;
+
+      // Create a new review object
+      let newReview = {
+        name: reviewerName,
+        content: reviewContent,
+        date: new Date().toLocaleDateString() // Include current date
+      };
+
+      // Add the new review to the array
+      reviews.push(newReview);
+
+      // Clear form fields
+      document.getElementById('reviewer-name').value = '';
+      document.getElementById('review-content').value = '';
+
+      // Update reviews list
+      updateReviewsList();
+    }
+
+    // Function to update the reviews list displayed on the page
+    function updateReviewsList() {
+      let reviewsList = document.getElementById('reviews-list');
+      reviewsList.innerHTML = ''; // Clear previous content
+
+      // Loop through the reviews array and create HTML for each review
+      reviews.forEach(function(review) {
+        let reviewHTML = `
+          <div class="review">
+            <h3>${review.name} - ${review.date}</h3>
+            <p>${review.content}</p>
+          </div>
+        `;
+        reviewsList.innerHTML += reviewHTML; // Append review HTML to reviews list
+      });
+    }
+  </script>
+</body>
+</html>
